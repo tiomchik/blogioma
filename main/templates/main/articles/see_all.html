@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %}
+{% load main_tags %}
+
+{% block content %}
+
+{% show_articles page_obj=page_obj %}
+
+{% paginator page_obj %}
+
+{% endblock %}

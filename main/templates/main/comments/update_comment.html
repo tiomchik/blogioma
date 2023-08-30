@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% load main_tags %}
+
+{% block content %}
+
+{% if request.user == comment.profile.user %}
+    <form method="post">
+        {% show_form form %} 
+
+        <br>
+        <button type="submit"><span>Update comment</span></button>
+    </form>
+{% else %}
+    <h1 class="warn">You don't have access to this comment.</h1>
+    <a href="{% url 'home' %}" class="warn">Home page</a>
+{% endif %}
+{% endblock %}

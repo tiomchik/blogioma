@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% load main_tags %}
+
+{% block content %}
+
+<form method="post">
+    {% show_form form %}
+
+    <br>
+    <button type="submit">
+        <span>Search</span>
+    </button>
+</form>
+
+{% endblock %}

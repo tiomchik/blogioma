@@ -1,0 +1,422 @@
+/* Color scheme of app:
+#202020
+#2c3e50
+#21c2f8
+#bdc3c7
+#f3f7f8 */
+/* Site with icons used here: https://iconer.app/iconoir/ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+html {
+    scroll-behavior: smooth;
+    min-height: 100vh;
+}
+
+body {
+    background-color: #202020;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+p,
+span,
+h3,
+a { 
+    font-size: 18px;
+    text-decoration: none;
+}
+
+p,
+span,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+i,
+b,
+strong,
+sup,
+sub,
+legend {
+    color: #f3f7f8;
+    font-weight: 500;
+    font-family: "Inter", serif;
+}
+
+
+/* header */
+tr#header th span {
+    display: flex;
+    justify-content: center;
+    width: max-content;
+    margin-top: -40px;
+    margin-left: 38px;
+}
+
+tr#header th.icon svg {
+    padding-right: 110px;
+}
+
+.icon {
+    padding-bottom: 8px;
+}
+
+table {
+    border-bottom: 2px solid #bdc3c7;
+    margin-bottom: 21px;
+    background: #202020;
+}
+
+.last {
+    width: 100%;
+    padding-right: 3px;
+}
+
+/* footer */
+footer {
+    display: flex;
+    margin-top: auto;
+    bottom: 0;
+    width: 100%;
+    border-top: 7px solid #141c24;
+    background-color: #2c3e50;
+    padding-bottom: 1.1px;
+}
+
+footer h3 {
+    margin-left: 10px;
+}
+
+.spoiler {
+    background-color: #bdc3c7;
+    color: #bdc3c7;
+    user-select: none;
+}
+
+.spoiler:hover {
+    background-color: #2c3e50;
+    color: #f3f7f8;
+    user-select: all;
+}
+
+.pfp {
+    border-radius: 100%;
+}
+
+/* main */
+main {
+    position: relative;
+}
+
+main * {
+    padding: 0 10px 0 10px;
+}
+
+.headling_page {
+    display: flex;
+    justify-content: center;
+    color: #f3f7f8;
+    font-size: 40px;
+}
+
+.h_of_articles {
+    display: inline-flex;
+    position: relative;
+    width: 100%;
+    height: max-content;
+    padding: 0;
+}
+
+.h_of_articles h1 {
+    color: #f3f7f8;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 22px;
+}
+
+.h_of_articles a {
+    position: relative;
+    width: 60%;
+    text-align: right;
+    height: 38px;
+}
+
+.h_of_articles a span {
+    position: relative;
+    bottom: 14px;
+    right: -16px;
+    font-size: 24px;
+}
+
+/* article */
+article {
+    display: inline-flex;
+    overflow: hidden;
+    position: relative;
+    flex-direction: column;
+    background-color: #21c2f8;
+    border-radius: 10%;
+    max-width: 405px;
+    min-height: 221px;
+    margin: 1px 8px 25px 8px;
+}
+
+article p,
+article h1 {
+    color: #202020;
+    word-wrap: break-word;
+}
+
+article h1 {
+    margin-top: 12px;
+    margin-bottom: 10px;
+    height: max-content;
+    width: 390px;
+}
+
+article p,
+article a {
+    margin: 0px;
+}
+
+/* article div.author */
+.author {
+    display: block;
+    position: absolute;
+    background-color: #2c3e50;
+    width: 100%;
+    height: 41px;
+    margin: 18px 0 0 -10px;
+    top: 140px;
+}
+
+.author a {
+    display: inline-block;
+    margin-left: -13px;
+    width: 70%;
+}
+
+.author a span {
+    padding-left: 0;
+    margin-left: -2px;
+    padding-bottom: 10px;
+}
+
+.author_pfp {
+    border-radius: 100%;
+    margin-top: 6px;
+}
+
+.author a.button {
+    position: absolute;
+    width: 110px;
+}
+
+button {
+    background-color: #141c24;
+    border: 1px solid black;
+    height: 30px;
+}
+
+.author a.button button {
+    position: relative;
+    background-color: #141c24;
+    border: 1px solid black;
+    width: 100%;
+    height: 30px;
+    padding-top: 9px;
+    bottom: -5px;
+    right: 12px;
+}
+
+.author a.button button span {
+    position: relative;
+    color: #f3f7f8;
+    bottom: 6px;
+    left: 6px;
+}
+
+a.button button:active,
+button:active {
+    background-color: #f3f7f8;
+}
+
+a.button button:active span,
+button:active span {
+    color: #141c24;
+}
+
+a.button button:focus span,
+a.button button:hover span,
+button:focus span,
+button:hover span {
+    text-shadow: 1px 1px 3px white;
+}
+
+.date {
+    position: absolute;
+    bottom: 7px;
+    right: 3px;
+
+    color: #202020;
+    font-size: 14px;
+}
+
+/* form */
+form {
+    margin-left: 50px;
+}
+
+form label.form_label {
+    width: 21%;
+    display: inline-block;
+}
+
+form p {
+    margin: 30px 0 30px 0;
+}
+
+input.form_input {
+    width: 20%;
+    display: inline-block;
+    height: 20px;
+}
+
+.form_textarea {
+    width: 524px; 
+    height: 166px;
+}
+
+input:focus {
+    outline: #21c2f8 solid 1px;
+}
+
+.form_err > ul > li {
+    list-style: none;
+    color: red;
+}
+
+.warn {
+    color: #f3f7f8;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bolder;
+}
+
+a.warn {
+    font-size: inherit;
+    text-decoration: underline;
+}
+
+/* опасная зона */
+fieldset {
+    border-color: red; 
+    width: max-content; 
+    height: 59px;
+}
+
+legend {
+    color: red; 
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+/* комментарии */
+section {
+    position: relative;
+    color: #f3f7f8;
+}
+
+section span.pub_date {
+    position: absolute;
+    top: 5px;
+    right: 4px;
+}
+
+section span.pub_date, 
+span.pub_date b {
+    color: #7e8285;
+} 
+
+/* пагинация */
+.paginator {
+    display: flex;
+    justify-content: center;
+}
+
+.page_num {
+    list-style: none;
+    display: inline-block;
+    color: #f3f7f8;
+    font-weight: bolder;
+    padding: 0 20px;
+    font-size: 25px;
+}
+
+.page_num a {
+    text-decoration: none;
+    padding: 0;
+}
+
+.page_num_selected {
+    color: #21c2f8;
+}
+
+/* profile-area */
+.profile-area {
+    display: grid;
+    grid-template-areas: 
+    "aside main main main main main main main main main main main main";
+}
+
+.profile-area > h1 {
+    margin: 0;
+}
+
+aside {
+    display: grid;
+    grid-area: aside;
+
+    border-right: 2px solid #f3f7f8;
+    width: 20vw;
+    min-height: 100vh;
+}
+
+aside::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+aside ul {
+    min-height: 100vh;
+}
+
+aside li {
+    padding: 10px 0;
+    list-style-type: none;
+}
+
+.profile_content {
+    display: grid;
+    grid-area: main;
+    width: auto;
+}   
+
+.profile_articles {
+    display: grid;
+    width: 400px;
+    height: max-content;
+    grid-template-columns: repeat(2, 100%);
+    gap: 10px 70px;
+}
+
+.profile_articles article {
+    width: 100%;
+}

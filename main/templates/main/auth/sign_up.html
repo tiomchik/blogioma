@@ -1,0 +1,19 @@
+{% extends "main/base.html" %} 
+{% load main_tags %}
+
+{% block content %} 
+
+{% if request.user.is_authenticated %}
+    <h1 class="warn">You are already logged in!</h1>
+    <a href="{% url 'home' %}" class="warn">Return to the home page.</a>
+{% else %}
+<form method="post" enctype="multipart/form-data">
+    {% show_form form %}
+    <br>
+    <button type="submit"><span>Sign up</span></button>
+
+    <h3>All fields can be changed in the settings.</h3>
+</form>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,5 @@
+{% csrf_token %}
+{% for f in form %}
+    <p><label for="{{ f.id_for_label }}" class="form_label">{{ f.label }}: </label> {{ f }}</p>
+    <div class="form_err">{{ f.errors }}</div>
+{% endfor %}

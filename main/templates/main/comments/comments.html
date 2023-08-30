@@ -1,0 +1,68 @@
+{% extends "main/base.html" %}
+{% load main_tags %}
+
+{% block content %}
+
+<!-- To the article -->
+<a href="{% url 'read' article.pk %}"><button>
+    <svg width="20" height="20" fill="none" stroke="#f3f7f8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="m6 12 6 6m6.5-6H6h12.5ZM6 12l6-6-6 6Z"></path>
+    </svg>
+    <span>To the article</span>
+</button></a>
+
+<!-- If authenticated -->
+{% if request.user.is_authenticated %}
+    <!-- Add comment button -->
+    <a href="{% url 'add_comment' article.pk %}"><button>
+        <svg width="20" height="20" fill="none" stroke="#f3f7f8" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 20.29V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7.961a2 2 0 0 0-1.561.75l-2.331 2.914A.6.6 0 0 1 3 20.29Z"></path>
+        </svg>
+        <span>Add comment</span>
+    </button></a>
+{% endif %}
+
+{% if page_obj %}
+    <hr>
+    {% for comment in page_obj %}
+        <section>
+            <a href="{% url 'see_profile' comment.profile__user__username %}">
+                {% if comment.profile__pfp %}
+                    <img src="/media/{{ comment.profile__pfp }}" alt="Аватарка" width="52" height="46" class="pfp"><span>{{ comment.profile__user__username }}</span>
+                {% else %}
+                    <svg width="52" height="46" fill="none" stroke="#f3f7f8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"></path>
+                    <path d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"></path>
+                    <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
+                    </svg><span>{{ comment.profile__user__username }}</span>
+                {% endif %}
+            </a>
+        {% if comment.update %}
+            <span class="pub_date"><b>Updated:</b> {{ comment.update }}</span>
+        {% else %}
+            <span class="pub_date">{{ comment.pub_date }}</span>
+        {% endif %}
+            <p style="width: 95%; word-wrap: break-word;">{{ comment.text|linebreaksbr|escape }}</p>
+        {% if request.user.username == comment.profile__user__username %}
+            <!-- Update comment button -->
+            <a href="{% url 'update_comment' comment.article__pk comment.pk %}"><svg width="30" height="30" fill="none" stroke="#3e3eff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="m13.02 5.828 4.95 4.95m-4.95-4.95L15.85 3l4.95 4.95-2.829 2.828-4.95-4.95Zm0 0-9.606 9.607a1 1 0 0 0-.293.707v4.536h4.536a1 1 0 0 0 .707-.293l9.606-9.607-4.95-4.95Z"></path>
+            </svg></a>
+            <!-- Delete comment button -->
+            <a href="{% url 'delete_comment' comment.article__pk comment.pk %}"><svg width="30" height="30" fill="none" stroke="#c80000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 11v9.4a.6.6 0 0 1-.6.6H5.6a.6.6 0 0 1-.6-.6V11"></path>
+                <path d="M10 17v-6"></path>
+                <path d="M14 17v-6"></path>
+                <path d="M8 7h8m5 0h-5 5ZM3 7h5-5Zm5 0V3.6a.6.6 0 0 1 .6-.6h6.8a.6.6 0 0 1 .6.6V7H8Z"></path>
+            </svg></a>
+        {% endif %}
+        </section>
+    <hr>
+    {% endfor %}
+    {% paginator page_obj %}
+{% else %}
+    <h1 style="color: #f3f7f8;">There are no comments for this article yet.</h1>
+    <a href="{% url 'add_comment' article.pk %}" class="warn">Be the first!</a>
+{% endif %}
+
+{% endblock %}

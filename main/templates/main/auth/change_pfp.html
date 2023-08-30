@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+{% load main_tags %}
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data">
+    {% show_form form %}
+
+    <br>
+    <button type="submit"><span>Change profile picture</span></button>
+</form>
+
+{% endblock %}
