@@ -1,5 +1,6 @@
 from django import template
-from main.models import *
+
+from main.models import Article
 
 register = template.Library()
 

@@ -1,30 +1,36 @@
 from django import forms
-from .models import *
+from django.contrib.auth.models import User
 
 from captcha.fields import CaptchaField
 
+from .models import Article, Comment, Profile, Report
+
 
 class SignUpForm(forms.ModelForm):
-    username = forms.CharField(max_length=30, min_length=4, label="Username", widget=forms.TextInput(
-        attrs={"class": "form_input"}
-    ))
+    username = forms.CharField(max_length=30, min_length=4,
+            label="Username", widget=forms.TextInput(
+                attrs={"class": "form_input"}
+            ))
 
-    email = forms.EmailField(max_length=320, required=False, label="Email (optional)", widget=forms.EmailInput(
-        attrs={"class": "form_input"}
-    ))
+    email = forms.EmailField(max_length=320, required=False,
+            label="Email (optional)", widget=forms.EmailInput(
+                attrs={"class": "form_input"}
+            ))
 
-    password = forms.CharField(min_length=8, label="Password", widget=forms.PasswordInput(
-        attrs={"class": "form_input"}
-    ))
+    password = forms.CharField(min_length=8, label="Password", 
+            widget=forms.PasswordInput(
+                attrs={"class": "form_input"}
+            ))
 
-    password1 = forms.CharField(min_length=8, label="Confirm password", widget=forms.PasswordInput(
-        attrs={"class": "form_input"}
-    ))
+    password1 = forms.CharField(min_length=8, 
+            label="Confirm password", widget=forms.PasswordInput(
+                attrs={"class": "form_input"}
+            ))
 
     pfp = forms.ImageField(required=False, 
-                label="Profile picture (optional)", widget=forms.FileInput(
-                    attrs={"class": "form_input"}
-                ))
+            label="Profile picture (optional)", widget=forms.FileInput(
+                attrs={"class": "form_input"}
+            ))
 
     captcha = CaptchaField()
 
@@ -34,25 +40,29 @@ class SignUpForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=30, min_length=4, label="Username", widget=forms.TextInput(
-        attrs={"class": "form_input"}
-    ))
+    username = forms.CharField(max_length=30, min_length=4, 
+            label="Username", widget=forms.TextInput(
+                attrs={"class": "form_input"}
+            ))
 
-    password = forms.CharField(min_length=8, label="Password", widget=forms.PasswordInput(
-        attrs={"class": "form_input"}
-    ))
+    password = forms.CharField(min_length=8, label="Password", 
+            widget=forms.PasswordInput(
+                attrs={"class": "form_input"}
+            ))
 
     captcha = CaptchaField()
 
 
 class AddArticleForm(forms.ModelForm):
-    headling = forms.CharField(min_length=4, max_length=32, label="Headling", widget=forms.TextInput(
-        attrs={"class": "form_input"}
-    ))
+    headling = forms.CharField(min_length=4, max_length=32, 
+            label="Headling", widget=forms.TextInput(
+                attrs={"class": "form_input"}
+            ))
 
-    full_text = forms.CharField(min_length=1, label="Text", widget=forms.Textarea(
-        attrs={"class": "form_textarea"}
-    ))
+    full_text = forms.CharField(min_length=1, label="Text", 
+            widget=forms.Textarea(
+                attrs={"class": "form_textarea"}
+            ))
 
     class Meta:
         model = Article

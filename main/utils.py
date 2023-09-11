@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 
-from .models import *
+from .models import Profile
 
 
 class DataMixin():

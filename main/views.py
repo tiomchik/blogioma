@@ -14,9 +14,13 @@ from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.views.generic.detail import DetailView
 
 from django_markup.markup import formatter
-from .models import *
-from .forms import *
-from .utils import *
+from .models import Article, Profile, Comment, Report
+from .forms import (
+    SignUpForm, LoginForm, AddArticleForm, AddCommentForm, 
+    SearchForm, ChangeUsernameForm, ChangePasswordForm, 
+    ChangePfpForm, FeedbackForm, ReportForm
+)
+from .utils import get_base_context, get_paginator_context, DataMixin
 
 
 # Home
