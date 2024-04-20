@@ -2,3 +2,6 @@
 .ruff_cache/
 blogioma.txt
 venv
+.venv
+.DS_Store
+.env
