@@ -8,31 +8,43 @@
 
 for Windows:
 
-```pip install -r requirements.txt```
+```powershell
+pip install -r requirements.txt
+```
 
 for MacOs and Linux:
 
-```pip3 install -r requirements.txt```
+```powershell
+pip3 install -r requirements.txt
+```
 
 2. Create initial database and migrate:
 
 for Windows:
 
-```py manage.py migrate```
+```powershell
+py manage.py migrate
+```
 
 for MacOs and Linux:
 
-```python3 manage.py migrate```
+```powershell
+python3 manage.py migrate
+```
 
 3. Run the development server:
 
 for Windows:
 
-```py manage.py runserver```
+```powershell
+py manage.py runserver
+```
 
 for MacOs and Linux:
 
-```python3 manage.py runserver```
+```powershell
+python3 manage.py runserver
+```
 
 
 
