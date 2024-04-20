@@ -5,3 +5,8 @@ venv
 .venv
 .DS_Store
 .env
+
+*.sqlite3
+*.sqlite
+*.sqlite-journal
+*.db
