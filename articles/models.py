@@ -22,5 +22,6 @@ class Article(models.Model):
         return f"/article/{self.pk}"
 
     class Meta:
+        ordering = ["pub_date"]
         verbose_name = "Article"
         verbose_name_plural = "Articles"
