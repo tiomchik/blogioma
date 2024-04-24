@@ -96,13 +96,13 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
 
 def random_article(request):
     # Getting total number of articles
-    total_number = Article.objects.count()
+    total = Article.objects.last().pk
 
     pk = 0
     while True:
         # Generating random id
-        pk = randint(1, total_number)
-        
+        pk = randint(0, total)
+
         # If article with this id exist
         try:
             Article.objects.get(pk=pk)
