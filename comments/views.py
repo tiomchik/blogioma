@@ -1,0 +1,93 @@
+from datetime import datetime
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView, UpdateView
+
+from articles.models import Article
+from authentication.models import Profile
+from main.utils import get_paginator_context, DataMixin
+from .forms import AddCommentForm
+from .models import Comment
+
+
+def see_comments(request, pk):
+    # Getting comments by related article
+    article = Article.objects.get(pk=pk)
+    comments = Comment.objects.filter(article=article).values(
+        "profile", "profile__pfp", "pk", "article__pk",
+        "profile__user__username", "update", "pub_date", "text"
+    )
+
+    context = get_paginator_context(
+        request, comments, f"Comments to article \"{article.headling}\".",
+        article=article
+    )
+
+    return render(request, "comments/comments.html", context)
+
+
+class AddComment(DataMixin, LoginRequiredMixin, CreateView):
+    form_class = AddCommentForm
+    template_name = "comments/add_comment.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        base = self.get_base_context("Add comment")
+
+        return dict(list(context.items()) + list(base.items()))
+
+    def form_valid(self, form):
+        # Getting article pk, data from from and etc.
+        pk = self.kwargs["pk"]
+        profile = Profile.objects.get(user=self.request.user)
+        article = Article.objects.get(pk=pk)
+        text = form.cleaned_data.get("text")
+
+        # Creating a new comment
+        Comment.objects.create(profile=profile, article=article, text=text)
+
+        return redirect("comments", pk=pk)
+
+
+def delete_comment(request, pk, comment_pk):
+    # Getting article and related comment
+    comment = Comment.objects.get(pk=comment_pk)
+    article = Article.objects.get(pk=pk)
+
+    # Author and related article check
+    if request.user != comment.profile.user:
+        return redirect("home")
+    if comment.article != article:
+        return redirect("home")
+
+    # If all valid
+    comment.delete()
+
+    return redirect("comments", pk=pk)
+
+
+class UpdateComment(DataMixin, LoginRequiredMixin, UpdateView):
+    template_name = "comments/update_comment.html"
+    form_class = AddCommentForm
+    model = Comment
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        base = self.get_base_context("Update comment")
+
+        return dict(list(context.items()) + list(base.items()))
+
+    def form_valid(self, form):
+        # Getting comment
+        comment = get_object_or_404(
+            Comment, pk=self.kwargs["pk"],
+            article_id=self.kwargs["article_pk"]
+        )
+
+        # Updating
+        comment.update = datetime.now()
+        comment.text = form.cleaned_data.get("text")
+        comment.save()
+
+        # Redirect to commented article
+        return redirect("comments", pk=self.kwargs["article_pk"])

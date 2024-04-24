@@ -7,6 +7,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("captcha/", include("captcha.urls")),
     path("", include("main.urls")),
+    path("", include("feedback.urls")),
+    path("", include("articles.urls")),
+    path("", include("comments.urls")),
+    path("search/", include("search.urls")),
+    path("auth/", include("authentication.urls")),
 ]
 
 if settings.DEBUG:

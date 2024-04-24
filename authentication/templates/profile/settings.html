@@ -1,0 +1,21 @@
+{% extends 'profile/profile_base.html' %}
+
+{% block profile_content %}
+{% if valid %}
+    <h1>Profile picture:</h1>
+    <a href="{% url 'change_pfp' %}"><button>
+        <span>Change profile picture</span></button></a><br><br>
+        
+    <h1>Username:</h1>
+    <a href="{% url 'change_username' %}"><button>
+        <span>Change username</span></button></a><br><br>
+            
+    <h1>Password:</h1>
+    <a href="{% url 'change_password' %}"><button>
+        <span>Change password</span></button></a><br><br>
+{% else %}
+    <h1>You don't have access to this page, or you just dont authenticated. Make sure you have entered the page address correctly and are logged into your account.</h1>
+    <h2>If you are sure that everything is correct, please <a class="warn" href="{% url 'report' %}">contact us</a>(also possible via mail blogioma@mail.ru).</h2>
+{% endif %}
+
+{% endblock %}

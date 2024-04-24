@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 
-from .models import Profile
+from authentication.models import Profile
 
 
 class DataMixin():
@@ -25,12 +25,12 @@ def get_base_context(request, name: str, **kwargs):
 
 def get_paginator_context(request, object_list, name: str, **kwargs):
     """get_base_context with paginator"""
-    # пагинация
+    # Pagination
     paginator = Paginator(object_list, 12)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    # контекст
+    # Context
     context = get_base_context(request, name, **kwargs)
     context["page_obj"] = page_obj
 

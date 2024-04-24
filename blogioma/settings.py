@@ -32,6 +32,11 @@ INSTALLED_APPS = [
     "captcha",
     "debug_toolbar",
     "main.apps.MainConfig",
+    "authentication.apps.AuthenticationConfig",
+    "feedback.apps.FeedbackConfig",
+    "articles.apps.ArticlesConfig",
+    "comments.apps.CommentsConfig",
+    "search.apps.SearchConfig",
 ]
 
 MIDDLEWARE = [
@@ -118,19 +123,19 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# медиа
+# Media
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# csp
+# CSP
 CSP_DEFAULT_SRC = ("'none'",)
 CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
 CSP_SCRIPT_SRC = ("'self'",)
 CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com')
 CSP_IMG_SRC = ("'self'",)
 
-# email
-EMAIL_HOST = 'smtp.mail.ru'
+# Email
+EMAIL_HOST = "smtp.mail.ru"
 EMAIL_PORT = 465
 EMAIL_HOST_USER = "blogioma@mail.ru"
 EMAIL_HOST_PASSWORD = "njgHBW0GtmHJDbZmC3tm"

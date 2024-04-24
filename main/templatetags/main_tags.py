@@ -1,15 +1,13 @@
 from django import template
 
-from main.models import Article
+from articles.models import Article
 
 register = template.Library()
 
 
 # Showing articles
 @register.inclusion_tag("main/tags/for_articles.html")
-def show_articles(order_by: str = "-pub_date", 
-                                    only_6=None, 
-                                    page_obj=None):
+def show_articles(order_by: str = "-pub_date", only_6=None, page_obj=None):
     context = {}
     if page_obj:
         context["articles_for"] = page_obj

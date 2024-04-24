@@ -20,13 +20,13 @@
         </a>
 
         <a href="{% url 'read' article.pk %}" class="button">
-            <button type="button"><span>Читать</span></button>
+            <button type="button"><span>Read</span></button>
         </a>
     </div>
     {% if article.update %}
-        <p class="date">Обновлено: {{ article.update }}</p>
+        <p class="date">Updated: {{ article.update }}</p>
     {% else %}
-        <p class="date">Опубликовано: {{ article.pub_date }}</p>
+        <p class="date">Published: {{ article.pub_date }}</p>
     {% endif %}
 </article>
 {% endfor %}
