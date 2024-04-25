@@ -5,7 +5,6 @@ from django.db.models import F
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.http import Http404
-from django_markup.markup import formatter
 from random import randint
 
 from authentication.models import Profile
@@ -31,7 +30,6 @@ class AddArticle(DataMixin, LoginRequiredMixin, CreateView):
         # Getting data from a form and format text to markdown
         headling = form.cleaned_data.get("headling")
         full_text = form.cleaned_data.get("full_text")
-        full_text = formatter(full_text, "markdown")
 
         # Creating a new article
         profile = Profile.objects.get(user=request.user)
