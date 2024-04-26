@@ -33,18 +33,17 @@ class Feedback(DataMixin, FormView):
 
             # Sending mail
             sended_email = EmailMessage(
-                                headling, desc, 
-                                settings.EMAIL_HOST_USER,
-                                [settings.EMAIL_HOST_USER]
-                            )
+                subject=headling, body=desc,
+                from_email=settings.EMAIL_HOST_USER,
+                to=[settings.EMAIL_HOST_USER]
+            )
             sended_email.send(fail_silently=False)
 
             return render(
-                    self.request, 
-                    "main/feedbacks/feedback_success.html", 
-                    self.get_context_data()
-                )
-        
+                self.request, "main/feedbacks/feedback_success.html",
+                self.get_context_data()
+            )
+
         return self.form_invalid(form)
 
 
@@ -58,18 +57,20 @@ class ReportArticle(DataMixin, LoginRequiredMixin, CreateView):
         base = self.get_base_context("Report on article")
 
         return dict(list(context.items()) + list(base.items()))
-    
+
     def form_valid(self, form):
         # Getting data from a form
         reason = form.cleaned_data.get("reason")
         desc = form.cleaned_data.get("desc")
 
-        # Getting an reported article
+        # Getting a reported article
         article_pk = self.kwargs.get("pk")
         article = Article.objects.get(pk=article_pk)
 
         # Creating report
-        Report.objects.create(reason=reason, desc=desc, article=article)
-        article.reports = F("reports") + 1
+        report = Report.objects.create(
+            reason=reason, desc=desc, reported_article=article
+        )
+        article.reports.add(report)
 
         return redirect("home")

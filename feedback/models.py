@@ -25,7 +25,9 @@ class Report(models.Model):
         verbose_name="Description", null=True, max_length=200, 
         blank=True, unique=False
     )
-    article = models.ForeignKey(Article, models.CASCADE, unique=False)
+    reported_article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, unique=False
+    )
 
     def __str__(self):
         return f"{self.reason}"

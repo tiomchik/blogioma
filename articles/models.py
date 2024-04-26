@@ -13,7 +13,7 @@ class Article(models.Model):
     pub_date = models.DateTimeField("Date of publication", auto_now_add=True)
     viewings = models.IntegerField("Viewings", default=0)
     update = models.DateTimeField("Date of update", null=True, default=None)
-    reports = models.IntegerField("Reports", blank=True, null=True, default=0)
+    reports = models.ManyToManyField("feedback.Report", blank=True)
 
     def __str__(self):
         return f"Article: {self.headling}"
