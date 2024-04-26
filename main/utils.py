@@ -1,4 +1,6 @@
+from typing import Any
 from django.core.paginator import Paginator
+from django.http import HttpRequest
 
 from authentication.models import Profile
 
@@ -6,13 +8,15 @@ from authentication.models import Profile
 class DataMixin():
     login_url = "log_in"
 
-    def get_base_context(self, name: str, **kwargs):
+    def get_base_context(self, name: str, **kwargs) -> dict[str, Any]:
         """Returns a base context dict with passed name and kwargs"""
 
         return get_base_context(self.request, name, **kwargs)
 
 
-def get_base_context(request, name: str, **kwargs):
+def get_base_context(
+    request: HttpRequest, name: str, **kwargs
+) -> dict[str, Any]:
     """Returns a base context dict with passed name and kwargs"""
     context = kwargs
     context["name"] = name
@@ -23,7 +27,9 @@ def get_base_context(request, name: str, **kwargs):
     return context
 
 
-def get_paginator_context(request, object_list, name: str, **kwargs):
+def get_paginator_context(
+    request: HttpRequest, object_list: Any, name: str, **kwargs
+) -> dict[str, Any]:
     """get_base_context with paginator"""
     # Pagination
     paginator = Paginator(object_list, 12)

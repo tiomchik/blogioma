@@ -15,10 +15,10 @@ class Article(models.Model):
     update = models.DateTimeField("Date of update", null=True, default=None)
     reports = models.ManyToManyField("feedback.Report", blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Article: {self.headling}"
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return f"/article/{self.pk}"
 
     class Meta:

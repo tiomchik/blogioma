@@ -1,3 +1,5 @@
+from typing import Any
+from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.views.generic.edit import FormView
@@ -11,20 +13,22 @@ class Search(DataMixin, FormView):
     template_name = "search/search.html"
     form_class = SearchForm
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         # on_search_page for illumination of search button
         base = self.get_base_context("Search", on_search_page=1)
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: SearchForm
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         search_query = form.cleaned_data.get("search_query")
 
         return redirect("search_results", query=search_query)
 
 
-def search_results(request, query):
+def search_results(request: HttpRequest, query: str) -> HttpResponse:
     # Searching articles
     articles = Article.objects.filter(
         # By headling

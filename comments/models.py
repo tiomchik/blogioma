@@ -11,7 +11,7 @@ class Comment(models.Model):
     pub_date = models.DateTimeField("Date of send", auto_now_add=True)
     update = models.DateTimeField("Date of update", null=True, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Comment: {self.text[:20]}..."
 
     class Meta:

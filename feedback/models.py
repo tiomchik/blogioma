@@ -29,7 +29,7 @@ class Report(models.Model):
         Article, on_delete=models.CASCADE, unique=False
     )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.reason}"
 
     class Meta:

@@ -1,4 +1,9 @@
 from datetime import datetime
+from typing import Any
+from django.http import (
+    HttpRequest, HttpResponse, HttpResponsePermanentRedirect,
+    HttpResponseRedirect
+)
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
@@ -10,7 +15,7 @@ from .forms import AddCommentForm
 from .models import Comment
 
 
-def see_comments(request, pk):
+def see_comments(request: HttpRequest, pk: int) -> HttpResponse:
     # Getting comments by related article
     article = Article.objects.get(pk=pk)
     comments = Comment.objects.filter(article=article).values(
@@ -19,7 +24,8 @@ def see_comments(request, pk):
     )
 
     context = get_paginator_context(
-        request, comments, f"Comments to article \"{article.headling}\".",
+        request, object_list=comments,
+        name=f"Comments to article \"{article.headling}\".",
         article=article
     )
 
@@ -30,13 +36,15 @@ class AddComment(DataMixin, LoginRequiredMixin, CreateView):
     form_class = AddCommentForm
     template_name = "comments/add_comment.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Add comment")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: AddCommentForm
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting article pk, data from from and etc.
         pk = self.kwargs["pk"]
         profile = Profile.objects.get(user=self.request.user)
@@ -49,7 +57,9 @@ class AddComment(DataMixin, LoginRequiredMixin, CreateView):
         return redirect("comments", pk=pk)
 
 
-def delete_comment(request, pk, comment_pk):
+def delete_comment(
+    request: HttpRequest, pk: int, comment_pk: int
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     # Getting article and related comment
     comment = Comment.objects.get(pk=comment_pk)
     article = Article.objects.get(pk=pk)
@@ -71,13 +81,15 @@ class UpdateComment(DataMixin, LoginRequiredMixin, UpdateView):
     form_class = AddCommentForm
     model = Comment
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Update comment")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: AddCommentForm
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting comment
         comment = get_object_or_404(
             Comment, pk=self.kwargs["pk"],

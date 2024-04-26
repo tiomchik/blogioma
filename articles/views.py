@@ -1,10 +1,14 @@
+from typing import Any
 from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
-from django.http import Http404
+from django.http import (
+    Http404, HttpResponse, HttpResponsePermanentRedirect,
+    HttpResponseRedirect, HttpRequest
+)
 from random import randint
 
 from authentication.models import Profile
@@ -17,14 +21,16 @@ class AddArticle(DataMixin, LoginRequiredMixin, CreateView):
     form_class = AddArticleForm
     template_name = "articles/add_article.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         # on_article_page for illumination of add article button
         base = self.get_base_context("Add article", on_add_article_page=1)
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: AddArticleForm
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         request = self.request
 
         # Getting data from a form and format text to markdown
@@ -45,7 +51,7 @@ class ReadArticle(DataMixin, DetailView):
     template_name = "articles/article.html"
     context_object_name = "article"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         # Getting article by passed id
         article = context["article"]
@@ -57,7 +63,9 @@ class ReadArticle(DataMixin, DetailView):
         return dict(list(context.items()) + list(base.items()))
 
 
-def delete_article(request, pk):
+def delete_article(
+    request: HttpRequest, pk: int
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     # Getting article
     article = Article.objects.get(pk=pk)
 
@@ -73,13 +81,15 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
     form_class = AddArticleForm
     model = Article
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Update article")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: AddArticleForm
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting article by passed id
         article = get_object_or_404(Article, pk=self.kwargs["pk"])
 
@@ -92,7 +102,9 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
         return redirect("read", pk=self.kwargs["pk"])
 
 
-def random_article(request):
+def random_article(
+    request: HttpRequest
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     # Getting total number of articles
     total = Article.objects.last().pk
 
@@ -112,7 +124,7 @@ def random_article(request):
     return redirect("read", pk=pk)
 
 
-def see_all(request, order_by):
+def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
     # GET query check
     if order_by == "latest":
         field = "-pub_date"

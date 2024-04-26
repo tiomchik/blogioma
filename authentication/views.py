@@ -1,7 +1,11 @@
+from typing import Any
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.http import (
+    HttpRequest, HttpResponse, HttpResponsePermanentRedirect,
+    HttpResponseRedirect
+)
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic.edit import CreateView, FormView
 
@@ -18,13 +22,15 @@ class SignUp(DataMixin, CreateView):
     form_class = SignUpForm
     template_name = "auth/sign_up.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Sign up")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: SignUpForm
+    ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         request = self.request
 
         # Getting data from a form
@@ -78,22 +84,22 @@ class Login(DataMixin, FormView):
     template_name = "auth/login.html"
     form_class = LoginForm
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Log in")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: LoginForm
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect | HttpResponse:
         # Getting data from a form
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
 
         # Authentication
         user = authenticate(
-            self.request,
-            username=username,
-            password=password,
+            self.request, username=username, password=password,
         )
 
         # If valid
@@ -113,13 +119,15 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
     form_class = ChangeUsernameForm
     model = Profile
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Change username")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: ChangeUsernameForm
+    ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting username from a form and uniqueness check
         new_username = form.cleaned_data.get("new_username")
         user_exists = User.objects.filter(username=new_username).exists()
@@ -129,8 +137,7 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
             return self.form_invalid(form)
 
         # Changing username and saving changes
-        user = User.objects.get(
-                            username=self.request.user.username)
+        user = User.objects.get(username=self.request.user.username)
         user.username = new_username
         user.save()
 
@@ -142,13 +149,15 @@ class ChangePassword(DataMixin, LoginRequiredMixin, FormView):
     form_class = ChangePasswordForm
     model = Profile
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Change password")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: ChangePasswordForm
+    ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting data from a form
         new_password = form.cleaned_data.get("new_password")
         new_password1 = form.cleaned_data.get("new_password1")
@@ -171,13 +180,15 @@ class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
     form_class = ChangePfpForm
     model = Profile
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Change profile picture")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: ChangePfpForm
+    ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting a new pfp from a form
         new_pfp = form.cleaned_data.get("new_pfp")
         if not new_pfp:
@@ -192,20 +203,20 @@ class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
         return redirect("see_profile", username=user.user.username)
 
 
-def logout_user(request):
+def logout_user(request: HttpRequest) -> HttpResponseRedirect:
     logout(request)
 
     return HttpResponseRedirect("/")
 
 
-def see_profile(request, username: str):
+def see_profile(request: HttpRequest, username: str) -> HttpResponse:
     # Getting user articles
     articles = Article.objects.filter(author__user__username=username).values(
         "headling", "full_text", "update", 
         "pub_date", "pk", "author", "author__pfp", 
         "author__user__username"
     )
-    
+
     context = get_paginator_context(
         request, articles, f"{username}'s profile",
         profile=get_object_or_404(Profile, user__username=username)
@@ -214,7 +225,7 @@ def see_profile(request, username: str):
     return render(request, "profile/profile.html", context)
 
 
-def profile_settings(request, username):
+def profile_settings(request: HttpRequest, username: str) -> HttpResponse:
     # Getting profile or raising 404
     user = request.user
     profile = get_object_or_404(Profile, user__username=username)
@@ -225,9 +236,8 @@ def profile_settings(request, username):
         valid = 1
 
     context = get_base_context(
-                        request, f"{username.title()}'s profile settings",
-                        profile=profile, valid=valid
-                    )
+        request, name=f"{username}'s profile settings",
+        profile=profile, valid=valid
+    )
 
     return render(request, "profile/settings.html", context)
-

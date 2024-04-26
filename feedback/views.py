@@ -1,7 +1,8 @@
+from typing import Any
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import F
+from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, FormView
 
@@ -15,13 +16,13 @@ class Feedback(DataMixin, FormView):
     template_name = "feedback/feedback.html"
     form_class = FeedbackForm
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Feedback")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(self, form: FeedbackForm) -> HttpResponse:
         if form.is_valid():
             # Getting data from a form
             headling = "Blogioma report: " + form.cleaned_data.get("problem")
@@ -52,13 +53,15 @@ class ReportArticle(DataMixin, LoginRequiredMixin, CreateView):
     form_class = ReportForm
     model = Report
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Report on article")
 
         return dict(list(context.items()) + list(base.items()))
 
-    def form_valid(self, form):
+    def form_valid(
+        self, form: ReportForm
+    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting data from a form
         reason = form.cleaned_data.get("reason")
         desc = form.cleaned_data.get("desc")
