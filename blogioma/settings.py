@@ -31,12 +31,16 @@ INSTALLED_APPS = [
     "django_markup",
     "captcha",
     "debug_toolbar",
+    "rest_framework",
+
+    # Created apps
     "main.apps.MainConfig",
     "authentication.apps.AuthenticationConfig",
     "feedback.apps.FeedbackConfig",
     "articles.apps.ArticlesConfig",
     "comments.apps.CommentsConfig",
     "search.apps.SearchConfig",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
