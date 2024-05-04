@@ -22,6 +22,10 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class ReportSerializer(serializers.ModelSerializer):
+    # default=None because we'll link chosen article from URL in
+    # ReportArticle view.
+    reported_article = serializers.HiddenField(default=None)
+
     class Meta:
         model = Report
         fields = "__all__"
