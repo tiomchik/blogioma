@@ -1,3 +1,4 @@
+from datetime import datetime
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -32,12 +33,13 @@ class ArticleViewSet(viewsets.ModelViewSet):
         )
 
     def update(self, request: Request, *args, **kwargs) -> Response:
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
+        partial = kwargs.pop("partial", False)
+        instance: Article = self.get_object()
         serializer = ArticleSerializer(
             instance, data=request.data, partial=partial
         )
         serializer.is_valid(raise_exception=True)
+        instance.update = datetime.now()
 
         # In serializer.save() occures TypeError: "'NoneType' object
         # is not iterable", but the update is successful.
@@ -47,7 +49,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
         except TypeError:
             pass
 
-        if getattr(instance, '_prefetched_objects_cache', None):
+        if getattr(instance, "_prefetched_objects_cache", None):
             # If 'prefetch_related' has been applied to a queryset, we need to
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
