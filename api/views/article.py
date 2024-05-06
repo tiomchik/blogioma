@@ -15,26 +15,30 @@ class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrStaffOrReadOnly, )
 
+    def perform_create(self, **kwargs) -> Article:
+        return Article.objects.create(**kwargs)
+
     def create(self, request: Request, *args, **kwargs) -> Response:
+        author = Profile.objects.get(id=request.user.id)
+        article_dict = {
+            "headling": request.data.get("headling"),
+            "full_text": request.data.get("full_text"),
+            "author": author
+        }
         serializer = ArticleSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        author = Profile.objects.get(id=request.user.id)
-        new_article = Article.objects.create(
-            headling=request.data["headling"],
-            full_text=request.data["full_text"], author=author
-        )
-        new_article_serializer = ArticleSerializer(new_article)
+        new_article = self.perform_create(**article_dict)
 
         headers = self.get_success_headers(serializer.data)
         return Response(
-            new_article_serializer.data, status=status.HTTP_201_CREATED,
-            headers=headers
+            ArticleSerializer(new_article).data,
+            status=status.HTTP_201_CREATED, headers=headers
         )
 
     def update(self, request: Request, *args, **kwargs) -> Response:
         partial = kwargs.pop("partial", False)
-        instance: Article = self.get_object()
+        instance = Article.objects.get(pk=kwargs.get("pk"))
         serializer = ArticleSerializer(
             instance, data=request.data, partial=partial
         )
