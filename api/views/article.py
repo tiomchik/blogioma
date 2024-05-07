@@ -10,12 +10,14 @@ from articles.models import Article
 from authentication.models import Profile
 from api.serializers import ArticleSerializer
 from api.permissions import IsAuthorOrStaffOrReadOnly
+from api.utils import Pagination
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.order_by("-pub_date")
     serializer_class = ArticleSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrStaffOrReadOnly, )
+    pagination_class = Pagination
 
     def perform_create(self, **kwargs) -> Article:
         return Article.objects.create(**kwargs)

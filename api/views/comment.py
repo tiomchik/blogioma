@@ -9,6 +9,7 @@ from rest_framework.generics import get_object_or_404
 from articles.models import Article
 from api.serializers import CommentSerializer
 from api.permissions import IsAuthorOrStaffOrReadOnly
+from api.utils import Pagination
 from authentication.models import Profile
 from comments.models import Comment
 
@@ -17,6 +18,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.order_by("-pub_date")
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrStaffOrReadOnly, )
+    pagination_class = Pagination
 
     def perform_create(self, **kwargs) -> Comment:
         return Comment.objects.create(**kwargs)
