@@ -1,4 +1,6 @@
 from datetime import datetime
+from django.db.models import Q
+from typing import Any
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -35,6 +37,30 @@ class ArticleViewSet(viewsets.ModelViewSet):
             ArticleSerializer(new_article).data,
             status=status.HTTP_201_CREATED, headers=headers
         )
+
+    def list(self, request: Request, *args, **kwargs) -> Any | Response:
+        query = request.query_params.get("q")
+
+        # If search query passed, then select articles that matches this query
+        if query:
+            queryset = Article.objects.filter(
+                # By headling
+                Q(headling__iregex=query) | 
+                # Full text
+                Q(full_text__iregex=query) |
+                # Author username
+                Q(author__user__username__iregex=query)
+            )
+        else:
+            queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def update(self, request: Request, *args, **kwargs) -> Response:
         partial = kwargs.pop("partial", False)
