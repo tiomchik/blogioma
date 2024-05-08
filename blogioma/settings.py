@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "captcha",
     "debug_toolbar",
     "rest_framework",
+    "rest_framework.authtoken",
 
     # Created apps
     "main.apps.MainConfig",
@@ -144,3 +145,9 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = "blogioma@mail.ru"
 EMAIL_HOST_PASSWORD = "njgHBW0GtmHJDbZmC3tm"
 EMAIL_USE_SSL = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ]
+}

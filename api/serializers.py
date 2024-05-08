@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from articles.models import Article
@@ -35,3 +36,11 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = "__all__"
+
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ( "id", "username", "password", )
