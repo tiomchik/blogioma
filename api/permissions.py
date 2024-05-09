@@ -8,10 +8,11 @@ class IsAuthorOrStaffOrReadOnly(permissions.BasePermission):
     def has_object_permission(
         self, request: Request, view: View, obj: Model
     ) -> bool:
-        if request.method in permissions.SAFE_METHODS:
+        if (request.method in permissions.SAFE_METHODS or
+            request.user.is_staff):
             return True
 
         try:
-            return (obj.author == request.user) or request.user.is_staff
+            return obj.author.user == request.user
         except AttributeError:
-            return (obj.profile == request.user) or request.user.is_staff
+            return obj.profile.user == request.user

@@ -23,7 +23,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
         return Article.objects.create(**kwargs)
 
     def create(self, request: Request, *args, **kwargs) -> Response:
-        author = Profile.objects.get(id=request.user.id)
+        author = Profile.objects.get(user=request.user)
         article_dict = {
             "headling": request.data.get("headling"),
             "full_text": request.data.get("full_text"),
@@ -66,7 +66,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def update(self, request: Request, *args, **kwargs) -> Response:
         partial = kwargs.pop("partial", False)
-        instance = Article.objects.get(pk=kwargs.get("pk"))
+        instance: Article = self.get_object()
         serializer = ArticleSerializer(
             instance, data=request.data, partial=partial
         )

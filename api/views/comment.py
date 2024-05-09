@@ -67,7 +67,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def update(self, request: Request, *args, **kwargs) -> Response:
         partial = kwargs.pop("partial", False)
-        instance = Comment.objects.get(pk=kwargs.get("pk"))
+        instance: Comment = self.get_object()
         serializer = CommentSerializer(
             instance, data=request.data, partial=partial
         )
