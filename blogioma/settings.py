@@ -28,15 +28,21 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "drf_yasg",
     "django_markup",
     "captcha",
     "debug_toolbar",
+    "rest_framework",
+    "rest_framework.authtoken",
+
+    # Created apps
     "main.apps.MainConfig",
     "authentication.apps.AuthenticationConfig",
     "feedback.apps.FeedbackConfig",
     "articles.apps.ArticlesConfig",
     "comments.apps.CommentsConfig",
     "search.apps.SearchConfig",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
@@ -100,6 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = "/auth/login/"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -140,3 +148,10 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = "blogioma@mail.ru"
 EMAIL_HOST_PASSWORD = "njgHBW0GtmHJDbZmC3tm"
 EMAIL_USE_SSL = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ]
+}

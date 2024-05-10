@@ -12,6 +12,7 @@ urlpatterns = [
     path("", include("comments.urls")),
     path("search/", include("search.urls")),
     path("auth/", include("authentication.urls")),
+    path("api/v1/", include("api.urls")),
 ]
 
 if settings.DEBUG:
