@@ -7,7 +7,7 @@ from rest_framework.authtoken import views
 from .views.article import ArticleViewSet
 from .views.comment import CommentViewSet
 from .views.report import ReportArticle
-from .views.authentication import RegisterView
+from .views.authentication import RegisterView, Me
 
 router = routers.DefaultRouter()
 router.register(r"articles", ArticleViewSet)
@@ -36,4 +36,5 @@ urlpatterns = [
     # Authentication
     path("auth/obtain-token/", views.obtain_auth_token),
     path("auth/register/", RegisterView.as_view()),
+    path("auth/me/", Me.as_view()),
 ]

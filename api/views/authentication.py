@@ -30,3 +30,13 @@ class RegisterView(generics.CreateAPIView):
             UserSerializer(new_user).data, status=status.HTTP_201_CREATED,
             headers=headers
         )
+
+
+class Me(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def retrieve(self, request: Request, *args, **kwargs) -> Response:
+        return Response(
+            UserSerializer(request.user).data, status=status.HTTP_200_OK
+        )
