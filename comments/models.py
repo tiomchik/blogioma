@@ -15,5 +15,6 @@ class Comment(models.Model):
         return f"Comment: {self.text[:20]}..."
 
     class Meta:
+        ordering = ["-pub_date"]
         verbose_name = "Comment"
         verbose_name_plural = "Comments"
