@@ -2,12 +2,34 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from articles.models import Article
+from authentication.models import Profile
 from comments.models import Comment
 from feedback.models import Report
 
 
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            "id", "username", "password", "last_login",
+            "is_staff", "date_joined"
+        )
+        read_only_fields = ("last_login", "is_staff", "date_joined")
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ("id", "user", "pfp")
+        read_only_fields = ("id", "user", "pfp")
+
+
 class ArticleSerializer(serializers.ModelSerializer):
-    author = serializers.CurrentUserDefault()
+    author = ProfileSerializer(read_only=True)
     reports = serializers.HiddenField(default=None)
 
     class Meta:
@@ -19,7 +41,7 @@ class ArticleSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     # default=None because we'll link chosen article from URL in view.
     article = serializers.HiddenField(default=None)
-    profile = serializers.CurrentUserDefault()
+    profile = ProfileSerializer(read_only=True)
 
     class Meta:
         model = Comment
@@ -36,15 +58,3 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = "__all__"
-
-
-class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-
-    class Meta:
-        model = User
-        fields = (
-            "id", "username", "password", "last_login",
-            "is_staff", "date_joined"
-        )
-        read_only_fields = ("last_login", "is_staff", "date_joined")
