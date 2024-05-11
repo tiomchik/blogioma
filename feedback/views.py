@@ -18,7 +18,9 @@ class Feedback(DataMixin, FormView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Feedback")
+        base = self.get_base_context(
+            "Feedback", email=settings.EMAIL_HOST_USER
+        )
 
         return dict(list(context.items()) + list(base.items()))
 
@@ -41,7 +43,7 @@ class Feedback(DataMixin, FormView):
             sended_email.send(fail_silently=False)
 
             return render(
-                self.request, "main/feedbacks/feedback_success.html",
+                self.request, "feedback/feedback_success.html",
                 self.get_context_data()
             )
 
