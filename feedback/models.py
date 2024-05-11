@@ -1,6 +1,7 @@
 from django.db import models
 
 from articles.models import Article
+from authentication.models import Profile
 
 rules = (
     ("Banned advertising", 
@@ -28,6 +29,7 @@ class Report(models.Model):
     reported_article = models.ForeignKey(
         Article, on_delete=models.CASCADE, unique=False
     )
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, unique=False)
 
     def __str__(self) -> str:
         return f"{self.reason}"

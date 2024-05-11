@@ -4,6 +4,7 @@ from rest_framework.request import Request
 from rest_framework.generics import get_object_or_404
 
 from articles.models import Article
+from authentication.models import Profile
 from api.serializers import ReportSerializer
 from feedback.models import Report
 
@@ -21,9 +22,11 @@ class ReportArticle(generics.CreateAPIView):
 
     def post(self, request: Request, *args, **kwargs) -> Response:
         obj = get_object_or_404(Article.objects.all(), pk=kwargs.get("pk"))
+        owner = Profile.objects.get(user=request.user)
 
         report_dict = {
-            "reported_article": obj, "reason": request.data.get("reason"),
+            "reported_article": obj, "owner": owner,
+            "reason": request.data.get("reason"),
             "desc": request.data.get("desc")
         }
 

@@ -54,6 +54,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class ReportSerializer(serializers.ModelSerializer):
     # default=None the same as in CommentSerializer
     reported_article = serializers.HiddenField(default=None)
+    owner = ProfileSerializer(read_only=True)
 
     class Meta:
         model = Report

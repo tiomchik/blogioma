@@ -6,8 +6,9 @@ from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpRespons
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, FormView
 
-from main.utils import DataMixin
 from articles.models import Article
+from authentication.models import Profile
+from main.utils import DataMixin
 from .forms import FeedbackForm, ReportForm
 from .models import Report
 
@@ -71,10 +72,11 @@ class ReportArticle(DataMixin, LoginRequiredMixin, CreateView):
         # Getting a reported article
         article_pk = self.kwargs.get("pk")
         article = Article.objects.get(pk=article_pk)
+        owner = Profile.objects.get(user=self.request.user)
 
         # Creating report
         report = Report.objects.create(
-            reason=reason, desc=desc, reported_article=article
+            reason=reason, desc=desc, reported_article=article, owner=owner
         )
         article.reports.add(report)
 
