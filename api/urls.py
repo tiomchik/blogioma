@@ -25,7 +25,10 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("articles/<int:pk>/report/", ReportArticle.as_view()),
+    path(
+        "articles/<int:pk>/report/", ReportArticle.as_view(),
+        name="report-article"
+    ),
 
     # Docs
     path(
@@ -34,7 +37,7 @@ urlpatterns = [
     ),
 
     # Authentication
-    path("auth/obtain-token/", views.obtain_auth_token),
-    path("auth/register/", RegisterView.as_view()),
-    path("auth/me/", Me.as_view()),
+    path("auth/obtain-token/", views.obtain_auth_token, name="obtain-token"),
+    path("auth/register/", RegisterView.as_view(), name="register"),
+    path("auth/me/", Me.as_view(), name="me"),
 ]
