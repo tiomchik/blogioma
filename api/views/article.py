@@ -1,5 +1,7 @@
 from datetime import datetime
-from django.db.models import Q
+from django.db.models import Q, F
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from typing import Any
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -62,6 +64,16 @@ class ArticleViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @method_decorator(cache_page(300))
+    def retrieve(self, request, *args, **kwargs) -> Response:
+        instance = self.get_object()
+        instance.viewings = F("viewings") + 1
+        instance.save()
+        instance.refresh_from_db()
+
+        serializer = ArticleSerializer(instance)
         return Response(serializer.data)
 
     def update(self, request: Request, *args, **kwargs) -> Response:
