@@ -1,5 +1,5 @@
 from typing import Any
-from datetime import datetime
+from django.utils import timezone
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.request import Request
@@ -60,7 +60,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, instance: Comment, new_text: str) -> Comment:
         instance.text = new_text
-        instance.update = datetime.now()
+        instance.update = timezone.now()
         instance.save()
 
         return instance

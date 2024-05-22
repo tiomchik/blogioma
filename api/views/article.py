@@ -1,5 +1,5 @@
-from datetime import datetime
 from django.db.models import Q
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from typing import Any
@@ -82,7 +82,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
             instance, data=request.data, partial=partial
         )
         serializer.is_valid(raise_exception=True)
-        instance.update = datetime.now()
+        instance.update = timezone.now()
 
         # In serializer.save() occures TypeError: "'NoneType' object
         # is not iterable", but the update is successful.

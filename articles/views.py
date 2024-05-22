@@ -1,5 +1,5 @@
 from typing import Any
-from datetime import datetime
+from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
@@ -94,7 +94,7 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
         article = get_object_or_404(Article, pk=self.kwargs["pk"])
 
         # Updating data
-        article.update = datetime.now()
+        article.update = timezone.now()
         article.headling = form.cleaned_data.get("headling")
         article.full_text = form.cleaned_data.get("full_text")
         article.save()

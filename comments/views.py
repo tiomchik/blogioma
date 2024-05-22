@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 from typing import Any
 from django.http import (
     HttpRequest, HttpResponse, HttpResponsePermanentRedirect,
@@ -97,7 +97,7 @@ class UpdateComment(DataMixin, LoginRequiredMixin, UpdateView):
         )
 
         # Updating
-        comment.update = datetime.now()
+        comment.update = timezone.now()
         comment.text = form.cleaned_data.get("text")
         comment.save()
 
