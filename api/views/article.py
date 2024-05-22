@@ -1,9 +1,11 @@
 from datetime import datetime
-from django.db.models import Q, F
+from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from typing import Any
+from random import randint
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.request import Request
@@ -12,7 +14,7 @@ from articles.models import Article
 from authentication.models import Profile
 from api.serializers import ArticleSerializer
 from api.permissions import IsAuthorOrStaffOrReadOnly
-from api.utils import Pagination
+from api.utils import Pagination, plus_viewing
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
@@ -69,10 +71,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     @method_decorator(cache_page(300))
     def retrieve(self, request, *args, **kwargs) -> Response:
         instance = self.get_object()
-        instance.viewings = F("viewings") + 1
-        instance.save()
-        instance.refresh_from_db()
-
+        plus_viewing(instance)
         serializer = ArticleSerializer(instance)
         return Response(serializer.data)
 
@@ -98,4 +97,26 @@ class ArticleViewSet(viewsets.ModelViewSet):
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
 
+        return Response(serializer.data)
+
+    @action(
+        methods=["get"], detail=False, url_path="random",
+        url_name="random-article"
+    )
+    def random_article(self, request: Request) -> Response:
+        total = Article.objects.last().pk
+
+        article = None
+        while True:
+            pk = randint(0, total)
+
+            try:
+                article = Article.objects.get(pk=pk)
+                break
+            except Article.DoesNotExist:
+                continue
+
+        plus_viewing(article)
+
+        serializer = ArticleSerializer(article)
         return Response(serializer.data)
