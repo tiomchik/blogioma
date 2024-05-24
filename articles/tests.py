@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
 
-from authentication.models import Profile
 from feedback.models import Report
 from main.utils import GenericTestCase
 from .models import Article
@@ -218,16 +217,6 @@ class ArticleTests(GenericTestCase):
         r = self.client.get(url, follow=True)
 
         return r
-
-    def _auth_to_another_user(
-        self, username: str = "test_user123", password: str = "12341234"
-    ) -> None:
-        """Authenticates `self.client` using `self.client.login()`
-        and another user data."""
-        self.client.logout()
-        new_user_data = {"username": username, "password": password}
-        User.objects.create(**new_user_data)
-        self.client.login(**new_user_data)
 
     def _post_report(
         self, reason: str = "Scam", desc: str = "lorem ipsum dolor"

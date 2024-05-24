@@ -67,6 +67,16 @@ class GenericTestCase(APITestCase):
             "Authentication credentials were not provided."
         )
 
+    def _auth_to_another_user(
+        self, username: str = "test_user123", password: str = "12341234"
+    ) -> None:
+        """Authenticates `self.client` using `self.client.login()`
+        and another user data."""
+        self.client.logout()
+        new_user_data = {"username": username, "password": password}
+        User.objects.create(**new_user_data)
+        self.client.login(**new_user_data)
+
     def _create_article(
         self, headling: str = "test_article",
         full_text: str = "lorem ipsum dolor"
