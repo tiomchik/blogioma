@@ -34,6 +34,17 @@ class GenericTestCase(APITestCase):
             text="nice article", article=self.article, profile=self.profile
         )
 
+    def setUpSessionAuth(self) -> None:
+        """This is another version of the `setUp()` method, created
+        for session authentication. To use it, call this method in
+        the `setUp()`."""
+        user_data = {"username": "test_user", "password": "12341234"}
+        self.user = User.objects.create_user(**user_data)
+        self.profile = Profile.objects.create(user=self.user)
+        self.client.login(**user_data)
+
+        self.article = self._create_article()
+
     def _obtain_token(self, **user_data) -> str:
         """Obtains token according to passed `user_data`."""
         token_url = reverse("obtain-token")

@@ -11,12 +11,7 @@ from .models import Article
 
 class ArticleTests(GenericTestCase):
     def setUp(self) -> None:
-        user_data = {"username": "test_user", "password": "12341234"}
-        self.user = User.objects.create_user(**user_data)
-        self.profile = Profile.objects.create(user=self.user)
-        self.client.login(**user_data)
-
-        self.article = self._create_article()
+        self.setUpSessionAuth()
 
     # ====================
     # ====== Create ======
