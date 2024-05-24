@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from articles.models import Article
 from feedback.models import Report
-from .generics import GenericTestCase
+from main.utils import GenericTestCase
 
 
 class ArticleTests(GenericTestCase):

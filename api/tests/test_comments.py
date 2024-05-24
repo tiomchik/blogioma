@@ -1,9 +1,8 @@
-from django.contrib.auth.models import User
 from django.urls import reverse
 from django.http import HttpResponse
 from rest_framework import status
 
-from .generics import GenericTestCase
+from main.utils import GenericTestCase
 
 
 class CommentTests(GenericTestCase):
