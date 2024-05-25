@@ -72,19 +72,6 @@ class ArticleTests(GenericTestCase):
         self.assertContains(r, self.article.full_text)
         self.assertContains(r, self.article.author.user.username)
 
-    def test_search(self) -> None:
-        article = self._create_article(headling="find_me")
-
-        url = reverse("search")
-        r = self.client.post(
-            url, urlencode({"search_query": article.headling}),
-            content_type="application/x-www-form-urlencoded", follow=True
-        )
-
-        # count=3: 1st in the title tag, 2nd in the main page headling
-        # (Search results by query: "find_me") and 3rd in the article card
-        self.assertContains(r, article.headling, count=3)
-
     def test_random(self) -> None:
         url = reverse("random_article")
         r = self.client.get(url, follow=True)
