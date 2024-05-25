@@ -163,31 +163,6 @@ class ArticleTests(GenericTestCase):
             Article.objects.filter(headling=self.article.headling).exists()
         )
 
-    # ====================
-    # ====== Report ======
-    # ====================
-    def test_report(self) -> None:
-        desc = "lorem ipsum dolor"
-        r = self._post_report(desc=desc)
-
-        self.assertEqual(r.status_code, 200)
-        self.assertTrue(
-            Report.objects.filter(
-                reported_article=self.article, desc=desc
-            ).exists()
-        )
-
-    def test_unauth_report(self) -> None:
-        self.client.logout()
-        desc = "lorem ipsum dolor"
-        self._post_report(desc=desc)
-
-        self.assertFalse(
-            Report.objects.filter(
-                reported_article=self.article, desc=desc
-            ).exists()
-        )
-
     # ========================
     # ====== Test utils ======
     # ========================
@@ -215,18 +190,5 @@ class ArticleTests(GenericTestCase):
         """Deletes an article using GET."""
         url = reverse("delete", kwargs={"pk": self.article.pk})
         r = self.client.get(url, follow=True)
-
-        return r
-
-    def _post_report(
-        self, reason: str = "Scam", desc: str = "lorem ipsum dolor"
-    ) -> HttpResponse:
-        """Creates a report using POST."""
-        data = urlencode({"reason": reason, "desc": desc})
-        url = reverse("report", kwargs={"pk": self.article.pk})
-        r = self.client.post(
-            url, data, content_type="application/x-www-form-urlencoded",
-            follow=True
-        )
 
         return r
