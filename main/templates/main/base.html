@@ -1,121 +1,203 @@
-{% load static %}
-{% load main_tags %}
-{% load markup_tags %}
-{% load cache %}
+{% load static %} {% load main_tags %} {% load markup_tags %} {% load cache %}
 <!DOCTYPE html>
 <html lang="ru">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'main/css/styles.css' %}" />
     <title>{{ name }} || blogioma</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <!-- Header -->
-    <table>
-        <thead>
-            <!-- ik thats a mega bad practice to make a table 
-                header, but im so scared to change anything in this -->
-            <tr id="header">
-                <!-- Icon -->
-                <th>
-                    {% cache 20 icon %}
-                    <a href="{% url 'home' %}"><img src="{% static 'main/images/page_icon.png' %}" alt="blogioma_icon" height="37"></a>
-                    {% endcache %}
-                </th>
+    <header class="header">
+      <ul class="nav">
+        <!-- Icon -->
+        <li>
+          {% cache 20 icon %}
+          <a href="{% url 'home' %}">
+            <img
+              src="{% static 'main/images/page_icon.png' %}"
+              alt="Blogioma icon"
+            />
+          </a>
+          {% endcache %}
+        </li>
+        <!-- Add article -->
+        {% if request.user.is_authenticated %}
+        <!-- If user on add article page -->
+        {% if on_add_article_page %}
+        <li class="selected">
+          <a href="{% url 'add_article' %}">
+            <div class="wrapper">
+              <svg
+                fill="none"
+                stroke="#21c2f8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 12v4m-4-4h4-4Zm8 0h-4 4Zm-4 0V8v4Z"></path>
+                <path
+                  d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
+                ></path>
+              </svg>
+            </div>
+            Add article
+          </a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{% url 'add_article' %}">
+            <div class="wrapper">
+              <svg
+                fill="none"
+                stroke="#f3f7f8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 12v4m-4-4h4-4Zm8 0h-4 4Zm-4 0V8v4Z"></path>
+                <path
+                  d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
+                ></path>
+              </svg>
+            </div>
+            Add article
+          </a>
+        </li>
+        {% endif %} {% endif %}
+        <!-- Search -->
+        <!-- If on search page -->
+        {% if on_search_page %}
+        <li class="selected">
+          <a href="{% url 'search' %}">
+            <div class="wrapper">
+              <svg
+                fill="none"
+                stroke="#21c2f8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M15.5 15.5 19 19"></path>
+                <path d="M5 11a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"></path>
+              </svg>
+            </div>
+            Search
+          </a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{% url 'search' %}">
+            <div class="wrapper">
+              <svg
+                fill="none"
+                stroke="#f3f7f8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M15.5 15.5 19 19"></path>
+                <path d="M5 11a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"></path>
+              </svg>
+            </div>
+            Search
+          </a>
+        </li>
+        {% endif %}
+        <!-- Random article -->
+        <li>
+          <a href="{% url 'random_article' %}">
+            <div class="wrapper">
+              <svg
+                fill="none"
+                stroke="#f3f7f8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
+                ></path>
+                <path d="M9 9c0-3.5 5.5-3.5 5.5 0 0 2.5-2.5 2-2.5 5"></path>
+                <path d="m12 18.011.01-.011"></path>
+              </svg>
+            </div>
+            Random article
+          </a>
+        </li>
+        <!-- Log in and sign up, or pfp and username -->
+        <li>
+          {% if not request.user.is_authenticated %}
+          <p>
+            <a href="{% url 'sign_up' %}">Sign up</a> ||
+            <a href="{% url 'log_in' %}">Log in</a>
+          </p>
 
-                <!-- Add article -->
+          {% else %}
+          <p>
+            <a href="{% url 'logout_user' %}">Log out </a>||<a
+              href="{% url 'see_profile' request.user.username %}"
+            >
+              {{ request.user.username }} {% if user_profile.pfp %}
+              <img
+                src="{{ user_profile.pfp.url }}"
+                alt="profile picture"
+                width="32"
+                height="28"
+                class="pfp"
+              />
 
-                {% if request.user.is_authenticated %}
-                <!-- If user on add article page -->
-                {% if on_add_article_page %}
-                <th class="icon"  style="border-bottom: 2px solid #21c2f8;">
-                    <a href="{% url 'add_article' %}"><svg class="icon" width="37" height="37" fill="none" stroke="#21c2f8"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 12v4m-4-4h4-4Zm8 0h-4 4Zm-4 0V8v4Z"></path>
-                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
-                        </svg><span style="color: #21c2f8;">Add article</span></a>
-                </th>
-                
-                {% else %}
-                <th class="icon">
-                    <a href="{% url 'add_article' %}"><svg class="icon" width="37" height="37" fill="none" stroke="#f3f7f8"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 12v4m-4-4h4-4Zm8 0h-4 4Zm-4 0V8v4Z"></path>
-                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
-                        </svg><span>Add article</span></a>
-                </th>
-                {% endif %}
-                {% endif %}
-
-                <!-- Search -->
-
-                <!-- If on search page -->
-                {% if on_search_page %}
-                <th class="icon" style="border-bottom: 2px solid #21c2f8;">
-                    <a href="{% url 'search' %}"><svg class="icon" width="40" height="40" fill="none" stroke="#21c2f8"
-                        stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        style="padding-right: 90px;">
-                            <path d="M15.5 15.5 19 19"></path>
-                            <path d="M5 11a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"></path>
-                        </svg><span style="color: #21c2f8;">Search</span></a>
-                </th>
-
-                {% else %}
-                <th class="icon">
-                    <a href="{% url 'search' %}"><svg width="40" height="40" fill="none" stroke="#f3f7f8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="padding-right: 90px;">
-                        <path d="M15.5 15.5 19 19"></path>
-                        <path d="M5 11a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"></path>
-                    </svg><span style="margin-top: -33px;">Search</span></a>
-                </th>
-                {% endif %}
-
-                <!-- Random article -->
-                <th class="icon">
-                    <a href="{% url 'random_article' %}"><svg class="icon" width="37" height="37" fill="none" stroke="#f3f7f8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="padding-right: 166px;">
-                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"></path>
-                        <path d="M9 9c0-3.5 5.5-3.5 5.5 0 0 2.5-2.5 2-2.5 5"></path>
-                        <path d="m12 18.011.01-.011"></path>
-                    </svg><span>Random article</span></a>
-                </th>
-
-                <!-- Log in and sign up, or pfp and username -->
-                <th align="right" class="last">
-                    {% if not request.user.is_authenticated %}
-                    <p><a href="{% url 'sign_up' %}">Sign up</a> || <a href="{% url 'log_in' %}">Log in</a></p>
-
-                    {% else %}
-                    <p style="margin-top: 11px; margin-bottom: 11px;"><a href="{% url 'logout_user' %}">Log out </a>||<a href="{% url 'see_profile' request.user.username %}"> {{ request.user.username }}
-
-                    {% if user_profile.pfp %}
-                    <img src="{{ user_profile.pfp.url }}" alt="profile picture" width="32" height="28" class="pfp"></a></p>
-
-                    {% else %}
-                    <svg width="32" height="28" fill="none" stroke="#f3f7f8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"></path>
-                        <path d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"></path>
-                        <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
-                    </svg></p>
-                    {% endif %}
-                    {% endif %}
-                </th>
-            </tr>
-        </thead>
-    </table>
+              {% else %}
+              <svg
+                width="32"
+                height="28"
+                fill="none"
+                stroke="#f3f7f8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"
+                ></path>
+                <path
+                  d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"
+                ></path>
+                <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
+              </svg>
+              {% endif %}
+            </a>
+          </p>
+          {% endif %}
+        </li>
+      </ul>
+    </header>
     <main>
-        <h1 class="headling_page">{{ name }}</h1>
+      <h1 class="headling_page">{{ name }}</h1>
 
-        {% block content %}
-        {% endblock %}
+      {% block content %} {% endblock %}
     </main>
     <footer>
-        <h3>© blogioma 2023 -- All rights reserved · <a href="{% url 'about' %}">About</a> · <a href="{% url 'feedback' %}">Feedback</a> · Email for contact: <span class="spoiler">blogioma@mail.ru</span></h3>
+      <h3>
+        © blogioma 2023 -- All rights reserved ·
+        <a href="{% url 'about' %}">About</a> ·
+        <a href="{% url 'feedback' %}">Feedback</a> · Email for contact:
+        <span class="spoiler">blogioma@mail.ru</span>
+      </h3>
     </footer>
-</body>
-
+  </body>
 </html>
