@@ -11,193 +11,199 @@
   <body>
     <!-- Header -->
     <header class="header">
-      <ul class="nav">
-        <!-- Icon -->
-        <li>
-          {% cache 20 icon %}
-          <a href="{% url 'home' %}">
-            <img
-              src="{% static 'main/images/page_icon.png' %}"
-              alt="Blogioma icon"
-            />
-          </a>
-          {% endcache %}
-        </li>
-        <!-- Add article -->
-        {% if request.user.is_authenticated %}
-        <!-- If user on add article page -->
-        {% if on_add_article_page %}
-        <li class="selected">
-          <a href="{% url 'add_article' %}">
-            <div class="wrapper">
-              <svg
-                fill="none"
-                stroke="#21c2f8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M12 12v4m-4-4h4-4Zm8 0h-4 4Zm-4 0V8v4Z"></path>
-                <path
-                  d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
-                ></path>
-              </svg>
-            </div>
-            Add article
-          </a>
-        </li>
-        {% else %}
-        <li>
-          <a href="{% url 'add_article' %}">
-            <div class="wrapper">
-              <svg
-                fill="none"
-                stroke="#f3f7f8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M12 12v4m-4-4h4-4Zm8 0h-4 4Zm-4 0V8v4Z"></path>
-                <path
-                  d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
-                ></path>
-              </svg>
-            </div>
-            Add article
-          </a>
-        </li>
-        {% endif %} {% endif %}
-        <!-- Search -->
-        <!-- If on search page -->
-        {% if on_search_page %}
-        <li class="selected">
-          <a href="{% url 'search' %}">
-            <div class="wrapper">
-              <svg
-                fill="none"
-                stroke="#21c2f8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M15.5 15.5 19 19"></path>
-                <path d="M5 11a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"></path>
-              </svg>
-            </div>
-            Search
-          </a>
-        </li>
-        {% else %}
-        <li>
-          <a href="{% url 'search' %}">
-            <div class="wrapper">
-              <svg
-                fill="none"
-                stroke="#f3f7f8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M15.5 15.5 19 19"></path>
-                <path d="M5 11a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"></path>
-              </svg>
-            </div>
-            Search
-          </a>
-        </li>
-        {% endif %}
-        <!-- Random article -->
-        <li>
-          <a href="{% url 'random_article' %}">
-            <div class="wrapper">
-              <svg
-                fill="none"
-                stroke="#f3f7f8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
-                ></path>
-                <path d="M9 9c0-3.5 5.5-3.5 5.5 0 0 2.5-2.5 2-2.5 5"></path>
-                <path d="m12 18.011.01-.011"></path>
-              </svg>
-            </div>
-            Random article
-          </a>
-        </li>
-        <!-- Log in and sign up, or pfp and username -->
-        <li>
-          {% if not request.user.is_authenticated %}
-          <p>
-            <a href="{% url 'sign_up' %}">Sign up</a> ||
-            <a href="{% url 'log_in' %}">Log in</a>
-          </p>
-
-          {% else %}
-          <p>
-            <a href="{% url 'logout_user' %}">Log out </a>||<a
-              href="{% url 'see_profile' request.user.username %}"
-            >
-              {{ request.user.username }} {% if user_profile.pfp %}
+      <div class="container">
+        <ul class="nav">
+          <!-- Icon -->
+          <li>
+            {% cache 20 icon %}
+            <a href="{% url 'home' %}">
               <img
-                src="{{ user_profile.pfp.url }}"
-                alt="profile picture"
-                width="32"
-                height="28"
-                class="pfp"
+                src="{% static 'main/images/page_icon.png' %}"
+                alt="Blogioma icon"
               />
-
-              {% else %}
-              <svg
-                width="32"
-                height="28"
-                fill="none"
-                stroke="#f3f7f8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"
-                ></path>
-                <path
-                  d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"
-                ></path>
-                <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
-              </svg>
-              {% endif %}
             </a>
-          </p>
+            {% endcache %}
+          </li>
+          <!-- Add article -->
+          {% if request.user.is_authenticated %}
+          <!-- If user on add article page -->
+          {% if on_add_article_page %}
+          <li class="selected">
+            <a href="{% url 'add_article' %}">
+              <div class="wrapper">
+                <svg
+                  fill="none"
+                  stroke="#21c2f8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12 12v4m-4-4h4-4Zm8 0h-4 4Zm-4 0V8v4Z"></path>
+                  <path
+                    d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
+                  ></path>
+                </svg>
+              </div>
+              Add article
+            </a>
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url 'add_article' %}">
+              <div class="wrapper">
+                <svg
+                  fill="none"
+                  stroke="#f3f7f8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12 12v4m-4-4h4-4Zm8 0h-4 4Zm-4 0V8v4Z"></path>
+                  <path
+                    d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
+                  ></path>
+                </svg>
+              </div>
+              Add article
+            </a>
+          </li>
+          {% endif %} {% endif %}
+          <!-- Search -->
+          <!-- If on search page -->
+          {% if on_search_page %}
+          <li class="selected">
+            <a href="{% url 'search' %}">
+              <div class="wrapper">
+                <svg
+                  fill="none"
+                  stroke="#21c2f8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M15.5 15.5 19 19"></path>
+                  <path d="M5 11a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"></path>
+                </svg>
+              </div>
+              Search
+            </a>
+          </li>
+          {% else %}
+          <li>
+            <a href="{% url 'search' %}">
+              <div class="wrapper">
+                <svg
+                  fill="none"
+                  stroke="#f3f7f8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M15.5 15.5 19 19"></path>
+                  <path d="M5 11a6 6 0 1 0 12 0 6 6 0 0 0-12 0Z"></path>
+                </svg>
+              </div>
+              Search
+            </a>
+          </li>
           {% endif %}
-        </li>
-      </ul>
+          <!-- Random article -->
+          <li>
+            <a href="{% url 'random_article' %}">
+              <div class="wrapper">
+                <svg
+                  fill="none"
+                  stroke="#f3f7f8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"
+                  ></path>
+                  <path d="M9 9c0-3.5 5.5-3.5 5.5 0 0 2.5-2.5 2-2.5 5"></path>
+                  <path d="m12 18.011.01-.011"></path>
+                </svg>
+              </div>
+              Random article
+            </a>
+          </li>
+          <!-- Log in and sign up, or pfp and username -->
+          <li>
+            {% if not request.user.is_authenticated %}
+            <p>
+              <a href="{% url 'sign_up' %}">Sign up</a> ||
+              <a href="{% url 'log_in' %}">Log in</a>
+            </p>
+
+            {% else %}
+            <p>
+              <a href="{% url 'logout_user' %}">Log out </a>||<a
+                href="{% url 'see_profile' request.user.username %}"
+              >
+                {{ request.user.username }} {% if user_profile.pfp %}
+                <img
+                  src="{{ user_profile.pfp.url }}"
+                  alt="profile picture"
+                  width="32"
+                  height="28"
+                  class="pfp"
+                />
+
+                {% else %}
+                <svg
+                  width="32"
+                  height="28"
+                  fill="none"
+                  stroke="#f3f7f8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"
+                  ></path>
+                  <path
+                    d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"
+                  ></path>
+                  <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
+                </svg>
+                {% endif %}
+              </a>
+            </p>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
     </header>
     <main>
-      <h1 class="headling_page">{{ name }}</h1>
-
-      {% block content %} {% endblock %}
+      <div class="container">
+        <h1 class="headling_page">{{ name }}</h1>
+        
+        {% block content %} {% endblock %}
+      </div>
     </main>
     <footer>
-      <h3>
-        © blogioma 2023 -- All rights reserved ·
-        <a href="{% url 'about' %}">About</a> ·
-        <a href="{% url 'feedback' %}">Feedback</a> · Email for contact:
-        <span class="spoiler">blogioma@mail.ru</span>
-      </h3>
+      <div class="container">
+        <h3>
+          © blogioma 2023 -- All rights reserved ·
+          <a href="{% url 'about' %}">About</a> ·
+          <a href="{% url 'feedback' %}">Feedback</a> · Email for contact:
+          <span class="spoiler">blogioma@mail.ru</span>
+        </h3>
+      </div>
     </footer>
   </body>
 </html>

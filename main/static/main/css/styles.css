@@ -25,34 +25,17 @@ html {
 body {
   background-color: #202020;
   font-family: "Inter", serif;
+  color: #f3f7f8;
 }
 
-p,
-span,
-h3,
 a {
-  font-size: 18px;
+  color: #f3f7f8;
   text-decoration: none;
 }
 
-p,
-span,
-a,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-li,
-i,
-b,
-strong,
-sup,
-sub,
-legend {
-  color: #f3f7f8;
-  font-weight: 500;
+.container {
+  max-width: 1310px;
+  margin: 0 auto;
 }
 
 /* Header and nav */
@@ -111,6 +94,10 @@ footer {
   border-top: 7px solid #141c24;
   background-color: #2c3e50;
   padding: 15px 0;
+}
+
+footer a {
+  text-decoration: underline;
 }
 
 footer h3 {
@@ -283,7 +270,11 @@ button:hover span {
   justify-content: center;
 }
 
-/* form */
+.article-content a {
+  text-decoration: underline;
+}
+
+/* Form */
 form {
   margin-left: 50px;
 }
@@ -328,7 +319,7 @@ a.warn {
   text-decoration: underline;
 }
 
-/* опасная зона */
+/* Danger zone */
 fieldset {
   border-color: red;
   width: max-content;
@@ -341,7 +332,7 @@ legend {
   text-transform: uppercase;
 }
 
-/* комментарии */
+/* Comments */
 section {
   position: relative;
   color: #f3f7f8;
@@ -358,7 +349,7 @@ span.pub_date b {
   color: #7e8285;
 }
 
-/* пагинация */
+/* Pagination */
 .paginator {
   display: flex;
   justify-content: center;
