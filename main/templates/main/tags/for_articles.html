@@ -1,32 +1,51 @@
-{% for article in articles_for %}
-<article>
+<div class="articles">
+  {% for article in articles_for %}
+  <article>
     <h1>{{ article.headling|truncatechars:60 }}</h1>
     <p>{{ article.full_text|truncatechars:110 }}</p>
     <div class="author">
-        <a href="{% url 'see_profile' article.author__user__username %}">
-            {% if not article.author__pfp %}
-                <svg width="32" height="28" fill="none" stroke="#f3f7f8" stroke-linecap="round" stroke-linejoin="round"
-                stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="margin-top: 6px;">
-                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"></path>
-                <path d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"></path>
-                <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
-            </svg><span>{{ article.author__user__username }}</span>
-            {% else %}
-                <img
-                    src="/media/{{ article.author__pfp }}"
-                    alt="profile_picture" width="32" height="28" class="author_pfp">
-                <span>{{ article.author__user__username }}</span>
-            {% endif %}
-        </a>
+      <a
+        href="{% url 'see_profile' article.author__user__username %}"
+        class="user"
+      >
+        {% if not article.author__pfp %}
+        <div class="wrapper">
+          <svg
+            fill="none"
+            stroke="#f3f7f8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"
+            ></path>
+            <path
+              d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"
+            ></path>
+            <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
+          </svg>
+        </div>
+        {{ article.author__user__username }}
+        {% else %}
+        <div class="wrapper">
+          <img src="/media/{{ article.author__pfp }}" alt="Profile picture" />
+        </div>
+        {{ article.author__user__username }}
+        {% endif %}
+      </a>
 
-        <a href="{% url 'read' article.pk %}" class="button">
-            <button type="button"><span>Read</span></button>
-        </a>
+      <a href="{% url 'read' article.pk %}" class="button">
+        <button type="button"><span>Read</span></button>
+      </a>
     </div>
     {% if article.update %}
-        <p class="date">Updated: {{ article.update }}</p>
+    <p class="date">Updated: {{ article.update }}</p>
     {% else %}
-        <p class="date">Published: {{ article.pub_date }}</p>
+    <p class="date">Published: {{ article.pub_date }}</p>
     {% endif %}
-</article>
-{% endfor %}
+  </article>
+  {% endfor %}
+</div>

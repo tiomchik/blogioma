@@ -1,26 +1,45 @@
-{% extends 'main/base.html' %}
-{% load main_tags %}
-
-{% block content %}
+{% extends 'main/base.html' %} {% load main_tags %} {% block content %}
 
 <div class="h_of_articles">
-    <h1>Popular articles 🔥</h1><a href="{% url 'see_all' 'popular' %}"><span>see all</span><svg width="38" height="38" fill="none"
-            stroke="#f3f7f8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="m18.5 12-6 6M6 12h12.5H6Zm12.5 0-6-6 6 6Z"></path>
-        </svg></a>
+  <h1>Popular articles 🔥</h1>
+  <a href="{% url 'see_all' 'popular' %}">
+    see all
+    <div class="wrapper">
+      <svg
+        fill="none"
+        stroke="#f3f7f8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="m18.5 12-6 6M6 12h12.5H6Zm12.5 0-6-6 6 6Z"></path>
+      </svg>
+    </div>
+  </a>
 </div>
 
 {% show_articles order_by="-viewings" only_6=1 %}
 
 <div class="h_of_articles">
-    <h1>Latest articles</h1><a href="{% url 'see_all' 'latest' %}"><span>see all</span><svg width="38" height="38" fill="none"
-        stroke="#f3f7f8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg">
+  <h1>Latest articles</h1>
+  <a href="{% url 'see_all' 'latest' %}">
+    see all
+    <div class="wrapper">
+      <svg
+        fill="none"
+        stroke="#f3f7f8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path d="m18.5 12-6 6M6 12h12.5H6Zm12.5 0-6-6 6 6Z"></path>
-    </svg></a>
+      </svg>
+    </div>
+  </a>
 </div>
 
-{% show_articles order_by="-pub_date" only_6=1 %}
-
-{% endblock %}
+{% show_articles order_by="-pub_date" only_6=1 %} {% endblock %}
