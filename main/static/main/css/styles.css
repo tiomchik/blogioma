@@ -249,8 +249,52 @@ button:hover {
   justify-content: center;
 }
 
+/* Article page */
+.article-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.article-info .article-author {
+  display: flex;
+  align-items: end;
+  gap: 15px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.article-info .article-author .wrapper {
+  width: 52px;
+  height: 46px;
+}
+
+.article-info .article-author .wrapper img {
+  width: 100%;
+  height: 100%;
+}
+
+.article-content {
+  word-wrap: break-word;
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
 .article-content a {
   text-decoration: underline;
+}
+
+/* Danger zone */
+.danger-zone {
+  border-color: red;
+  width: max-content;
+  padding: 10px 15px;
+  margin-top: 15px;
+}
+
+.danger-zone legend {
+  color: red;
+  text-transform: uppercase;
+  font-weight: 900;
 }
 
 /* Form */
@@ -298,33 +342,8 @@ a.warn {
   text-decoration: underline;
 }
 
-/* Danger zone */
-fieldset {
-  border-color: red;
-  width: max-content;
-  height: 59px;
-}
-
-legend {
-  color: red;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-}
-
 /* Comments */
-section {
-  position: relative;
-  color: #f3f7f8;
-}
-
 section span.pub_date {
-  position: absolute;
-  top: 5px;
-  right: 4px;
-}
-
-section span.pub_date,
-span.pub_date b {
   color: #7e8285;
 }
 

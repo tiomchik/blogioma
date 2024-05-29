@@ -1,49 +1,51 @@
-{% extends 'main/base.html' %} {% load markup_tags %} {% block content %}
+{% extends 'main/base.html' %} {% load markup_tags %}
+{% block content %}
 
-<section style="width: 98%; word-wrap: break-word">
+<section>
   <!-- Author -->
-  <a href="{% url 'see_profile' article.author %}">
-    {% if article.author.pfp %}
-    <img
-      src="{{ article.author.pfp.url }}"
-      width="52"
-      height="46"
-      alt="{{ article.author }} profile picture"
-      class="pfp"
-    />
-    {% else %}
-    <svg
-      width="52"
-      height="46"
-      fill="none"
-      stroke="#f3f7f8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="1.5"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"
-      ></path>
-      <path
-        d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"
-      ></path>
-      <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
-    </svg>
-    {% endif %}
-    <span>{{ article.author }}</span>
-  </a>
+  <div class="article-info">
+    <a href="{% url 'see_profile' article.author %}" class="article-author">
+      {% if article.author.pfp %}
+      <div class="wrapper">
+        <img
+          src="{{ article.author.pfp.url }}"
+          alt="{{ article.author }} profile picture"
+          class="pfp"
+        />
+      </div>
+      {% else %}
+      <div class="wrapper">
+        <svg
+          fill="none"
+          stroke="#f3f7f8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"
+          ></path>
+          <path
+            d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"
+          ></path>
+          <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
+        </svg>
+      </div>
+      {% endif %}
+      {{ article.author }}
+    </a>
 
-  <!-- Publication date or update -->
-  <span class="pub_date">
-    {% if article.update %}
-    Updated: {{ article.update }}
-    {% else %}
-    Publication date: {{ article.pub_date }}
-    {% endif %}
-  </span>
-
+    <!-- Publication date or update -->
+    <span class="pub_date">
+      {% if article.update %}
+      Updated: {{ article.update }}
+      {% else %}
+      Publication date: {{ article.pub_date }}
+      {% endif %}
+    </span>
+  </div>
   <div class="article-content">
     {{ article.full_text|apply_markup:"markdown" }}
   </div>
@@ -120,7 +122,7 @@
 <!-- If user is author of article -->
 {% if article.author == user_profile or request.user.is_staff %}
 <!-- Danger zone -->
-<fieldset>
+<fieldset class="danger-zone">
   <legend>Danger zone</legend>
 
   <!-- Delete article button -->

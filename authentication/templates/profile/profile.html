@@ -1,5 +1,5 @@
-{% extends 'profile/profile_base.html' %} {% load main_tags %} {% block
-profile_content %}
+{% extends 'profile/profile_base.html' %} {% load main_tags %}
+{% block profile_content %}
 
 <!-- Pfp and username of user -->
 <h1>
@@ -32,7 +32,8 @@ profile_content %}
     ></path>
     <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
   </svg>
-  {% endif %} {{ profile.user.username }}
+  {% endif %}
+  {{ profile.user.username }}
 </h1>
 
 <h1>User's articles:</h1>
