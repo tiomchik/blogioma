@@ -44,12 +44,10 @@
     {% endif %}
   </span>
 
-  <br /><br />
   <div class="article-content">
     {{ article.full_text|apply_markup:"markdown" }}
   </div>
 </section>
-<br /><br />
 
 <!-- Home -->
 <a href="{% url 'home' %}">
@@ -121,8 +119,6 @@
 
 <!-- If user is author of article -->
 {% if article.author == user_profile or request.user.is_staff %}
-<br />
-<br />
 <!-- Danger zone -->
 <fieldset>
   <legend>Danger zone</legend>
@@ -176,5 +172,4 @@
 </fieldset>
 {% endif %}
 
-<br />
 {% endblock %}

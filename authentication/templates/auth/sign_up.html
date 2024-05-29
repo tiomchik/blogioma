@@ -4,15 +4,14 @@
 {% block content %} 
 
 {% if request.user.is_authenticated %}
-    <h1 class="warn">You are already logged in!</h1>
-    <a href="{% url 'home' %}" class="warn">Return to the home page.</a>
+<h1 class="warn">You are already logged in!</h1>
+<a href="{% url 'home' %}" class="warn">Return to the home page.</a>
 {% else %}
 <form method="post" enctype="multipart/form-data">
-    {% show_form form %}
-    <br>
-    <button type="submit"><span>Sign up</span></button>
+  {% show_form form %}
 
-    <h3>All fields can be changed in the settings.</h3>
+  <button type="submit">Sign up</button>
+  <h3>All fields can be changed in the settings.</h3>
 </form>
 {% endif %}
 

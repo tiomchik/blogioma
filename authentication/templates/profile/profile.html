@@ -1,34 +1,46 @@
-{% extends 'profile/profile_base.html' %}
-{% load main_tags %}
-
-{% block profile_content %}
-
-<!-- TODO: test manually another features after this refactor -->
+{% extends 'profile/profile_base.html' %} {% load main_tags %} {% block
+profile_content %}
 
 <!-- Pfp and username of user -->
 <h1>
-    {% if profile.pfp %}
-        <img class="pfp" src="{{ profile.pfp.url }}" alt="Profile picture" width="133" height="115">
-    {% else %}
-        <svg class="pfp" width="133" height="115" fill="none" stroke="#f3f7f8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"></path>
-            <path d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"></path>
-            <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
-        </svg>
-    {% endif %}
-    {{ profile.user.username }}</h1>
-<br>    
+  {% if profile.pfp %}
+  <img
+    class="pfp"
+    src="{{ profile.pfp.url }}"
+    alt="Profile picture"
+    width="133"
+    height="115"
+  />
+  {% else %}
+  <svg
+    class="pfp"
+    width="133"
+    height="115"
+    fill="none"
+    stroke="#f3f7f8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.5"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"
+    ></path>
+    <path
+      d="M4.271 18.346s2.23-2.846 7.73-2.846 7.729 2.846 7.729 2.846"
+    ></path>
+    <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
+  </svg>
+  {% endif %} {{ profile.user.username }}
+</h1>
 
-<h1>User's articles: </h1>
+<h1>User's articles:</h1>
 {% if page_obj %}
-    <div class="profile_articles">
-        {% show_articles page_obj=page_obj %}
-    </div>
+<div class="profile_articles">{% show_articles page_obj=page_obj %}</div>
 {% else %}
-    <br><br>
-    <h2>This user doesn't have any published articles yet</h2>
+<h2>This user doesn't have any published articles yet</h2>
 {% endif %}
 
 {% paginator page_obj %}
-
 {% endblock %}

@@ -1,14 +1,15 @@
-{% extends 'main/base.html' %}
-{% load main_tags %}
-
+{% extends 'main/base.html' %} {% load main_tags %}
 {% block content %}
 
 <form method="post">
-    {% show_form form %}
+  {% show_form form %}
 
-    <br>
-    <button type="submit"><span>Send</span></button>
-    <h3>The form will be mailed to <a href="mailto:{{ email }}" class="warn">{{ email }}.</a> Answer will come to your email.</h3>
+  <button type="submit">Send</button>
+  <h3>
+    The form will be mailed to
+    <a href="mailto:{{ email }}" class="warn">{{ email }}.</a> Answer will come
+    to your email.
+  </h3>
 </form>
 
 {% endblock %}
