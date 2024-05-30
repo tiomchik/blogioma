@@ -142,7 +142,7 @@
 {% paginator page_obj %}
 {% else %}
 <h1 style="color: #f3f7f8">There are no comments for this article yet.</h1>
-<a href="{% url 'add_comment' article.pk %}" class="warn">Be the first!</a>
+<a href="{% url 'add_comment' article.pk %}" class="underline">Be the first!</a>
 {% endif %}
 
 {% endblock %}

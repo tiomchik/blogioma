@@ -3,8 +3,8 @@
 
 {% block content %}
 {% if request.user.is_authenticated %}
-<h1 class="warn">You are already logged in!</h1>
-<a href="{% url 'home' %}" class="warn">Return to the home page.</a>
+<h1>You are already logged in!</h1>
+<a href="{% url 'home' %}" class="underline">Return to the home page.</a>
 {% else %}
 <form method="post">
   {% show_form form %}
