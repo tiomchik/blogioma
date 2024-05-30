@@ -1,0 +1,50 @@
+.profile-area {
+  display: grid;
+  grid-template-areas: "aside main main main main main main main main main main main main";
+}
+
+.profile-area > h1 {
+  margin: 0;
+}
+
+aside {
+  display: grid;
+  grid-area: aside;
+
+  border-right: 2px solid #f3f7f8;
+  width: 20vw;
+  min-height: 100vh;
+}
+
+aside::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+aside ul {
+  min-height: 100vh;
+}
+
+aside li {
+  padding: 10px 0;
+  list-style-type: none;
+}
+
+.profile_content {
+  display: grid;
+  grid-area: main;
+  width: auto;
+}
+
+.profile_articles {
+  display: grid;
+  width: 400px;
+  height: max-content;
+  grid-template-columns: repeat(2, 100%);
+  gap: 10px 70px;
+}
+
+.profile_articles article {
+  width: 100%;
+}

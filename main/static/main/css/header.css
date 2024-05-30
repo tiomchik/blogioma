@@ -1,0 +1,44 @@
+.header {
+  border-bottom: 2px solid #bdc3c7;
+  margin-bottom: 45px;
+  background: #202020;
+  padding: 10px 0;
+}
+
+.nav {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav li {
+  width: 250px;
+  flex-shrink: 1;
+}
+
+.nav li > a {
+  align-items: center;
+  display: flex;
+}
+
+.nav li a .wrapper {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+}
+
+.nav li:last-child {
+  margin-left: auto;
+  text-align: right;
+}
+
+.nav .selected {
+  border-bottom: 2px solid #21c2f8;
+}
+
+.nav .selected a {
+  color: #21c2f8;
+}

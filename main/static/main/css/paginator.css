@@ -1,0 +1,22 @@
+.paginator {
+  display: flex;
+  justify-content: center;
+}
+
+.page_num {
+  list-style: none;
+  display: inline-block;
+  color: #f3f7f8;
+  font-weight: bolder;
+  padding: 0 20px;
+  font-size: 25px;
+}
+
+.page_num a {
+  text-decoration: none;
+  padding: 0;
+}
+
+.page_num_selected {
+  color: #21c2f8;
+}

@@ -1,0 +1,21 @@
+button {
+  background-color: #141c24;
+  color: #f3f7f8;
+  border: 1px solid black;
+  height: 30px;
+  padding: 0px 40px;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 17px;
+  transition: all 0.1s ease;
+}
+
+button:active {
+  background-color: #f3f7f8;
+  color: #141c24;
+}
+
+button:focus,
+button:hover {
+  text-shadow: 1px 1px 3px white;
+}

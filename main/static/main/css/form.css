@@ -1,0 +1,37 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+input,
+textarea {
+  transition: all 0.1s linear;
+}
+
+.form_label {
+  width: 100px;
+  display: inline-block;
+}
+
+.form_input {
+  width: 225px;
+  height: 20px;
+}
+
+.form_textarea {
+  width: 500px;
+  height: 150px;
+}
+
+input:focus,
+textarea:focus {
+  outline: #21c2f8 solid 1px;
+  box-shadow: 1px 1px 5px #21c2f8;
+}
+
+.form_err ul li {
+  list-style: none;
+  color: red;
+}

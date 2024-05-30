@@ -1,0 +1,71 @@
+/* Site with icons used here: https://iconer.app/iconoir/ */
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #202020;
+  font-family: "Inter", serif;
+  color: #f3f7f8;
+}
+
+.container {
+  max-width: 1310px;
+  margin: 0 auto;
+}
+
+.wrapper img,
+.wrapper svg {
+  height: 100%;
+  width: 100%;
+}
+
+.pfp {
+  border-radius: 100%;
+}
+
+/* Main tag */
+main {
+  box-sizing: border-box;
+  min-height: 74%;
+  padding-bottom: 75px;
+}
+
+.headling_page {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 25px;
+}
+
+.h_of_articles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 25px;
+  margin-bottom: 22px;
+}
+
+.h_of_articles h1 {
+  color: #f3f7f8;
+}
+
+.h_of_articles a {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+}
+
+.h_of_articles a .wrapper {
+  height: 38px;
+  width: 38px;
+}
