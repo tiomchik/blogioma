@@ -26,8 +26,12 @@
   height: 28px;
 }
 
-.profile_content {
+.profile-content {
   width: 100%;
+}
+
+.profile-content .articles {
+  margin-top: 25px;
 }
 
 .profile-info {
@@ -40,10 +44,6 @@
 .profile-info .wrapper {
   width: 133px;
   height: 115px;
-}
-
-.profile_content .articles {
-  margin-top: 25px;
 }
 
 /* Settings */

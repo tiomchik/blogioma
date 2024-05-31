@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %} {% load main_tags %} {% block content %}
 
-<div class="h_of_articles">
+<div class="h-of-articles">
   <h1>Popular articles 🔥</h1>
   <a href="{% url 'see_all' 'popular' %}">
     see all
@@ -22,7 +22,7 @@
 
 {% show_articles order_by="-viewings" only_6=1 %}
 
-<div class="h_of_articles">
+<div class="h-of-articles">
   <h1>Latest articles</h1>
   <a href="{% url 'see_all' 'latest' %}">
     see all

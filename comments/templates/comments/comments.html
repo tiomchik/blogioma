@@ -86,9 +86,9 @@
         {% endif %}
       </a>
       {% if comment.update %}
-      <span class="pub_date"><b>Updated:</b> {{ comment.update }}</span>
+      <span class="pub-date"><b>Updated:</b> {{ comment.update }}</span>
       {% else %}
-      <span class="pub_date">{{ comment.pub_date }}</span>
+      <span class="pub-date">{{ comment.pub_date }}</span>
       {% endif %}
     </div>
     <p>{{ comment.text|linebreaksbr|escape }}</p>

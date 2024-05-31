@@ -10,17 +10,17 @@ textarea {
   transition: all 0.1s linear;
 }
 
-.form_label {
+.form-label {
   width: 100px;
   display: inline-block;
 }
 
-.form_input {
+.form-input {
   width: 225px;
   height: 20px;
 }
 
-.form_textarea {
+.form-textarea {
   width: 500px;
   height: 150px;
 }
@@ -31,7 +31,7 @@ textarea:focus {
   box-shadow: 1px 1px 5px #21c2f8;
 }
 
-.form_err ul li {
+.form-err ul li {
   list-style: none;
   color: red;
 }
