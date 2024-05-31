@@ -1,28 +1,26 @@
-<nav class="paginator">
-    <ul>
-        <li class="page_num">
-            <!-- If has previous pages -->
-            {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
-            {% endif %}
-        </li>
+<ul class="paginator">
+  <li>
+    <!-- If has previous pages -->
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+    {% endif %}
+  </li>
 
-        <!-- Page numbers around 2 -->
-        {% for p in page_obj.paginator.page_range %}
-            {% if page_obj.number == p %}
-                <li class="page_num page_num_selected">{{ p }}</li>
-            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
-                <li class="page_num">
-                    <a href="?page={{ p }}">{{ p }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
+  <!-- Page numbers around 2 -->
+  {% for p in page_obj.paginator.page_range %}
+    {% if page_obj.number == p %}
+    <li class="selected">{{ p }}</li>
+    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+    <li>
+      <a href="?page={{ p }}">{{ p }}</a>
+    </li>
+    {% endif %}
+  {% endfor %}
 
-        <li class="page_num">
-            <!-- If has next pages -->
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
-            {% endif %}
-        </li>
-    </ul>
-</nav>
+  <li>
+    <!-- If has next pages -->
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+    {% endif %}
+  </li>
+</ul>

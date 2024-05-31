@@ -1,22 +1,16 @@
 .paginator {
   display: flex;
   justify-content: center;
+  margin-top: 25px;
+  gap: 40px;
+  list-style: none;
 }
 
-.page_num {
-  list-style: none;
-  display: inline-block;
-  color: #f3f7f8;
+.paginator li {
   font-weight: bolder;
-  padding: 0 20px;
   font-size: 25px;
 }
 
-.page_num a {
-  text-decoration: none;
-  padding: 0;
-}
-
-.page_num_selected {
+.paginator li.selected {
   color: #21c2f8;
 }
