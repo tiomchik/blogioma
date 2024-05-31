@@ -1,50 +1,59 @@
 .profile-area {
-  display: grid;
-  grid-template-areas: "aside main main main main main main main main main main main main";
+  display: flex;
+  gap: 30px;
 }
 
-.profile-area > h1 {
-  margin: 0;
-}
-
-aside {
-  display: grid;
-  grid-area: aside;
-
+.profile-nav {
   border-right: 2px solid #f3f7f8;
-  width: 20vw;
-  min-height: 100vh;
+  width: 275px;
 }
 
-aside::after {
-  content: "";
-  display: block;
-  clear: both;
-}
-
-aside ul {
-  min-height: 100vh;
-}
-
-aside li {
-  padding: 10px 0;
+.profile-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   list-style-type: none;
 }
 
+.profile-nav ul li a {
+  display: flex;
+  align-items: end;
+  gap: 5px;
+}
+
+.profile-nav ul li a .wrapper {
+  width: 32px;
+  height: 28px;
+}
+
 .profile_content {
-  display: grid;
-  grid-area: main;
-  width: auto;
-}
-
-.profile_articles {
-  display: grid;
-  width: 400px;
-  height: max-content;
-  grid-template-columns: repeat(2, 100%);
-  gap: 10px 70px;
-}
-
-.profile_articles article {
   width: 100%;
+}
+
+.profile-info {
+  display: flex;
+  align-items: end;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.profile-info .wrapper {
+  width: 133px;
+  height: 115px;
+}
+
+.profile_content .articles {
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+/* Settings */
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.change h1 {
+  margin-bottom: 10px;
 }
