@@ -59,6 +59,7 @@ article .author .user .wrapper img {
   flex-wrap: wrap;
   gap: 25px;
   justify-content: center;
+  margin-top: 22px;
 }
 
 /* Article page */
