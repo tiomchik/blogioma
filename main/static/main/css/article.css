@@ -85,6 +85,12 @@ article .author .user .wrapper img {
   height: 100%;
 }
 
+@media screen and (width <= 470px) {
+  .article-info .pub-date {
+    font-size: 11px;
+  }
+}
+
 .article-content {
   word-wrap: break-word;
   margin-top: 30px;
@@ -95,6 +101,18 @@ article .author .user .wrapper img {
   text-decoration: underline;
 }
 
+.article-actions {
+  display: flex;
+  gap: 10px;
+}
+
+@media screen and (width <= 540px) {
+  .article-actions {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
 /* Danger zone */
 .danger-zone {
   border-color: red;
@@ -103,8 +121,21 @@ article .author .user .wrapper img {
   margin-top: 15px;
 }
 
+@media screen and (width <= 500px) {
+  .danger-zone {
+    width: unset;
+  }
+}
+
 .danger-zone legend {
   color: red;
   text-transform: uppercase;
   font-weight: 900;
+}
+
+.danger-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
