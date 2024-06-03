@@ -108,18 +108,6 @@ article .author .user .wrapper img {
   margin: 8px auto;
 }
 
-.article-actions {
-  display: flex;
-  gap: 10px;
-}
-
-@media screen and (width <= 540px) {
-  .article-actions {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
 /* Danger zone */
 .danger-zone {
   border-color: red;
@@ -128,7 +116,7 @@ article .author .user .wrapper img {
   margin-top: 15px;
 }
 
-@media screen and (width <= 500px) {
+@media screen and (width <= 540px) {
   .danger-zone {
     width: unset;
   }
@@ -140,9 +128,6 @@ article .author .user .wrapper img {
   font-weight: 900;
 }
 
-.danger-actions {
-  display: flex;
+.danger-zone .buttons {
   gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
 }

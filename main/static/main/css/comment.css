@@ -2,6 +2,18 @@
   color: #7e8285;
 }
 
+@media screen and (width <= 380px) {
+  .pub-date {
+    font-size: 13px;
+  }
+}
+
+@media screen and (width <= 330px) {
+  .pub-date {
+    font-size: 11px;
+  }
+}
+
 .comment .comment-info {
   display: flex;
   justify-content: space-between;
