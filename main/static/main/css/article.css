@@ -102,6 +102,12 @@ article .author .user .wrapper img {
   text-decoration: underline;
 }
 
+.article-content img {
+  display: block;
+  max-width: 95%;
+  margin: 8px auto;
+}
+
 .article-actions {
   display: flex;
   gap: 10px;
