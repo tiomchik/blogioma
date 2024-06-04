@@ -10,7 +10,12 @@
   list-style: none;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+}
+
+@media screen and (width <= 650px) {
+  .nav {
+    flex-wrap: wrap;
+  }
 }
 
 .nav li {

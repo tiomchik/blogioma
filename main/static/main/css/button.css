@@ -19,3 +19,16 @@ button:focus,
 button:hover {
   text-shadow: 1px 1px 3px white;
 }
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media screen and (width <= 540px) {
+  .buttons {
+    flex-direction: column;
+    text-align: center;
+  }
+}

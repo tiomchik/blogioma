@@ -2,7 +2,7 @@ article {
   overflow: hidden;
   background-color: #21c2f8;
   border-radius: 10%;
-  max-width: 405px;
+  width: 390px;
   min-height: 221px;
   padding: 12px 15px 0;
 }
@@ -11,10 +11,15 @@ article p,
 article h1 {
   color: #202020;
   word-wrap: break-word;
-  width: 390px;
 }
 
 article h1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 30px;
   margin-bottom: 10px;
 }
 
@@ -60,6 +65,7 @@ article .author .user .wrapper img {
   flex-wrap: wrap;
   gap: 25px;
   justify-content: center;
+  margin-top: 22px;
 }
 
 /* Article page */
@@ -86,6 +92,12 @@ article .author .user .wrapper img {
   height: 100%;
 }
 
+@media screen and (width <= 470px) {
+  .article-info .pub-date {
+    font-size: 11px;
+  }
+}
+
 .article-content {
   word-wrap: break-word;
   margin-top: 30px;
@@ -96,6 +108,12 @@ article .author .user .wrapper img {
   text-decoration: underline;
 }
 
+.article-content img {
+  display: block;
+  max-width: 95%;
+  margin: 8px auto;
+}
+
 /* Danger zone */
 .danger-zone {
   border-color: red;
@@ -104,8 +122,18 @@ article .author .user .wrapper img {
   margin-top: 15px;
 }
 
+@media screen and (width <= 540px) {
+  .danger-zone {
+    width: unset;
+  }
+}
+
 .danger-zone legend {
   color: red;
   text-transform: uppercase;
   font-weight: 900;
+}
+
+.danger-zone .buttons {
+  gap: 15px;
 }

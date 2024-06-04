@@ -15,7 +15,14 @@ textarea {
   display: inline-block;
 }
 
-.form-input {
+@media screen and (width <= 600px) {
+  .form-label {
+    width: 80px;
+  }
+}
+
+.form-input,
+select {
   width: 225px;
   height: 20px;
 }
@@ -23,6 +30,13 @@ textarea {
 .form-textarea {
   width: 500px;
   height: 150px;
+}
+
+@media screen and (width <= 650px) {
+  .form-textarea {
+    width: 75vw;
+    height: 250px;
+  }
 }
 
 input:focus,

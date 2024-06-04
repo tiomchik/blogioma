@@ -37,7 +37,7 @@ body {
 /* Main tag */
 main {
   box-sizing: border-box;
-  min-height: 74%;
+  min-height: 77%;
   padding-bottom: 75px;
 }
 
@@ -45,6 +45,13 @@ main {
   text-align: center;
   font-size: 40px;
   margin-bottom: 25px;
+  word-wrap: break-word;
+}
+
+@media screen and (width <= 600px) {
+  .headling-page {
+    font-size: 33px;
+  }
 }
 
 .h-of-articles {

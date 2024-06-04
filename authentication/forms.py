@@ -84,7 +84,7 @@ class ChangePasswordForm(forms.ModelForm):
     )
 
     new_password1 = forms.CharField(
-        min_length=8, label="Confrim new password",
+        min_length=8, label="Confirm new password",
         widget=forms.PasswordInput(
             attrs={"class": "form-input"}
         )
