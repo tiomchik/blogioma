@@ -4,7 +4,7 @@ from authentication.models import Profile
 
 
 class Article(models.Model):
-    headling = models.CharField("Headling", max_length=32)
+    headling = models.CharField("Headling", max_length=100)
     full_text = models.TextField("Text")
     author = models.ForeignKey(
         Profile, models.CASCADE,verbose_name="Author",

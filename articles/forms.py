@@ -5,7 +5,7 @@ from .models import Article
 
 class AddArticleForm(forms.ModelForm):
     headling = forms.CharField(
-        min_length=4, max_length=32, label="Headling", widget=forms.TextInput(
+        min_length=1, max_length=100, label="Headling", widget=forms.TextInput(
             attrs={"class": "form-input"}
         )
     )
