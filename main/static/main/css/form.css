@@ -21,7 +21,8 @@ textarea {
   }
 }
 
-.form-input {
+.form-input,
+select {
   width: 225px;
   height: 20px;
 }
