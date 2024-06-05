@@ -6,6 +6,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     pfp = models.ImageField("Profile picture", upload_to="pfps/",blank=True)
     last_login = models.DateTimeField("Last login", auto_now=True)
+    youtube = models.CharField("Youtube link", max_length=2048, null=True)
+    tiktok = models.CharField("TikTok link", max_length=2048, null=True)
+    twitch = models.CharField("Twitch link", max_length=2048, null=True)
+    linkedin = models.CharField("LinkedIn link", max_length=2048, null=True)
 
     def __str__(self) -> str:
         return f"{self.user.username}"
