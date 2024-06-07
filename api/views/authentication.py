@@ -3,8 +3,9 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.request import Request
+from rest_framework.permissions import IsAuthenticated
 
-from api.serializers import UserSerializer
+from api.serializers import UserSerializer, ProfileSerializer
 from authentication.models import Profile
 
 
@@ -32,11 +33,20 @@ class RegisterView(generics.CreateAPIView):
         )
 
 
-class Me(generics.RetrieveAPIView):
+class Me(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = ProfileSerializer
+    permission_classes = (IsAuthenticated, )
 
     def retrieve(self, request: Request, *args, **kwargs) -> Response:
+        profile = self.get_object()
+
         return Response(
-            UserSerializer(request.user).data, status=status.HTTP_200_OK
+            ProfileSerializer(profile).data, status=status.HTTP_200_OK
         )
+
+    def get_object(self) -> Profile:
+        obj = Profile.objects.get(user=self.request.user)
+        self.check_object_permissions(self.request, obj)
+
+        return obj
