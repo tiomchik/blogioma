@@ -2,18 +2,20 @@ from typing import Any
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.http import (
     HttpRequest, HttpResponse, HttpResponsePermanentRedirect,
     HttpResponseRedirect
 )
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, FormView, UpdateView
 
 from main.utils import DataMixin, get_paginator_context, get_base_context
 from articles.models import Article
 from .forms import (
     SignUpForm, LoginForm, ChangeUsernameForm, ChangePasswordForm,
-    ChangePfpForm
+    ChangePfpForm, SocialMediaLinksForm
 )
 from .models import Profile
 
@@ -241,3 +243,18 @@ def profile_settings(request: HttpRequest, username: str) -> HttpResponse:
     )
 
     return render(request, "profile/settings.html", context)
+
+
+class SocialMediaLinks(DataMixin, LoginRequiredMixin, UpdateView):
+    template_name = "profile/social_media_links.html"
+    form_class = SocialMediaLinksForm
+    model = Profile
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        base = self.get_base_context("Social media links")
+
+        return dict(list(context.items()) + list(base.items()))
+
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+        return Profile.objects.get(user__username=self.request.user.username)

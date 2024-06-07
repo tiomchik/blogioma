@@ -54,7 +54,7 @@ class ArticleTests(GenericTestCase):
     def test_create_with_very_long_headling(self) -> None:
         url = reverse("article-list")
         data = {
-            "headling": "lorem ipsum dolorrrrrrrrrrrrrrrrrrrrrrr",
+            "headling": "lorem ipsum dolorrrrrrrrrrrrrrrrrrrrrrr" * 10,
             "full_text": "lorem ipsum dolor test"
         }
         r = self.client.post(
@@ -64,7 +64,7 @@ class ArticleTests(GenericTestCase):
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             r.json().get("headling"),
-            ["Ensure this field has no more than 32 characters."]
+            ["Ensure this field has no more than 100 characters."]
         )
 
     def test_create_without_full_text(self) -> None:
@@ -158,7 +158,7 @@ class ArticleTests(GenericTestCase):
     def test_update_with_very_long_headling(self) -> None:
         update_data = {
             "headling":
-                "test_article_update is NOOOOOOOOOOOOOOOOOOOOOOOOOOOT passed",
+                "test_article_update is NOOOOOOOOOOOOOOOOOOOOOOOT passed" * 2,
             "full_text": "lorem_ipsum_dolor"
         }
         r = self._update_article(self.article.pk, update_data)
@@ -166,7 +166,7 @@ class ArticleTests(GenericTestCase):
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             r.json().get("headling"),
-            ["Ensure this field has no more than 32 characters."]
+            ["Ensure this field has no more than 100 characters."]
         )
 
     def test_update_without_full_text(self) -> None:

@@ -37,7 +37,7 @@
   }
 }
 
-@media screen and (width <= 490px) {
+@media screen and (width <= 540px) {
   .profile-area {
     display: block;
   }
@@ -66,14 +66,34 @@
 
 .profile-info {
   display: flex;
-  align-items: end;
-  gap: 15px;
-  margin-bottom: 40px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 35px;
 }
 
-.profile-info .wrapper {
+.profile-info .profile-user {
+  display: flex;
+  align-items: end;
+  gap: 15px;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.profile-info .profile-user .wrapper {
   width: 133px;
   height: 115px;
+}
+
+.profile-info .social-media-links {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+}
+
+.profile-info .social-media-links li .wrapper {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
 }
 
 /* Settings */

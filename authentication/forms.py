@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from captcha.fields import CaptchaField
 
@@ -107,3 +108,61 @@ class ChangePfpForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["new_pfp"]
+
+
+# URL validators
+def url_platform_validator(
+    value: str, platform: str, platform_url_part: str
+) -> None:
+    if value != "" and platform_url_part not in value:
+        raise ValidationError(f"This is not a {platform.capitalize()} link.")
+
+
+def youtube_validator(value: str) -> None:
+    url_platform_validator(value, "YouTube", "youtube.com/")
+
+
+def tiktok_validator(value: str) -> None:
+    url_platform_validator(value, "TikTok", "tiktok.com/")
+
+
+def twitch_validator(value: str) -> None:
+    url_platform_validator(value, "Twitch", "twitch.tv/")
+
+
+def linkedin_validator(value: str) -> None:
+    url_platform_validator(value, "LinkedIn", "linkedin.com/")
+
+
+class SocialMediaLinksForm(forms.ModelForm):
+    youtube = forms.URLField(
+        label="Youtube link", max_length=2048, required=False,
+        widget=forms.URLInput(
+            attrs={"class": "form-input"}
+        ), validators=[youtube_validator]
+    )
+
+    tiktok = forms.URLField(
+        label="TikTok link", max_length=2048, required=False,
+        widget=forms.URLInput(
+            attrs={"class": "form-input"}
+        ), validators=[tiktok_validator]
+    )
+
+    twitch = forms.URLField(
+        label="Twitch link", max_length=2048, required=False,
+        widget=forms.URLInput(
+            attrs={"class": "form-input"}
+        ), validators=[twitch_validator]
+    )
+
+    linkedin = forms.URLField(
+        label="LinkedIn link", max_length=2048, required=False,
+        widget=forms.URLInput(
+            attrs={"class": "form-input"}
+        ), validators=[linkedin_validator]
+    )
+
+    class Meta:
+        model = Profile
+        fields = ["youtube", "tiktok", "twitch", "linkedin"]

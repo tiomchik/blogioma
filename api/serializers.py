@@ -19,13 +19,42 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ("last_login", "is_staff", "date_joined")
 
 
+def url_platform_validator(
+    value: str, platform: str, platform_url_part: str
+) -> None:
+    if value != "" and platform_url_part not in value:
+        raise serializers.ValidationError(
+            f"This is not a {platform.capitalize()} link."
+        )
+
+    return value
+
+
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(read_only=True)
+    youtube = serializers.CharField(allow_blank=True, required=False)
+    tiktok = serializers.CharField(allow_blank=True, required=False)
+    twitch = serializers.CharField(allow_blank=True, required=False)
+    linkedin = serializers.CharField(allow_blank=True, required=False)
+
+    def validate_youtube(self, value: str) -> str:
+        return url_platform_validator(value, "YouTube", "youtube.com/")
+
+    def validate_tiktok(self, value: str) -> str:
+        return url_platform_validator(value, "TikTok", "tiktok.com/")
+
+    def validate_twitch(self, value: str) -> str:
+        return url_platform_validator(value, "Twitch", "twitch.tv/")
+
+    def validate_linkedin(self, value: str) -> str:
+        return url_platform_validator(value, "LinkedIn", "linkedin.com/")
 
     class Meta:
         model = Profile
-        fields = ("id", "user", "pfp")
-        read_only_fields = ("id", "user", "pfp")
+        fields = (
+            "id", "user", "pfp", "youtube", "tiktok", "twitch", "linkedin"
+        )
+        read_only_fields = ("id", "pfp")
 
 
 class ArticleSerializer(serializers.ModelSerializer):

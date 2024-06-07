@@ -22,4 +22,8 @@ urlpatterns = [
         "profile/<str:username>/settings/", views.profile_settings,
         name="profile_settings"
     ),
+    path(
+        "profile/<str:username>/settings/social_media_links/",
+        views.SocialMediaLinks.as_view(), name="social_media_links"
+    )
 ]
