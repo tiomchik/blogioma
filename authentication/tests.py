@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
 
@@ -67,7 +68,7 @@ class ProfileTests(GenericTestCase):
         tiktok: str = "https://tiktok.com/",
         twitch: str = "https://twitch.tv/",
         linkedin: str = "https://linkedin.com/"
-    ):
+    ) -> HttpResponse:
         """Sets a passed social media links to the `self.profile`
         using POST."""
         url = reverse(
