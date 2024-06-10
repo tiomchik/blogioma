@@ -1,3 +1,5 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
@@ -9,6 +11,74 @@ class ProfileTests(GenericTestCase):
     def setUp(self) -> None:
         self.setUpSessionAuth()
 
+    def test_get_profile(self) -> None:
+        url = reverse(
+            "see_profile", kwargs={"username": self.profile.user.username}
+        )
+        r = self.client.get(url)
+        self.assertContains(r, self.profile.user.username)
+
+    def test_get_profile_articles(self) -> None:
+        article = self._create_article(headling="article")
+        article1 = self._create_article(headling="article1")
+        article2 = self._create_article(headling="article2")
+
+        url = reverse(
+            "see_profile", kwargs={"username": self.profile.user.username}
+        )
+        r = self.client.get(url)
+
+        self.assertContains(r, article.headling)
+        self.assertContains(r, article1.headling)
+        self.assertContains(r, article2.headling)
+
+    def test_change_pfp(self) -> None:
+        with open("authentication/tests/cat.jpg", "rb") as pfp:
+            new_pfp = SimpleUploadedFile(
+                "cat.jpg", pfp.read(), content_type="image/jpeg"
+            )
+
+        url = reverse("change_pfp")
+        self.client.post(
+            url, {"new_pfp": new_pfp}, follow=True, format="multipart"
+        )
+
+        self.profile.refresh_from_db()
+        self.assertIsNotNone(self.profile.pfp)
+
+    def test_change_username(self) -> None:
+        username = "new_username"
+        data = urlencode({
+            "new_username": username, "captcha_0": "value",
+            "captcha_1": "PASSED"
+        })
+        url = reverse("change_username")
+        self.client.post(
+            url, data, follow=True,
+            content_type="application/x-www-form-urlencoded"
+        )
+
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.user.username, username)
+
+    def test_change_password(self) -> None:
+        password = "new_password"
+        data = urlencode({
+            "new_password": password, "new_password1": password,
+            "captcha_0": "value", "captcha_1": "PASSED"
+        })
+        url = reverse("change_password")
+        self.client.post(
+            url, data, content_type="application/x-www-form-urlencoded"
+        )
+
+        previous_password = self.user.password
+        self.user.refresh_from_db()
+        self.assertNotEqual(self.user.password, previous_password)
+
+    # ==========================
+    # ====== Social links ======
+    # ==========================
     def test_set_social_links(self) -> None:
         data = {
             "youtube": "https://www.youtube.com/",

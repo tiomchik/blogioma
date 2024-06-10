@@ -1,4 +1,6 @@
 import os
+import sys
+
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -159,3 +161,6 @@ REST_FRAMEWORK = {
     ],
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
+
+if 'test' in sys.argv:
+    CAPTCHA_TEST_MODE = True

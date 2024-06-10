@@ -2,7 +2,6 @@ from typing import Any
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.http import (
     HttpRequest, HttpResponse, HttpResponsePermanentRedirect,
@@ -256,5 +255,5 @@ class SocialMediaLinks(DataMixin, LoginRequiredMixin, UpdateView):
 
         return dict(list(context.items()) + list(base.items()))
 
-    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Model:
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Profile:
         return Profile.objects.get(user__username=self.request.user.username)
