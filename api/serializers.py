@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 
 from articles.models import Article
@@ -10,6 +11,9 @@ from feedback.models import Report
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
+    def validate_password(self, value: str) -> str:
+        return make_password(value)
+
     class Meta:
         model = User
         fields = (
@@ -17,6 +21,11 @@ class UserSerializer(serializers.ModelSerializer):
             "is_staff", "date_joined"
         )
         read_only_fields = ("last_login", "is_staff", "date_joined")
+
+
+class EditUserSerializer(UserSerializer):
+    username = serializers.CharField(required=False)
+    password = serializers.CharField(required=False, write_only=True)
 
 
 def url_platform_validator(
