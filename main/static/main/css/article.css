@@ -5,6 +5,17 @@ article {
   width: 390px;
   min-height: 221px;
   padding: 12px 15px 0;
+  animation: blink 0.4s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 article p,
