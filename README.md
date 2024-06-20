@@ -6,44 +6,27 @@
 
 1. Clone the repository and install the requirement packages:
 
-for Windows:
-
 ```powershell
 pip install -r requirements.txt
 ```
 
-for MacOs and Linux:
+or via Poetry:
 
 ```powershell
-pip3 install -r requirements.txt
+poetry install
+poetry shell
 ```
 
 2. Create initial database and migrate:
 
-for Windows:
-
 ```powershell
-py manage.py migrate
-```
-
-for MacOs and Linux:
-
-```powershell
-python3 manage.py migrate
+python manage.py migrate
 ```
 
 3. Run the development server:
 
-for Windows:
-
 ```powershell
-py manage.py runserver
-```
-
-for MacOs and Linux:
-
-```powershell
-python3 manage.py runserver
+python manage.py runserver
 ```
 
 
