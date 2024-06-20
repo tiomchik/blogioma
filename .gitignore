@@ -4,6 +4,7 @@ blogioma.txt
 venv
 media/
 .venv
+poetry.lock
 .DS_Store
 .env
 
