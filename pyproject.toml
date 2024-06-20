@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "blogioma"
+version = "1.0.1"
+description = "Simple Django blog application"
+authors = ["tiomchik <artemkaun228@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+bleach = "6.0.0"
+django = "4.2.11"
+djangorestframework = "3.15.1"
+drf-yasg = "1.21.7"
+django-debug-toolbar = "4.2.0"
+django-filter = "23.2"
+django-markup = {version = "1.7.2", extras = ["all_filter_dependencies"]}
+django-ranged-response = "0.2.0"
+django-simple-captcha = "0.6.0"
+Markdown = "3.4.3"
+Pillow = "10.3.0"
+python-dotenv = "1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
