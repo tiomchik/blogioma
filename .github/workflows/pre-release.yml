@@ -4,6 +4,7 @@ name: "pre-release"
 on:
   push:
     branches:
+      - "main"
       - "master"
 
 jobs:
