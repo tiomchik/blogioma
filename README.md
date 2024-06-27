@@ -32,10 +32,11 @@ python manage.py runserver
 
 ## Config
 
-After this, you'll need to create and populate a `.env` file in the root directory. Blogioma has a feature that sends submitted user's form to email specified in `settings.py`. If you don't want to use this feature, you only need to populate the `SECRET_KEY` field. Otherwise, please populate all fields. For example:
+After this, you'll need to create and populate a `.env` file in the root directory. Blogioma has a feature that sends submitted user's form to email specified in `settings.py`. If you don't want to use this feature, you only need to populate the `SECRET_KEY` and `DEBUG` field. Otherwise, please populate all fields. For example:
 
 ```properties
 SECRET_KEY=YOUR_SECRET_KEY
+DEBUG=0 OR 1
 
 EMAIL_HOST=SMTP_SERVER
 EMAIL_PORT=SMTP_PORT
@@ -48,6 +49,7 @@ EMAIL_USE_SSL=0 OR 1
 | Key                  | Value                                                                                                                                               |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SECRET_KEY           | This command can be used to generate: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`. |
+| DEBUG                | If true, runs debug mode. Default: 0 (false).                                                                                                       |
 | EMAIL_HOST           | The host to use for sending email. E.g. `smtp.mail.ru`.                                                                                             |
 | EMAIL_PORT           | Port to use for the SMTP server defined in `EMAIL_HOST`.                                                                                            |
 | EMAIL_HOST_USER      | Username to use for the SMTP server defined in `EMAIL_HOST`.                                                                                        |
