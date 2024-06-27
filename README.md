@@ -7,7 +7,7 @@
 1. Clone the repository and install the requirement packages:
 
 ```powershell
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 or via Poetry:
