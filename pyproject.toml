@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "blogioma"
-version = "1.1.0"
+version = "1.1.1"
 description = "Simple Django blog application"
 authors = ["tiomchik <artemkaun228@gmail.com>"]
 license = "MIT"
