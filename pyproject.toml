@@ -12,7 +12,6 @@ bleach = "6.0.0"
 django = "4.2.11"
 djangorestframework = "3.15.2"
 drf-yasg = "1.21.7"
-django-debug-toolbar = "4.2.0"
 django-filter = "23.2"
 django-markup = {version = "1.7.2", extras = ["all_filter_dependencies"]}
 django-ranged-response = "0.2.0"
@@ -20,6 +19,12 @@ django-simple-captcha = "0.6.0"
 Markdown = "3.4.3"
 Pillow = "10.3.0"
 python-dotenv = "1.0.1"
+
+[tool.poetry.group.dev.dependencies]
+django-debug-toolbar = "4.2.0"
+
+[tool.poetry.group.prod.dependencies]
+gunicorn = "22.0.0"
 
 
 [build-system]

@@ -13,7 +13,7 @@ pip install -r requirements-dev.txt
 or via Poetry:
 
 ```powershell
-poetry install
+poetry install --with dev
 poetry shell
 ```
 
