@@ -1,6 +1,7 @@
 import os
 import sys
 
+from django.conf import settings
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -19,8 +20,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don"t run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", False)
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
-INTERNAL_IPS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
+INTERNAL_IPS = ["127.0.0.1", "localhost", "0.0.0.0"]
 
 
 # Application definition
@@ -35,7 +36,6 @@ INSTALLED_APPS = [
     "drf_yasg",
     "django_markup",
     "captcha",
-    "debug_toolbar",
     "rest_framework",
     "rest_framework.authtoken",
 
@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     "search.apps.SearchConfig",
     "api.apps.ApiConfig",
 ]
+
+if settings.DEBUG:
+    INSTALLED_APPS.append("debug_toolbar")
 
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
