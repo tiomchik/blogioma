@@ -5,4 +5,6 @@ RUN pip install -r requirements-prod.txt
 
 COPY . .
 
-CMD ["python", "manage.py", "migrate"]
+EXPOSE 8000
+
+RUN python manage.py migrate
