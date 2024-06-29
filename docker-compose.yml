@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: .
+    env_file:
+      - .env
+    command: gunicorn -b=0.0.0.0:8000 blogioma.wsgi:application
+    ports:
+      - 8000:8000
