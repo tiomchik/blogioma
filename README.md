@@ -46,16 +46,17 @@ EMAIL_USE_TLS=0 OR 1
 EMAIL_USE_SSL=0 OR 1
 ```
 
-| Key                  | Value                                                                                                                                               |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SECRET_KEY           | This command can be used to generate: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`. |
-| DEBUG                | If true, runs debug mode. Default: 0 (false).                                                                                                       |
-| EMAIL_HOST           | The host to use for sending email. E.g. `smtp.mail.ru`.                                                                                             |
-| EMAIL_PORT           | Port to use for the SMTP server defined in `EMAIL_HOST`.                                                                                            |
-| EMAIL_HOST_USER      | Username to use for the SMTP server defined in `EMAIL_HOST`.                                                                                        |
-| EMAIL_HOST_PASSWORD  | Password to use for the SMTP server defined in `EMAIL_HOST`.                                                                                        |
-| EMAIL_USE_TLS        | Whether to use a TLS (secure) connection when talking to the SMTP server. This is used for explicit TLS connections, generally on port 587. If you are experiencing hanging connections, use the implicit TLS setting `EMAIL_USE_SSL`. |
-| EMAIL_USE_SSL        | Whether to use an implicit TLS (secure) connection when talking to the SMTP server. In most email documentation this type of TLS connection is referred to as SSL. It is generally used on port 465. If you are experiencing problems, use the explicit TLS setting `EMAIL_USE_TLS`. |
+| Key                         | Value                                                                                                                                               |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SECRET_KEY                  | This command can be used to generate: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`. |
+| DEBUG                       | If true, runs debug mode. Default: 0 (false).                                                                                                       |
+| ALLOWED_HOSTS, INTERNAL_IPS | A comma separated string. Default: 127.0.0.1,localhost,0.0.0.0.                                                                                     |
+| EMAIL_HOST                  | The host to use for sending email. E.g. `smtp.mail.ru`.                                                                                             |
+| EMAIL_PORT                  | Port to use for the SMTP server defined in `EMAIL_HOST`.                                                                                            |
+| EMAIL_HOST_USER             | Username to use for the SMTP server defined in `EMAIL_HOST`.                                                                                        |
+| EMAIL_HOST_PASSWORD         | Password to use for the SMTP server defined in `EMAIL_HOST`.                                                                                        |
+| EMAIL_USE_TLS               | Whether to use a TLS (secure) connection when talking to the SMTP server. This is used for explicit TLS connections, generally on port 587. If you are experiencing hanging connections, use the implicit TLS setting `EMAIL_USE_SSL`. |
+| EMAIL_USE_SSL               | Whether to use an implicit TLS (secure) connection when talking to the SMTP server. In most email documentation this type of TLS connection is referred to as SSL. It is generally used on port 465. If you are experiencing problems, use the explicit TLS setting `EMAIL_USE_TLS`. |
 
 
 

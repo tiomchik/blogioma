@@ -18,10 +18,14 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don"t run with debug turned on in production!
-DEBUG = bool(os.getenv("DEBUG", False))
+DEBUG = bool(int(os.getenv("DEBUG", False)))
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
-INTERNAL_IPS = ["127.0.0.1", "localhost", "0.0.0.0"]
+ALLOWED_HOSTS = os.getenv(
+    "ALLOWED_HOSTS", default="127.0.0.1,localhost,0.0.0.0"
+).split(",")
+INTERNAL_IPS = os.getenv(
+    "INTERNAL_IPS", default="127.0.0.1,localhost,0.0.0.0"
+).split(",")
 
 
 # Application definition
@@ -132,6 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = "/root/blogioma/static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -154,8 +159,8 @@ EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = bool(os.getenv("EMAIL_USE_TLS", False))
-EMAIL_USE_SSL = bool(os.getenv("EMAIL_USE_SSL", True))
+EMAIL_USE_TLS = bool(int(os.getenv("EMAIL_USE_TLS", False)))
+EMAIL_USE_SSL = bool(int(os.getenv("EMAIL_USE_SSL", True)))
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -165,5 +170,8 @@ REST_FRAMEWORK = {
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
 
-if 'test' in sys.argv:
+if "test" in sys.argv:
     CAPTCHA_TEST_MODE = True
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
