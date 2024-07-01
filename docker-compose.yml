@@ -1,9 +1,16 @@
 services:
-  app:
+  web:
     build:
       context: .
     env_file:
       - .env
     command: gunicorn -b=0.0.0.0:8000 blogioma.wsgi:application
+    expose:
+      - 8000
+  nginx:
+    build:
+      context: ./nginx
     ports:
-      - 8000:8000
+      - 80:80
+    depends_on:
+      - web
