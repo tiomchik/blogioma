@@ -1,0 +1,13 @@
+**/__pycache__/
+.ruff_cache/
+blogioma.txt
+venv
+media/
+.venv
+.DS_Store
+.env
+
+*.sqlite3
+*.sqlite
+*.sqlite-journal
+*.db
