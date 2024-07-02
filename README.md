@@ -30,7 +30,7 @@ python manage.py runserver
 ```
 
 
-## Config
+### Config
 
 After this, you'll need to create and populate a `.env` file in the root directory. Blogioma has a feature that sends submitted user's form to email specified in `settings.py`. If you don't want to use this feature, you only need to populate the `SECRET_KEY` and `DEBUG` field. Otherwise, please populate all fields. For example:
 
@@ -59,5 +59,18 @@ EMAIL_USE_SSL=0 OR 1
 | EMAIL_USE_SSL               | Whether to use an implicit TLS (secure) connection when talking to the SMTP server. In most email documentation this type of TLS connection is referred to as SSL. It is generally used on port 465. If you are experiencing problems, use the explicit TLS setting `EMAIL_USE_TLS`. |
 
 
+### Run via Docker
+
+To run this project via Docker, you'll need to [create a `.env` file](#config) and run commands:
+
+```bash
+# For production
+docker compose build --build-arg "ENV=PROD"
+docker compose up -d
+
+# For development
+docker compose build --build-arg "ENV=DEV"
+docker compose -f docker-compose-dev.yml up -d
+```
 
 This is first my largest project, so I will be very happy when you star this repository or/and contribute with me. Good luck and have a nice day:D
