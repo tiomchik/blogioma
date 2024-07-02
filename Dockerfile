@@ -10,6 +10,4 @@ COPY . .
 
 EXPOSE 8000
 
-RUN python manage.py collectstatic --noinput
-
-RUN python manage.py migrate
+RUN chmod u+x init.sh && ./init.sh
