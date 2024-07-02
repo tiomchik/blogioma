@@ -8,6 +8,7 @@ from django.http import (
     HttpResponseRedirect
 )
 from django.shortcuts import redirect, render, get_object_or_404
+from django.views.decorators.cache import cache_page
 from django.views.generic.edit import CreateView, FormView, UpdateView
 
 from main.utils import DataMixin, get_paginator_context, get_base_context
@@ -210,6 +211,7 @@ def logout_user(request: HttpRequest) -> HttpResponseRedirect:
     return HttpResponseRedirect("/")
 
 
+@cache_page(60 * 30)
 def see_profile(request: HttpRequest, username: str) -> HttpResponse:
     # Getting user articles
     articles = Article.objects.filter(author__user__username=username).values(
@@ -226,6 +228,7 @@ def see_profile(request: HttpRequest, username: str) -> HttpResponse:
     return render(request, "profile/profile.html", context)
 
 
+@cache_page(60 * 30)
 def profile_settings(request: HttpRequest, username: str) -> HttpResponse:
     # Getting profile or raising 404
     user = request.user

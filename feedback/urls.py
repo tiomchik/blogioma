@@ -1,11 +1,16 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from . import views
 
 urlpatterns = [
-    path("feedback/", views.Feedback.as_view(), name="feedback"),
     path(
-        "article/<int:pk>/report/", views.ReportArticle.as_view(),
+        "feedback/", cache_page(60 * 60)(views.Feedback.as_view()),
+        name="feedback"
+    ),
+    path(
+        "article/<int:pk>/report/",
+        cache_page(60 * 60)(views.ReportArticle.as_view()),
         name="report"
     ),
 ]

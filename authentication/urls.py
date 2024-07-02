@@ -1,20 +1,29 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from . import views
 
 urlpatterns = [
-    path("sign_up/", views.SignUp.as_view(), name="sign_up"),
-    path("login/", views.Login.as_view(), name="log_in"),
+    path(
+        "sign_up/", cache_page(60 * 60)(views.SignUp.as_view()),
+        name="sign_up"
+    ),
+    path("login/", cache_page(60 * 60)(views.Login.as_view()), name="log_in"),
     path("logout_user/", views.logout_user, name="logout_user"),
     path(
-        "change_username/", views.ChangeUsername.as_view(),
+        "change_username/",
+        cache_page(60 * 60)(views.ChangeUsername.as_view()),
         name="change_username"
     ),
     path(
-        "change_password/", views.ChangePassword.as_view(),
+        "change_password/",
+        cache_page(60 * 60)(views.ChangePassword.as_view()),
         name="change_password"
     ),
-    path("change_pfp/", views.ChangePfp.as_view(), name="change_pfp"),
+    path(
+        "change_pfp/", cache_page(60 * 60)(views.ChangePfp.as_view()),
+        name="change_pfp"
+    ),
 
     # Profile
     path("profile/<str:username>/", views.see_profile, name="see_profile"),
@@ -24,6 +33,7 @@ urlpatterns = [
     ),
     path(
         "profile/<str:username>/settings/social_media_links/",
-        views.SocialMediaLinks.as_view(), name="social_media_links"
+        cache_page(60 * 60)(views.SocialMediaLinks.as_view()),
+        name="social_media_links"
     )
 ]

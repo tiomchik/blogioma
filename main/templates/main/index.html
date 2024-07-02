@@ -1,5 +1,10 @@
-{% extends 'main/base.html' %} {% load main_tags %} {% block content %}
+{% extends 'main/base.html' %}
+{% load main_tags %}
+{% load cache %}
 
+{% block content %}
+
+{% cache 300 popular_articles %}
 <div class="h-of-articles">
   <h1>Popular articles 🔥</h1>
   <a href="{% url 'see_all' 'popular' %}">
@@ -21,7 +26,9 @@
 </div>
 
 {% show_articles order_by="-viewings" only_6=1 %}
+{% endcache %}
 
+{% cache 60 latest_articles %}
 <div class="h-of-articles">
   <h1>Latest articles</h1>
   <a href="{% url 'see_all' 'latest' %}">
@@ -42,4 +49,7 @@
   </a>
 </div>
 
-{% show_articles order_by="-pub_date" only_6=1 %} {% endblock %}
+{% show_articles order_by="-pub_date" only_6=1 %}
+{% endcache %}
+
+{% endblock %}
