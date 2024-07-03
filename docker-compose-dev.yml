@@ -7,3 +7,11 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - 8000:8000
+
+  redis:
+    image: redis:latest
+    command: redis-server --bind redis --maxmemory 256mb
+    expose:
+      - 6379
+    depends_on:
+      - web

@@ -5,8 +5,17 @@ services:
     env_file:
       - .env
     command: gunicorn -b=0.0.0.0:8000 blogioma.wsgi:application
+    ports:
+      - 8000:8000
+
+  redis:
+    image: redis:latest
+    command: redis-server --bind redis --maxmemory 256mb
     expose:
-      - 8000
+      - 6379
+    depends_on:
+      - web
+
   nginx:
     build:
       context: ./nginx
