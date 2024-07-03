@@ -4,35 +4,9 @@
 
 ## Get started
 
-1. Clone the repository and install the requirement packages:
-
-```powershell
-pip install -r requirements-dev.txt
-```
-
-or via Poetry:
-
-```powershell
-poetry install --with dev
-poetry shell
-```
-
-2. Create initial database and migrate:
-
-```powershell
-python manage.py migrate
-```
-
-3. Run the development server:
-
-```powershell
-python manage.py runserver
-```
-
-
 ### Config
 
-After this, you'll need to copy the contents from `.env.sample` to the new `.env` file:
+First of all, you'll need to clone this repository and copy the contents from `.env.sample` to the new `.env` file:
 
 ```properties
 SECRET_KEY=YOUR_SECRET_KEY
@@ -77,5 +51,40 @@ docker compose up -d
 docker compose build --build-arg "ENV=DEV"
 docker compose -f docker-compose-dev.yml up -d
 ```
+
+### Run manually
+
+1. Install the requirement packages:
+
+```powershell
+pip install -r requirements-dev.txt
+```
+
+or via Poetry:
+
+```powershell
+poetry install --with dev
+poetry shell
+```
+
+2. Create initial database and migrate:
+
+```powershell
+python manage.py migrate
+```
+
+3. Run the Redis server in Linux ([install Redis for Windows](https://github.com/zkteco-home/redis-windows), or just run commands below in [WSL](https://deploy-preview-107--redis-stack-docs.netlify.app/docs/getting-started/installation/install-redis-on-windows/)):
+
+```bash
+sudo apt install redis
+sudo systemctl start redis
+```
+
+4. Run the development server:
+
+```powershell
+python manage.py runserver
+```
+
 
 This is first my largest project, so I will be very happy when you star this repository or/and contribute with me. Good luck and have a nice day:D
