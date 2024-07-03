@@ -1,6 +1,7 @@
 from typing import Any
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.views.decorators.cache import cache_page
 from django.views.generic.list import ListView
 
 from articles.models import Article
@@ -19,6 +20,7 @@ class Home(DataMixin, ListView):
         return dict(list(context.items()) + list(base.items()))
 
 
+@cache_page(60 * 600)
 def about(request: HttpRequest) -> HttpResponse:
     context = get_base_context(request, "About site")
 

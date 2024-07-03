@@ -4,46 +4,24 @@
 
 ## Get started
 
-1. Clone the repository and install the requirement packages:
-
-```powershell
-pip install -r requirements-dev.txt
-```
-
-or via Poetry:
-
-```powershell
-poetry install --with dev
-poetry shell
-```
-
-2. Create initial database and migrate:
-
-```powershell
-python manage.py migrate
-```
-
-3. Run the development server:
-
-```powershell
-python manage.py runserver
-```
-
-
 ### Config
 
-After this, you'll need to create and populate a `.env` file in the root directory. Blogioma has a feature that sends submitted user's form to email specified in `settings.py`. If you don't want to use this feature, you only need to populate the `SECRET_KEY` and `DEBUG` field. Otherwise, please populate all fields. For example:
+First of all, you'll need to clone this repository and copy the contents from `.env.sample` to the new `.env` file:
 
 ```properties
 SECRET_KEY=YOUR_SECRET_KEY
-DEBUG=0 OR 1
+DEBUG=0
+ALLOWED_HOSTS=127.0.0.1,localhost,0.0.0.0
+INTERNAL_IPS=127.0.0.1,localhost,0.0.0.0
 
-EMAIL_HOST=SMTP_SERVER
-EMAIL_PORT=SMTP_PORT
-EMAIL_HOST_USER=YOUR_EMAIL
-EMAIL_HOST_PASSWORD=YOUR_EMAIL_APPLICATION_PASSWORD
-EMAIL_USE_TLS=0 OR 1
-EMAIL_USE_SSL=0 OR 1
+REDIS_HOST=127.0.0.1
+
+EMAIL_HOST=YOUR_EMAIL_HOST
+EMAIL_PORT=YOUR_EMAIL_PORT
+EMAIL_HOST_USER=YOUR_EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD=YOUR_EMAIL_HOST_PASSWORD
+EMAIL_USE_TLS=0
+EMAIL_USE_SSL=1
 ```
 
 | Key                         | Value                                                                                                                                               |
@@ -51,6 +29,7 @@ EMAIL_USE_SSL=0 OR 1
 | SECRET_KEY                  | This command can be used to generate: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`. |
 | DEBUG                       | If true, runs debug mode. Default: 0 (false).                                                                                                       |
 | ALLOWED_HOSTS, INTERNAL_IPS | A comma separated string. Default: 127.0.0.1,localhost,0.0.0.0.                                                                                     |
+| REDIS_HOST                  | IP of Redis host. Default: 127.0.0.1. (Please, don't override this value when using Docker container.)                                              |
 | EMAIL_HOST                  | The host to use for sending email. E.g. `smtp.mail.ru`.                                                                                             |
 | EMAIL_PORT                  | Port to use for the SMTP server defined in `EMAIL_HOST`.                                                                                            |
 | EMAIL_HOST_USER             | Username to use for the SMTP server defined in `EMAIL_HOST`.                                                                                        |
@@ -72,5 +51,40 @@ docker compose up -d
 docker compose build --build-arg "ENV=DEV"
 docker compose -f docker-compose-dev.yml up -d
 ```
+
+### Run manually
+
+1. Install the requirement packages:
+
+```powershell
+pip install -r requirements-dev.txt
+```
+
+or via Poetry:
+
+```powershell
+poetry install --with dev
+poetry shell
+```
+
+2. Create initial database and migrate:
+
+```powershell
+python manage.py migrate
+```
+
+3. Run the Redis server in Linux ([install Redis for Windows](https://github.com/zkteco-home/redis-windows), or just run commands below in [WSL](https://deploy-preview-107--redis-stack-docs.netlify.app/docs/getting-started/installation/install-redis-on-windows/)):
+
+```bash
+sudo apt install redis
+sudo systemctl start redis
+```
+
+4. Run the development server:
+
+```powershell
+python manage.py runserver
+```
+
 
 This is first my largest project, so I will be very happy when you star this repository or/and contribute with me. Good luck and have a nice day:D

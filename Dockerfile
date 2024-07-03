@@ -10,4 +10,6 @@ COPY . .
 
 EXPOSE 8000
 
+ENV REDIS_HOST=redis
+
 RUN chmod u+x init.sh && ./init.sh

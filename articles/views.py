@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import F
+from django.views.decorators.cache import cache_page
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.http import (
@@ -124,6 +125,7 @@ def random_article(
     return redirect("read", pk=pk)
 
 
+@cache_page(60 * 5)
 def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
     # GET query check
     if order_by == "latest":

@@ -6,6 +6,7 @@ from django.http import (
 )
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.cache import cache_page
 from django.views.generic.edit import CreateView, UpdateView
 
 from articles.models import Article
@@ -15,6 +16,7 @@ from .forms import AddCommentForm
 from .models import Comment
 
 
+@cache_page(60 * 1.5)
 def see_comments(request: HttpRequest, pk: int) -> HttpResponse:
     # Getting comments by related article
     article = Article.objects.get(pk=pk)
