@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "blogioma"
-version = "1.3.0"
+version = "1.4.0"
 description = "Simple Django blog application"
 authors = ["tiomchik <artemkaun228@gmail.com>"]
 license = "MIT"
@@ -20,6 +20,7 @@ Markdown = "3.4.3"
 Pillow = "10.3.0"
 python-dotenv = "1.0.1"
 redis = {version = "5.0.7", extras = ["hiredis"]}
+celery = {version = "5.4.0", extras = ["redis"]}
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "4.2.0"

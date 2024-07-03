@@ -10,3 +10,4 @@ Markdown==3.4.3
 Pillow==10.3.0
 python-dotenv==1.0.1
 redis[hiredis]==5.0.7
+celery[redis]==5.4.0
