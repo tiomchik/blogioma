@@ -184,3 +184,7 @@ if "test" in sys.argv:
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+# Celery
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379"
