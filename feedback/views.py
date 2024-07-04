@@ -1,5 +1,4 @@
 from typing import Any
-from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
@@ -11,6 +10,7 @@ from authentication.models import Profile
 from main.utils import DataMixin
 from .forms import FeedbackForm, ReportForm
 from .models import Report
+from .tasks import send_feedback
 
 
 class Feedback(DataMixin, FormView):
@@ -36,12 +36,7 @@ class Feedback(DataMixin, FormView):
             desc += f"\n\n\nUser email: {email}"
 
             # Sending mail
-            sended_email = EmailMessage(
-                subject=headling, body=desc,
-                from_email=settings.EMAIL_HOST_USER,
-                to=[settings.EMAIL_HOST_USER]
-            )
-            sended_email.send(fail_silently=False)
+            send_feedback.delay(headling, desc)
 
             return render(
                 self.request, "feedback/feedback_success.html",
