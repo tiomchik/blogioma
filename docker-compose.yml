@@ -16,6 +16,16 @@ services:
     depends_on:
       - web
 
+  celery:
+    build: 
+      context: .
+    env_file:
+      - .env
+    command: celery -A blogioma worker -l INFO -P gevent
+    depends_on:
+      - web
+      - redis
+
   nginx:
     build:
       context: ./nginx
