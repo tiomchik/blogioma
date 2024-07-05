@@ -80,7 +80,13 @@ sudo apt install redis
 sudo systemctl start redis
 ```
 
-4. Run the development server:
+4. Run the Celery:
+
+```bash
+celery -A blogioma worker -l INFO -P gevent
+```
+
+5. Run the development server:
 
 ```powershell
 python manage.py runserver
