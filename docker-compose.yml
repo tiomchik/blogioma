@@ -5,6 +5,9 @@ services:
     env_file:
       - .env
     command: gunicorn -b=0.0.0.0:8000 blogioma.wsgi:application
+    volumes:
+      - static_volume:/home/blogioma/static
+      - media_volume:/home/blogioma/media
     ports:
       - 8000:8000
 
@@ -29,7 +32,14 @@ services:
   nginx:
     build:
       context: ./nginx
+    volumes:
+      - static_volume:/home/blogioma/static
+      - media_volume:/home/blogioma/media
     ports:
       - 80:80
     depends_on:
       - web
+
+volumes:
+  static_volume:
+  media_volume:
