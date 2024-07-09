@@ -1,5 +1,7 @@
 from typing import Any
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.request import Request
@@ -43,6 +45,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED, headers=headers
         )
 
+    @method_decorator(cache_page(60 * 2))
     def list(self, request: Request, *args, **kwargs) -> Any | Response:
         article_pk = kwargs.pop("article_pk")
         article = Article.objects.get(pk=article_pk)

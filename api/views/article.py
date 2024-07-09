@@ -44,6 +44,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED, headers=headers
         )
 
+    @method_decorator(cache_page(60))
     def list(self, request: Request, *args, **kwargs) -> Any | Response:
         query = request.query_params.get("q")
 

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.request import Request
@@ -39,6 +40,7 @@ class Me(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = (IsAuthenticated, )
 
+    @method_decorator(cache_page(60 * 2))
     def retrieve(self, request: Request, *args, **kwargs) -> Response:
         profile = self.get_object()
 
