@@ -1,5 +1,5 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.contrib.auth.hashers import make_password
+from django.core.cache import cache
 from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
@@ -23,6 +23,7 @@ class ProfileTests(GenericTestCase):
         article1 = self._create_article(headling="article1")
         article2 = self._create_article(headling="article2")
 
+        cache.clear()
         url = reverse(
             "see_profile", kwargs={"username": self.profile.user.username}
         )
@@ -98,6 +99,7 @@ class ProfileTests(GenericTestCase):
         self._set_social_links()
 
         url = reverse("see_profile", kwargs={"username": self.user.username})
+        cache.clear()
         r = self.client.get(url)
 
         self.assertIn(self.profile.youtube, str(r.content))
