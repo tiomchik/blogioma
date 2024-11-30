@@ -4,7 +4,7 @@
 
 {% block content %}
 
-{% cache 300 popular_articles %}
+{% cache 30 popular_articles %}
 <div class="h-of-articles">
   <h1>Popular articles 🔥</h1>
   <a href="{% url 'see_all' 'popular' %}">
@@ -28,7 +28,7 @@
 {% show_articles order_by="-viewings" only_6=1 %}
 {% endcache %}
 
-{% cache 60 latest_articles %}
+{% cache 30 latest_articles %}
 <div class="h-of-articles">
   <h1>Latest articles</h1>
   <a href="{% url 'see_all' 'latest' %}">

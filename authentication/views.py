@@ -211,7 +211,7 @@ def logout_user(request: HttpRequest) -> HttpResponseRedirect:
     return HttpResponseRedirect("/")
 
 
-@cache_page(60 * 5)
+@cache_page(30)
 def see_profile(request: HttpRequest, username: str) -> HttpResponse:
     # Getting user articles
     articles = Article.objects.filter(author__user__username=username).values(

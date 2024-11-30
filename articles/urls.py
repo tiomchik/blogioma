@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     my_path(
-        "article/<int:pk>/", cache_page(60 * 60)(views.ReadArticle.as_view()),
+        "article/<int:pk>/", cache_page(30)(views.ReadArticle.as_view()),
         name="read"
     ),
     my_path("article/random/", views.random_article, name="random_article"),

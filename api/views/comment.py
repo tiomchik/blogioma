@@ -45,7 +45,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED, headers=headers
         )
 
-    @method_decorator(cache_page(60 * 2))
+    @method_decorator(cache_page(30))
     def list(self, request: Request, *args, **kwargs) -> Any | Response:
         article_pk = kwargs.pop("article_pk")
         article = Article.objects.get(pk=article_pk)

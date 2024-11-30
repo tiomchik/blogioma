@@ -44,7 +44,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED, headers=headers
         )
 
-    @method_decorator(cache_page(60))
+    @method_decorator(cache_page(30))
     def list(self, request: Request, *args, **kwargs) -> Any | Response:
         query = request.query_params.get("q")
 
@@ -69,7 +69,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    @method_decorator(cache_page(300))
+    @method_decorator(cache_page(30))
     def retrieve(self, request, *args, **kwargs) -> Response:
         instance = self.get_object()
         plus_viewing(instance)

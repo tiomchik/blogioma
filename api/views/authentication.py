@@ -40,7 +40,7 @@ class Me(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = (IsAuthenticated, )
 
-    @method_decorator(cache_page(60 * 2))
+    @method_decorator(cache_page(60))
     def retrieve(self, request: Request, *args, **kwargs) -> Response:
         profile = self.get_object()
 

@@ -125,7 +125,7 @@ def random_article(
     return redirect("read", pk=pk)
 
 
-@cache_page(60 * 5)
+@cache_page(30)
 def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
     # GET query check
     if order_by == "latest":

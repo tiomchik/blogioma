@@ -16,7 +16,7 @@ from .forms import AddCommentForm
 from .models import Comment
 
 
-@cache_page(60 * 1.5)
+@cache_page(30)
 def see_comments(request: HttpRequest, pk: int) -> HttpResponse:
     # Getting comments by related article
     article = Article.objects.get(pk=pk)
