@@ -10,6 +10,8 @@ from feedback.models import Report
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    email = serializers.EmailField(required=False)
+    pfp = serializers.ImageField(required=False)
 
     def validate_password(self, value: str) -> str:
         return make_password(value)
@@ -18,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "id", "username", "password", "last_login",
-            "is_staff", "date_joined"
+            "is_staff", "date_joined", "email", "pfp"
         )
         read_only_fields = ("last_login", "is_staff", "date_joined")
 

@@ -112,7 +112,11 @@ class CommentTests(GenericTestCase):
         self._check_unauth_response(r)
 
     def test_update_nonuser_comment(self) -> None:
-        another_user_data = {"username": "test_user2", "password": "12341234"}
+        another_user_data = {
+            "username": "test_user2", 
+            "password": "12341234", 
+            "email": "test2@test.com"
+        }
         self._register_user(**another_user_data)
         token = self._obtain_token(**another_user_data)
 
@@ -136,7 +140,11 @@ class CommentTests(GenericTestCase):
         self._check_unauth_response(r)
 
     def test_delete_nonuser_comment(self) -> None:
-        another_user_data = {"username": "test_user3", "password": "12341234"}
+        another_user_data = {
+            "username": "test_user3",
+            "password": "12341234",
+            "email": "test3@test.com"
+        }
         self._register_user(**another_user_data)
         token = self._obtain_token(**another_user_data)
 

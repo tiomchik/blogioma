@@ -25,7 +25,11 @@ class DataMixin():
 
 class GenericTestCase(APITestCase):
     def setUp(self) -> None:
-        data = {"username": "test_user1", "password": "12341234"}
+        data = {
+            "username": "test_user1",
+            "password": "12341234",
+            "email": "test@test.com"
+        }
         self._register_user(**data)
 
         self.user = User.objects.get(username=data["username"])

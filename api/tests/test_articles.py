@@ -189,7 +189,11 @@ class ArticleTests(GenericTestCase):
 
     def test_update_nonuser_article(self) -> None:
         # Creating another user
-        another_user_data = {"username": "test_user2", "password": "43214321"}
+        another_user_data = {
+            "username": "test_user2",
+            "password": "43214321",
+            "email": "test2@test.com"
+        }
         self._register_user(**another_user_data)
         another_user_token = self._obtain_token(**another_user_data)
 
@@ -226,7 +230,11 @@ class ArticleTests(GenericTestCase):
         )
 
     def test_delete_nonuser_article(self) -> None:
-        another_user_data = {"username": "test_user3", "password": "43214321"}
+        another_user_data = {
+            "username": "test_user3",
+            "password": "43214321",
+            "email": "test3@test.com"
+        }
         self._register_user(**another_user_data)
         another_user_token = self._obtain_token(**another_user_data)
 

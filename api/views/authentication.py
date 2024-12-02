@@ -17,11 +17,13 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
     def perform_create(self, serializer: UserSerializer) -> User:
-        username = serializer.validated_data["username"]
-        password = serializer.validated_data["password"]
+        username = serializer.validated_data.get("username")
+        password = serializer.validated_data.get("password")
+        email = serializer.validated_data.get("email")
+        pfp = serializer.validated_data.get("pfp")
 
-        user = User.objects.create(username=username, password=password)
-        Profile.objects.create(user=user)
+        user = User.objects.create(username=username, password=password, email=email)
+        Profile.objects.create(user=user, pfp=pfp)
 
         return user
 
