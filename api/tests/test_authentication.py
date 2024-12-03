@@ -1,11 +1,60 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpResponse
 from django.urls import reverse
 from rest_framework import status
+from django.core.cache import cache
 
 from main.utils import GenericTestCase
 
 
 class UserTests(GenericTestCase):
+    # ==========================
+    # ======== Register ========
+    # ==========================
+    def test_register_without_login(self) -> None:
+        user_data = {"password": "12341234"}
+        r = self._register_user(**user_data)
+        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(r.json().get("username"), ["This field is required."])
+
+    def test_register_without_password(self) -> None:
+        user_data = {"username": "test_user123"}
+        r = self._register_user(**user_data)
+        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(r.json().get("password"), ["This field is required."])
+
+    def test_register_with_pfp(self) -> None:
+        with open("authentication/tests/cat.jpg", "rb") as picture:
+            pfp = SimpleUploadedFile(
+                "cat.jpg", picture.read(), content_type="image/jpeg"
+            )
+
+        user_data = {
+            "username": "test_user123",
+            "password": "12341234",
+            "pfp": pfp
+        }
+        url = reverse("register")
+        r = self.client.post(url, user_data, format="multipart")
+        self.user.refresh_from_db()
+
+        self.assertEqual(r.status_code, status.HTTP_201_CREATED)
+        self.assertIsNotNone(self.user.pfp)
+
+    # ==========================
+    # ===== Me and edit-me =====
+    # ==========================
+    def test_me(self) -> None:
+        url = reverse("me")
+        r = self.client.get(url, headers={"Authorization": f"Token {self.token}"})
+        self.assertEqual(r.status_code, status.HTTP_200_OK)
+        self.assertEqual(r.json().get("username"), self.user.username)
+
+    def test_me_without_auth(self) -> None:
+        url = reverse("me")
+        r = self.client.get(url)
+        self.assertEqual(r.status_code, status.HTTP_401_UNAUTHORIZED)
+
     def test_change_username(self) -> None:
         data = {"username": "updated_test_user"}
         url = reverse("edit-me")
@@ -94,6 +143,7 @@ class UserTests(GenericTestCase):
             url, data, headers={"Authorization": f"Token {self.token}"}
         )
         self.user.refresh_from_db()
+        cache.clear()
 
         return r
 
