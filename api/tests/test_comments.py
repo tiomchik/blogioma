@@ -16,7 +16,7 @@ class CommentTests(GenericTestCase):
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
         self.assertEqual(r.json().get("text"), text)
         self.assertEqual(
-            r.json().get("profile").get("user").get("username"),
+            r.json().get("profile").get("username"),
             self.user.username
         )
 

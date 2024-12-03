@@ -25,7 +25,7 @@ class ArticleTests(GenericTestCase):
         self.assertEqual(r.json().get("headling"), data["headling"])
         self.assertEqual(r.json().get("full_text"), data["full_text"])
         self.assertEqual(
-            r.json().get("author").get("user").get("username"),
+            r.json().get("author").get("username"),
             self.user.username
         )
 
@@ -86,7 +86,7 @@ class ArticleTests(GenericTestCase):
         data = {
             "headling": "test_article_list",
             "full_text": "lorem ipsum dolor",
-            "author": self.profile
+            "author": self.user
         }
         Article.objects.create(**data)
 
@@ -99,7 +99,7 @@ class ArticleTests(GenericTestCase):
         data = {
             "headling": "test_article_detail",
             "full_text": "lorem ipsum dolor",
-            "author": self.profile
+            "author": self.user
         }
         article = Article.objects.create(**data)
 
@@ -112,7 +112,7 @@ class ArticleTests(GenericTestCase):
         data = {
             "headling": "find_me",
             "full_text": "lorem ipsum dolor",
-            "author": self.profile
+            "author": self.user
         }
         Article.objects.create(**data)
 

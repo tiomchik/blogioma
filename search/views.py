@@ -36,10 +36,10 @@ def search_results(request: HttpRequest, query: str) -> HttpResponse:
         # Full text
         Q(full_text__iregex=query) |
         # Author username
-        Q(author__user__username__iregex=query)
+        Q(author__username__iregex=query)
     ).values(
         "headling", "full_text", "update", "pub_date", "pk",
-        "author", "author__pfp", "author__user__username"
+        "author", "author__pfp", "author__username"
     )
 
     context = get_paginator_context(

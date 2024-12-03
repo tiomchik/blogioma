@@ -1,6 +1,5 @@
 from typing import Any
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.http import (
@@ -17,7 +16,7 @@ from .forms import (
     SignUpForm, LoginForm, ChangeUsernameForm, ChangePasswordForm,
     ChangePfpForm, SocialMediaLinksForm
 )
-from .models import Profile
+from .models import User
 
 
 class SignUp(DataMixin, CreateView):
@@ -62,21 +61,13 @@ class SignUp(DataMixin, CreateView):
             return self.form_invalid(form)
 
         # Creating a new user
-        user = User.objects.create_user(username, email, password)
         pfp = request.FILES.get("pfp")
-
-        if pfp is not None:
-            # Creating a new profile with pfp
-            Profile.objects.create(user=user, pfp=pfp)
-        else:
-            # Creating a new profile without pfp
-            Profile.objects.create(user=user)
-
-        # Authentication
-        authenticated_user = authenticate(
-            request, username=username, password=password, email=email
+        user = User.objects.create(
+            username=username, email=email, password=password, pfp=pfp
         )
 
+        # Authentication
+        authenticated_user = authenticate(request, **user)
         login(request, authenticated_user)
 
         return redirect("home")
@@ -110,8 +101,8 @@ class Login(DataMixin, FormView):
             return redirect("home")
 
         # If invalid
-        form.add_error("password", 
-            "Invalid username and/or password")
+        form.add_error("password", "Invalid username and/or password")
+
         # Showing form with errors
         return self.form_invalid(form)
 
@@ -119,7 +110,7 @@ class Login(DataMixin, FormView):
 class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
     template_name = "auth/change_username.html"
     form_class = ChangeUsernameForm
-    model = Profile
+    model = User
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -139,9 +130,8 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
             return self.form_invalid(form)
 
         # Changing username and saving changes
-        user = User.objects.get(username=self.request.user.username)
-        user.username = new_username
-        user.save()
+        self.request.user.username = new_username
+        self.request.user.save()
 
         return redirect("see_profile", username=new_username)
 
@@ -149,7 +139,7 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
 class ChangePassword(DataMixin, LoginRequiredMixin, FormView):
     template_name = "auth/change_password.html"
     form_class = ChangePasswordForm
-    model = Profile
+    model = User
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -170,9 +160,8 @@ class ChangePassword(DataMixin, LoginRequiredMixin, FormView):
             return self.form_invalid(form)
 
         # Else
-        user = self.request.user
-        user.set_password(new_password)
-        user.save()
+        self.request.user.set_password(new_password)
+        self.request.user.save()
 
         return redirect(self.login_url)
 
@@ -180,7 +169,7 @@ class ChangePassword(DataMixin, LoginRequiredMixin, FormView):
 class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
     template_name = "auth/change_pfp.html"
     form_class = ChangePfpForm
-    model = Profile
+    model = User
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -198,31 +187,29 @@ class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
             return self.form_invalid(form)
 
         # Getting user and changing pfp
-        user = Profile.objects.get(user=self.request.user)
-        user.pfp = new_pfp
-        user.save()
+        self.request.user.pfp = new_pfp
+        self.request.user.save()
 
-        return redirect("see_profile", username=user.user.username)
+        return redirect("see_profile", username=self.request.user.username)
 
 
 def logout_user(request: HttpRequest) -> HttpResponseRedirect:
     logout(request)
-
     return HttpResponseRedirect("/")
 
 
 @cache_page(30)
 def see_profile(request: HttpRequest, username: str) -> HttpResponse:
     # Getting user articles
-    articles = Article.objects.filter(author__user__username=username).values(
+    articles = Article.objects.filter(author__username=username).values(
         "headling", "full_text", "update", 
         "pub_date", "pk", "author", "author__pfp", 
-        "author__user__username"
+        "author__username"
     )
 
     context = get_paginator_context(
         request, articles, f"{username}'s profile",
-        profile=get_object_or_404(Profile, user__username=username)
+        profile=get_object_or_404(User, username=username)
     )
 
     return render(request, "profile/profile.html", context)
@@ -231,17 +218,16 @@ def see_profile(request: HttpRequest, username: str) -> HttpResponse:
 @cache_page(60 * 30)
 def profile_settings(request: HttpRequest, username: str) -> HttpResponse:
     # Getting profile or raising 404
-    user = request.user
-    profile = get_object_or_404(Profile, user__username=username)
+    user = get_object_or_404(User, username=username)
 
     # Validation
     valid = 0
-    if user.is_authenticated and user.username == username:
+    if request.user.is_authenticated and request.user.username == username:
         valid = 1
 
     context = get_base_context(
         request, name=f"{username}'s profile settings",
-        profile=profile, valid=valid
+        profile=user, valid=valid
     )
 
     return render(request, "profile/settings.html", context)
@@ -250,7 +236,7 @@ def profile_settings(request: HttpRequest, username: str) -> HttpResponse:
 class SocialMediaLinks(DataMixin, LoginRequiredMixin, UpdateView):
     template_name = "profile/social_media_links.html"
     form_class = SocialMediaLinksForm
-    model = Profile
+    model = User
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -258,5 +244,5 @@ class SocialMediaLinks(DataMixin, LoginRequiredMixin, UpdateView):
 
         return dict(list(context.items()) + list(base.items()))
 
-    def get_object(self, queryset: QuerySet[Any] | None = ...) -> Profile:
-        return Profile.objects.get(user__username=self.request.user.username)
+    def get_object(self, queryset: QuerySet[Any] | None = ...) -> User:
+        return self.request.user

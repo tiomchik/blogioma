@@ -1,9 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
 from captcha.fields import CaptchaField
 
-from .models import Profile
+from .models import User
 
 
 class SignUpForm(forms.ModelForm):
@@ -42,7 +41,7 @@ class SignUpForm(forms.ModelForm):
     captcha = CaptchaField()
 
     class Meta:
-        model = Profile
+        model = User
         fields = ["username", "password", "password1"]
 
 
@@ -73,7 +72,7 @@ class ChangeUsernameForm(forms.ModelForm):
     captcha = CaptchaField()
 
     class Meta:
-        model = Profile
+        model = User
         fields = ["new_username"]
 
 
@@ -106,7 +105,7 @@ class ChangePfpForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Profile
+        model = User
         fields = ["new_pfp"]
 
 
@@ -164,5 +163,5 @@ class SocialMediaLinksForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Profile
+        model = User
         fields = ["youtube", "tiktok", "twitch", "linkedin"]

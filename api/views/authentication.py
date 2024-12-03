@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from rest_framework import generics, status
@@ -6,10 +5,8 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.permissions import IsAuthenticated
 
-from api.serializers import (
-    UserSerializer, EditUserSerializer, ProfileSerializer
-)
-from authentication.models import Profile
+from api.serializers import UserSerializer, EditUserSerializer
+from authentication.models import User
 
 
 class RegisterView(generics.CreateAPIView):
@@ -22,8 +19,9 @@ class RegisterView(generics.CreateAPIView):
         email = serializer.validated_data.get("email")
         pfp = serializer.validated_data.get("pfp")
 
-        user = User.objects.create(username=username, password=password, email=email)
-        Profile.objects.create(user=user, pfp=pfp)
+        user = User.objects.create(
+            username=username, password=password, email=email, pfp=pfp
+        )
 
         return user
 
@@ -39,22 +37,19 @@ class RegisterView(generics.CreateAPIView):
 
 
 class Me(generics.RetrieveUpdateAPIView):
-    serializer_class = ProfileSerializer
+    serializer_class = UserSerializer
     permission_classes = (IsAuthenticated, )
 
     @method_decorator(cache_page(60))
     def retrieve(self, request: Request, *args, **kwargs) -> Response:
-        profile = self.get_object()
-
+        user = self.get_object()
         return Response(
-            ProfileSerializer(profile).data, status=status.HTTP_200_OK
+            UserSerializer(user).data, status=status.HTTP_200_OK
         )
 
-    def get_object(self) -> Profile:
-        obj = Profile.objects.get(user=self.request.user)
-        self.check_object_permissions(self.request, obj)
-
-        return obj
+    def get_object(self) -> User:
+        self.check_object_permissions(self.request, self.request.user)
+        return self.request.user
 
 
 class Edit(generics.RetrieveUpdateDestroyAPIView):
@@ -62,7 +57,5 @@ class Edit(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated, )
 
     def get_object(self) -> User:
-        obj = User.objects.get(username=self.request.user.username)
-        self.check_object_permissions(self.request, obj)
-
-        return obj
+        self.check_object_permissions(self.request, self.request.user)
+        return self.request.user

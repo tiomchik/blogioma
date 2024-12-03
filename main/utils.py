@@ -1,7 +1,6 @@
 from typing import Any
 from collections.abc import Awaitable, Callable, Sequence
 from django.core.paginator import Paginator
-from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse, HttpResponseBase
 from django.urls import reverse
 from django.urls.conf import _path
@@ -9,7 +8,7 @@ from django.urls.resolvers import RoutePattern, URLPattern, URLResolver
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from authentication.models import Profile
+from authentication.models import User
 from articles.models import Article
 from comments.models import Comment
 
@@ -25,20 +24,15 @@ class DataMixin():
 
 class GenericTestCase(APITestCase):
     def setUp(self) -> None:
-        data = {
-            "username": "test_user1",
-            "password": "12341234",
-            "email": "test@test.com"
-        }
+        data = {"username": "test_user1", "password": "12341234"}
         self._register_user(**data)
 
         self.user = User.objects.get(username=data["username"])
-        self.profile = Profile.objects.get(user=self.user)
         self.token = self._obtain_token(**data)
 
         self.article = self._create_article()
         self.comment = Comment.objects.create(
-            text="nice article", article=self.article, profile=self.profile
+            text="nice article", article=self.article, profile=self.user
         )
 
     def setUpSessionAuth(self) -> None:
@@ -47,7 +41,6 @@ class GenericTestCase(APITestCase):
         the `setUp()`."""
         user_data = {"username": "test_user", "password": "12341234"}
         self.user = User.objects.create_user(**user_data)
-        self.profile = Profile.objects.create(user=self.user)
         self.client.login(**user_data)
 
         self.article = self._create_article()
@@ -91,7 +84,7 @@ class GenericTestCase(APITestCase):
         """Creates article and returns it."""
         data = {
             "headling": headling, "full_text": full_text,
-            "author": self.profile
+            "author": self.user
         }
         return Article.objects.create(**data)
 
@@ -102,9 +95,8 @@ def get_base_context(
     """Returns a base context dict with passed name and kwargs"""
     context = kwargs
     context["name"] = name
-    context["user_profile"] = Profile.objects.get(
-        user=request.user
-    ) if request.user.is_authenticated else None
+    if request.user.is_authenticated:
+        context["user_profile"] = request.user
 
     return context
 

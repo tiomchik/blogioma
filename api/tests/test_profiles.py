@@ -5,7 +5,7 @@ from rest_framework import status
 from main.utils import GenericTestCase
 
 
-class ProfileTests(GenericTestCase):
+class UserTests(GenericTestCase):
     def test_change_username(self) -> None:
         data = {"username": "updated_test_user"}
         url = reverse("edit-me")
@@ -53,10 +53,10 @@ class ProfileTests(GenericTestCase):
             url, headers={"Authorization": f"Token {self.token}"}
         )
 
-        self.assertContains(r, self.profile.youtube)
-        self.assertContains(r, self.profile.tiktok)
-        self.assertContains(r, self.profile.twitch)
-        self.assertContains(r, self.profile.linkedin)
+        self.assertContains(r, self.user.youtube)
+        self.assertContains(r, self.user.tiktok)
+        self.assertContains(r, self.user.twitch)
+        self.assertContains(r, self.user.linkedin)
 
     def test_update_social_links(self) -> None:
         self._set_social_links()
@@ -84,8 +84,8 @@ class ProfileTests(GenericTestCase):
         twitch: str = "https://twitch.tv/",
         linkedin: str = "https://linkedin.com/"
     ) -> HttpResponse:
-        """Sets a social links to the `self.profile` using PUT."""
-        url = reverse("me")
+        """Sets a social links to the `self.user` using PUT."""
+        url = reverse("edit-me")
         data = {
             "youtube": youtube, "tiktok": tiktok,
             "twitch": twitch, "linkedin": linkedin
@@ -93,7 +93,7 @@ class ProfileTests(GenericTestCase):
         r = self.client.put(
             url, data, headers={"Authorization": f"Token {self.token}"}
         )
-        self.profile.refresh_from_db()
+        self.user.refresh_from_db()
 
         return r
 

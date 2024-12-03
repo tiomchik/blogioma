@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
@@ -70,7 +69,7 @@ class ArticleTests(GenericTestCase):
 
         self.assertContains(r, self.article.headling)
         self.assertContains(r, self.article.full_text)
-        self.assertContains(r, self.article.author.user.username)
+        self.assertContains(r, self.article.author.username)
 
     def test_random(self) -> None:
         url = reverse("random_article")

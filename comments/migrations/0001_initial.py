@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('pub_date', models.DateTimeField(auto_now_add=True, verbose_name='Date of send')),
                 ('update', models.DateTimeField(blank=True, null=True, verbose_name='Date of update')),
                 ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.article')),
-                ('profile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='authentication.profile')),
+                ('profile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='authentication.user')),
             ],
             options={
                 'verbose_name': 'Comment',

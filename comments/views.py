@@ -10,7 +10,6 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.edit import CreateView, UpdateView
 
 from articles.models import Article
-from authentication.models import Profile
 from main.utils import get_paginator_context, DataMixin
 from .forms import AddCommentForm
 from .models import Comment
@@ -22,7 +21,7 @@ def see_comments(request: HttpRequest, pk: int) -> HttpResponse:
     article = Article.objects.get(pk=pk)
     comments = Comment.objects.filter(article=article).values(
         "profile", "profile__pfp", "pk", "article__pk",
-        "profile__user__username", "update", "pub_date", "text"
+        "profile__username", "update", "pub_date", "text"
     )
 
     context = get_paginator_context(
@@ -49,12 +48,13 @@ class AddComment(DataMixin, LoginRequiredMixin, CreateView):
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting article pk, data from from and etc.
         pk = self.kwargs["pk"]
-        profile = Profile.objects.get(user=self.request.user)
         article = Article.objects.get(pk=pk)
         text = form.cleaned_data.get("text")
 
         # Creating a new comment
-        Comment.objects.create(profile=profile, article=article, text=text)
+        Comment.objects.create(
+            profile=self.request.user, article=article, text=text
+        )
 
         return redirect("comments", pk=pk)
 
@@ -67,7 +67,7 @@ def delete_comment(
     article = Article.objects.get(pk=pk)
 
     # Author and related article check
-    if request.user != comment.profile.user:
+    if request.user != comment.profile:
         return redirect("home")
     if comment.article != article:
         return redirect("home")

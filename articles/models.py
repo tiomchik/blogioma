@@ -1,14 +1,13 @@
 from django.db import models
 
-from authentication.models import Profile
+from authentication.models import User
 
 
 class Article(models.Model):
     headling = models.CharField("Headling", max_length=100)
     full_text = models.TextField("Text")
     author = models.ForeignKey(
-        Profile, models.CASCADE,verbose_name="Author",
-        unique=False
+        User, models.CASCADE,verbose_name="Author", unique=False
     )
     pub_date = models.DateTimeField("Date of publication", auto_now_add=True)
     viewings = models.IntegerField("Viewings", default=0)

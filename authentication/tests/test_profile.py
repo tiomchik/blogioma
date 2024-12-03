@@ -13,10 +13,10 @@ class ProfileTests(GenericTestCase):
 
     def test_get_profile(self) -> None:
         url = reverse(
-            "see_profile", kwargs={"username": self.profile.user.username}
+            "see_profile", kwargs={"username": self.user.username}
         )
         r = self.client.get(url)
-        self.assertContains(r, self.profile.user.username)
+        self.assertContains(r, self.user.username)
 
     def test_get_profile_articles(self) -> None:
         article = self._create_article(headling="article")
@@ -25,7 +25,7 @@ class ProfileTests(GenericTestCase):
 
         cache.clear()
         url = reverse(
-            "see_profile", kwargs={"username": self.profile.user.username}
+            "see_profile", kwargs={"username": self.user.username}
         )
         r = self.client.get(url)
 
@@ -44,8 +44,8 @@ class ProfileTests(GenericTestCase):
             url, {"new_pfp": new_pfp}, follow=True, format="multipart"
         )
 
-        self.profile.refresh_from_db()
-        self.assertIsNotNone(self.profile.pfp)
+        self.user.refresh_from_db()
+        self.assertIsNotNone(self.user.pfp)
 
     def test_change_username(self) -> None:
         username = "new_username"
@@ -59,8 +59,8 @@ class ProfileTests(GenericTestCase):
             content_type="application/x-www-form-urlencoded"
         )
 
-        self.profile.refresh_from_db()
-        self.assertEqual(self.profile.user.username, username)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.username, username)
 
     def test_change_password(self) -> None:
         password = "new_password"
@@ -90,10 +90,10 @@ class ProfileTests(GenericTestCase):
         r = self._set_social_links(**data)
 
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(self.profile.youtube, data["youtube"])
-        self.assertEqual(self.profile.tiktok, data["tiktok"])
-        self.assertEqual(self.profile.twitch, data["twitch"])
-        self.assertEqual(self.profile.linkedin, data["linkedin"])
+        self.assertEqual(self.user.youtube, data["youtube"])
+        self.assertEqual(self.user.tiktok, data["tiktok"])
+        self.assertEqual(self.user.twitch, data["twitch"])
+        self.assertEqual(self.user.linkedin, data["linkedin"])
 
     def test_read_social_links(self) -> None:
         self._set_social_links()
@@ -102,10 +102,10 @@ class ProfileTests(GenericTestCase):
         cache.clear()
         r = self.client.get(url)
 
-        self.assertIn(self.profile.youtube, str(r.content))
-        self.assertIn(self.profile.tiktok, str(r.content))
-        self.assertIn(self.profile.twitch, str(r.content))
-        self.assertIn(self.profile.linkedin, str(r.content))
+        self.assertIn(self.user.youtube, str(r.content))
+        self.assertIn(self.user.tiktok, str(r.content))
+        self.assertIn(self.user.twitch, str(r.content))
+        self.assertIn(self.user.linkedin, str(r.content))
 
     def test_update_social_links(self) -> None:
         self._set_social_links()
@@ -120,17 +120,17 @@ class ProfileTests(GenericTestCase):
             follow=True
         )
 
-        self.profile.refresh_from_db()
-        self.assertEqual(self.profile.youtube, youtube)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.youtube, youtube)
 
     def test_delete_social_links(self) -> None:
         self._set_social_links()
         self._set_social_links(youtube="", tiktok="", twitch="", linkedin="")
 
-        self.assertEqual(self.profile.youtube, "")
-        self.assertEqual(self.profile.tiktok, "")
-        self.assertEqual(self.profile.twitch, "")
-        self.assertEqual(self.profile.linkedin, "")
+        self.assertEqual(self.user.youtube, "")
+        self.assertEqual(self.user.tiktok, "")
+        self.assertEqual(self.user.twitch, "")
+        self.assertEqual(self.user.linkedin, "")
 
     # ========================
     # ====== Test utils ======
@@ -141,7 +141,7 @@ class ProfileTests(GenericTestCase):
         twitch: str = "https://twitch.tv/",
         linkedin: str = "https://linkedin.com/"
     ) -> HttpResponse:
-        """Sets a passed social media links to the `self.profile`
+        """Sets a passed social media links to the `self.user`
         using POST."""
         url = reverse(
             "social_media_links", kwargs={"username": self.user.username}
@@ -154,6 +154,6 @@ class ProfileTests(GenericTestCase):
             url, data, content_type="application/x-www-form-urlencoded",
             follow=True
         )
-        self.profile.refresh_from_db()
+        self.user.refresh_from_db()
 
         return r

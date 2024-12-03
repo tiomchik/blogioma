@@ -3,7 +3,7 @@
 
 {% block content %}
 
-{% if request.user == comment.profile.user %}
+{% if request.user == comment.profile %}
 <form method="post">
   {% show_form form %} 
 

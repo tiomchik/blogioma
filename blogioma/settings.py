@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     "api.apps.ApiConfig",
 ]
 
+AUTH_USER_MODEL = "authentication.User"
+
 if settings.DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
 

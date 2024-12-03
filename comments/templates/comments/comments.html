@@ -52,7 +52,7 @@
   <div class="comment">
     <div class="comment-info">
       <a
-        href="{% url 'see_profile' comment.profile__user__username %}"
+        href="{% url 'see_profile' comment.profile__username %}"
         class="author"
       >
         {% if comment.profile__pfp %}
@@ -63,7 +63,7 @@
             class="pfp"
           />
         </div>
-        {{ comment.profile__user__username }}
+        {{ comment.profile__username }}
         {% else %}
         <div class="wrapper">
           <svg
@@ -84,7 +84,7 @@
             <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
           </svg>
         </div>
-        {{ comment.profile__user__username }}
+        {{ comment.profile__username }}
         {% endif %}
       </a>
       {% if comment.update %}
@@ -94,7 +94,7 @@
       {% endif %}
     </div>
     <p>{{ comment.text|linebreaksbr|escape }}</p>
-    {% if request.user.username == comment.profile__user__username %}
+    {% if request.user.username == comment.profile__username %}
     <div class="control">
       <!-- Update comment button -->
       <a href="{% url 'update_comment' comment.article__pk comment.pk %}">

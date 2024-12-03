@@ -12,7 +12,6 @@ from django.http import (
 )
 from random import randint
 
-from authentication.models import Profile
 from main.utils import DataMixin, get_paginator_context
 from .forms import AddArticleForm
 from .models import Article
@@ -32,16 +31,13 @@ class AddArticle(DataMixin, LoginRequiredMixin, CreateView):
     def form_valid(
         self, form: AddArticleForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-        request = self.request
-
         # Getting data from a form and format text to markdown
         headling = form.cleaned_data.get("headling")
         full_text = form.cleaned_data.get("full_text")
 
         # Creating a new article
-        profile = Profile.objects.get(user=request.user)
         Article.objects.create(
-            headling=headling, full_text=full_text, author=profile
+            headling=headling, full_text=full_text, author=self.request.user
         )
 
         return redirect("home")
@@ -71,7 +67,7 @@ def delete_article(
     article = Article.objects.get(pk=pk)
 
     # If user is author or staff
-    if request.user == article.author.user or request.user.is_staff:
+    if request.user == article.author or request.user.is_staff:
         article.delete()
 
     return redirect("home")
@@ -140,7 +136,7 @@ def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
     # Getting articles
     articles = Article.objects.order_by(field).values(
         "headling", "full_text", "update", "pub_date", "pk", 
-        "author", "author__pfp", "author__user__username"
+        "author", "author__pfp", "author__username"
     )
 
     context = get_paginator_context(request, articles, name)

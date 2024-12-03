@@ -16,12 +16,12 @@ def show_articles(order_by: str = "-pub_date", only_6=None, page_obj=None):
             context["articles_for"] = Article.objects.order_by(
             order_by)[:6].values("headling", "full_text", 
             "update", "pub_date", "pk", "author", "author__pfp", 
-                                    "author__user__username")
+                                    "author__username")
         else:
             context["articles_for"] = Article.objects.order_by(
                 order_by).values("headling", "full_text", 
             "update", "pub_date", "pk", "author", "author__pfp", 
-                                    "author__user__username")
+                                    "author__username")
 
     return context
 

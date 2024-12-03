@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('viewings', models.IntegerField(default=0, verbose_name='Viewings')),
                 ('update', models.DateTimeField(default=None, null=True, verbose_name='Date of update')),
                 ('reports', models.IntegerField(blank=True, default=0, null=True, verbose_name='Reports')),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='authentication.profile', verbose_name='Author')),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='authentication.user', verbose_name='Author')),
             ],
             options={
                 'verbose_name': 'Article',

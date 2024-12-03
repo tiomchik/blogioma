@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='report',
             name='owner',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='authentication.profile'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='authentication.user'),
             preserve_default=False,
         ),
     ]

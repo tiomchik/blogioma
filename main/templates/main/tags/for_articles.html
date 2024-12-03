@@ -5,7 +5,7 @@
     <p>{{ article.full_text|truncatechars:110 }}</p>
     <div class="author">
       <a
-        href="{% url 'see_profile' article.author__user__username %}"
+        href="{% url 'see_profile' article.author__username %}"
         class="user"
       >
         {% if not article.author__pfp %}
@@ -28,12 +28,12 @@
             <path d="M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path>
           </svg>
         </div>
-        {{ article.author__user__username }}
+        {{ article.author__username }}
         {% else %}
         <div class="wrapper">
           <img src="/media/{{ article.author__pfp }}" alt="Profile picture" />
         </div>
-        {{ article.author__user__username }}
+        {{ article.author__username }}
         {% endif %}
       </a>
 

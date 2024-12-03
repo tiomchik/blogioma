@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 
 from articles.models import Article
-from authentication.models import Profile
+from authentication.models import User
 from api.serializers import ArticleSerializer
 from api.permissions import IsAuthorOrStaffOrReadOnly
 from api.utils import Pagination, plus_viewing
@@ -27,11 +27,10 @@ class ArticleViewSet(viewsets.ModelViewSet):
         return Article.objects.create(**kwargs)
 
     def create(self, request: Request, *args, **kwargs) -> Response:
-        author = Profile.objects.get(user=request.user)
         article_dict = {
             "headling": request.data.get("headling"),
             "full_text": request.data.get("full_text"),
-            "author": author
+            "author": self.request.user
         }
         serializer = ArticleSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -56,7 +55,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
                 # Full text
                 Q(full_text__iregex=query) |
                 # Author username
-                Q(author__user__username__iregex=query)
+                Q(author__username__iregex=query)
             )
         else:
             queryset = self.filter_queryset(self.get_queryset())

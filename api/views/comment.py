@@ -12,7 +12,6 @@ from articles.models import Article
 from api.serializers import CommentSerializer
 from api.permissions import IsAuthorOrStaffOrReadOnly
 from api.utils import Pagination
-from authentication.models import Profile
 from comments.models import Comment
 
 
@@ -26,12 +25,12 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Comment.objects.create(**kwargs)
 
     def create(self, request: Request, *args, **kwargs) -> Response:
-        profile = Profile.objects.get(user=request.user)
         article = get_object_or_404(
             Article.objects.all(), pk=kwargs.get("article_pk")
         )
         comment_dict = {
-            "profile": profile, "article": article,
+            "profile": self.request.user,
+            "article": article,
             "text": request.data.get("text")
         }
 
