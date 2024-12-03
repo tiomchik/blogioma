@@ -36,7 +36,7 @@ class RegisterView(generics.CreateAPIView):
         )
 
 
-class Me(generics.RetrieveUpdateAPIView):
+class Me(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated, )
 
