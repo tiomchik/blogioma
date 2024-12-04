@@ -66,9 +66,8 @@ class SignUp(DataMixin, CreateView):
             username=username, email=email, password=password, pfp=pfp
         )
 
-        # Authentication
-        authenticated_user = authenticate(request, **user)
-        login(request, authenticated_user)
+        # Logging in
+        login(request, user)
 
         return redirect("home")
 
