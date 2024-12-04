@@ -27,7 +27,7 @@ class Feedback(DataMixin, FormView):
     def form_valid(self, form: FeedbackForm) -> HttpResponse:
         if form.is_valid():
             # Getting data from a form
-            headling = "Blogioma report: " + form.cleaned_data.get("problem")
+            heading = "Blogioma report: " + form.cleaned_data.get("problem")
             desc = form.cleaned_data.get("problem_desc")
             email = form.cleaned_data.get("email")
 
@@ -35,7 +35,7 @@ class Feedback(DataMixin, FormView):
             desc += f"\n\n\nUser email: {email}"
 
             # Sending mail
-            send_feedback.delay(headling, desc)
+            send_feedback.delay(heading, desc)
 
             return render(
                 self.request, "feedback/feedback_success.html",

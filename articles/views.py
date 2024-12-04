@@ -32,12 +32,12 @@ class AddArticle(DataMixin, LoginRequiredMixin, CreateView):
         self, form: AddArticleForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting data from a form and format text to markdown
-        headling = form.cleaned_data.get("headling")
+        heading = form.cleaned_data.get("heading")
         full_text = form.cleaned_data.get("full_text")
 
         # Creating a new article
         Article.objects.create(
-            headling=headling, full_text=full_text, author=self.request.user
+            heading=heading, full_text=full_text, author=self.request.user
         )
 
         return redirect("home")
@@ -55,7 +55,7 @@ class ReadArticle(DataMixin, DetailView):
         # +1 viewing
         article.viewings = F("viewings") + 1
         article.save()
-        base = self.get_base_context(article.headling, article=article)
+        base = self.get_base_context(article.heading, article=article)
 
         return dict(list(context.items()) + list(base.items()))
 
@@ -92,7 +92,7 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
 
         # Updating data
         article.update = timezone.now()
-        article.headling = form.cleaned_data.get("headling")
+        article.heading = form.cleaned_data.get("heading")
         article.full_text = form.cleaned_data.get("full_text")
         article.save()
 
@@ -135,7 +135,7 @@ def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
 
     # Getting articles
     articles = Article.objects.order_by(field).values(
-        "headling", "full_text", "update", "pub_date", "pk", 
+        "heading", "full_text", "update", "pub_date", "pk", 
         "author", "author__pfp", "author__username"
     )
 

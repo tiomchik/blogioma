@@ -15,44 +15,44 @@ class ArticleTests(GenericTestCase):
     # ====== Create ======
     # ====================
     def test_create(self) -> None:
-        headling = "article test"
+        heading = "article test"
         full_text = "lorem ipsum dolor"
-        data = urlencode({"headling": headling, "full_text": full_text})
+        data = urlencode({"heading": heading, "full_text": full_text})
         self._post_article(data)
 
-        self.assertTrue(Article.objects.filter(headling=headling).exists())
+        self.assertTrue(Article.objects.filter(heading=heading).exists())
 
     def test_unauth_create(self) -> None:
         self.client.logout()
 
-        headling = "article test"
+        heading = "article test"
         full_text = "lorem ipsum dolor"
-        data = urlencode({"headling": headling, "full_text": full_text})
+        data = urlencode({"heading": heading, "full_text": full_text})
         self._post_article(data)
 
-        self.assertFalse(Article.objects.filter(headling=headling).exists())
+        self.assertFalse(Article.objects.filter(heading=heading).exists())
 
-    def test_create_without_headling(self) -> None:
-        full_text = "lorem ipsum dolor without headling"
+    def test_create_without_heading(self) -> None:
+        full_text = "lorem ipsum dolor without heading"
         data = urlencode({"full_text": full_text})
         self._post_article(data)
 
         self.assertFalse(Article.objects.filter(full_text=full_text).exists())
 
-    def test_create_with_very_long_headling(self) -> None:
-        headling = "article test" * 10
+    def test_create_with_very_long_heading(self) -> None:
+        heading = "article test" * 10
         full_text = "lorem ipsum dolor"
-        data = urlencode({"headling": headling, "full_text": full_text})
+        data = urlencode({"heading": heading, "full_text": full_text})
         self._post_article(data)
 
-        self.assertFalse(Article.objects.filter(headling=headling).exists())
+        self.assertFalse(Article.objects.filter(heading=heading).exists())
 
     def test_create_without_full_text(self) -> None:
-        headling = "article test"
-        data = urlencode({"headling": headling})
+        heading = "article test"
+        data = urlencode({"heading": heading})
         self._post_article(data)
 
-        self.assertFalse(Article.objects.filter(headling=headling).exists())
+        self.assertFalse(Article.objects.filter(heading=heading).exists())
 
     # ==================
     # ====== Read ======
@@ -61,13 +61,13 @@ class ArticleTests(GenericTestCase):
         url = reverse("home")
         r = self.client.get(url)
 
-        self.assertContains(r, self.article.headling)
+        self.assertContains(r, self.article.heading)
 
     def test_read_detail(self) -> None:
         url = reverse("read", kwargs={"pk": self.article.pk})
         r = self.client.get(url)
 
-        self.assertContains(r, self.article.headling)
+        self.assertContains(r, self.article.heading)
         self.assertContains(r, self.article.full_text)
         self.assertContains(r, self.article.author.username)
 
@@ -82,54 +82,54 @@ class ArticleTests(GenericTestCase):
     # ====== Update ======
     # ====================
     def test_update(self) -> None:
-        headling = "updated article"
+        heading = "updated article"
         full_text = "new lorem ipsum dolor"
-        data = urlencode({"headling": headling, "full_text": full_text})
+        data = urlencode({"heading": heading, "full_text": full_text})
         self._update_article(data)
 
-        self.assertTrue(Article.objects.filter(headling=headling).exists())
+        self.assertTrue(Article.objects.filter(heading=heading).exists())
 
-    def test_update_without_headling(self) -> None:
+    def test_update_without_heading(self) -> None:
         full_text = "new lorem ipsum dolor"
         data = urlencode({"full_text": full_text})
         self._update_article(data)
 
         self.assertFalse(Article.objects.filter(full_text=full_text).exists())
 
-    def test_update_with_very_long_headling(self) -> None:
-        headling = "updated article" * 10
+    def test_update_with_very_long_heading(self) -> None:
+        heading = "updated article" * 10
         full_text = "new lorem ipsum dolor"
-        data = urlencode({"headling": headling, "full_text": full_text})
+        data = urlencode({"heading": heading, "full_text": full_text})
         self._update_article(data)
 
-        self.assertFalse(Article.objects.filter(headling=headling).exists())
+        self.assertFalse(Article.objects.filter(heading=heading).exists())
 
     def test_update_without_full_text(self) -> None:
-        headling = "updated article"
-        data = urlencode({"headling": headling})
+        heading = "updated article"
+        data = urlencode({"heading": heading})
         self._update_article(data)
 
-        self.assertFalse(Article.objects.filter(headling=headling).exists())
+        self.assertFalse(Article.objects.filter(heading=heading).exists())
 
     def test_unauth_update(self) -> None:
         self.client.logout()
 
-        headling = "updated article"
+        heading = "updated article"
         full_text = "new lorem ipsum dolor"
-        data = urlencode({"headling": headling, "full_text": full_text})
+        data = urlencode({"heading": heading, "full_text": full_text})
         self._update_article(data)
 
-        self.assertFalse(Article.objects.filter(headling=headling).exists())
+        self.assertFalse(Article.objects.filter(heading=heading).exists())
 
     def test_update_nonuser_article(self) -> None:
         self._auth_to_another_user()
 
-        headling = "updated article"
+        heading = "updated article"
         full_text = "new lorem ipsum dolor"
-        data = urlencode({"headling": headling, "full_text": full_text})
+        data = urlencode({"heading": heading, "full_text": full_text})
         self._update_article(data)
 
-        self.assertFalse(Article.objects.filter(headling=headling).exists())
+        self.assertFalse(Article.objects.filter(heading=heading).exists())
 
     # ====================
     # ====== Delete ======
@@ -138,7 +138,7 @@ class ArticleTests(GenericTestCase):
         r = self._del_article()
         self.assertEqual(r.status_code, 200)
         self.assertFalse(
-            Article.objects.filter(headling=self.article.headling).exists()
+            Article.objects.filter(heading=self.article.heading).exists()
         )
 
     def test_delete_nonuser_article(self) -> None:
@@ -146,7 +146,7 @@ class ArticleTests(GenericTestCase):
 
         r = self._del_article()
         self.assertTrue(
-            Article.objects.filter(headling=self.article.headling).exists()
+            Article.objects.filter(heading=self.article.heading).exists()
         )
 
     # ========================

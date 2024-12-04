@@ -19,9 +19,9 @@ class ProfileTests(GenericTestCase):
         self.assertContains(r, self.user.username)
 
     def test_get_profile_articles(self) -> None:
-        article = self._create_article(headling="article")
-        article1 = self._create_article(headling="article1")
-        article2 = self._create_article(headling="article2")
+        article = self._create_article(heading="article")
+        article1 = self._create_article(heading="article1")
+        article2 = self._create_article(heading="article2")
 
         cache.clear()
         url = reverse(
@@ -29,9 +29,9 @@ class ProfileTests(GenericTestCase):
         )
         r = self.client.get(url)
 
-        self.assertContains(r, article.headling)
-        self.assertContains(r, article1.headling)
-        self.assertContains(r, article2.headling)
+        self.assertContains(r, article.heading)
+        self.assertContains(r, article1.heading)
+        self.assertContains(r, article2.heading)
 
     def test_change_pfp(self) -> None:
         with open("authentication/tests/cat.jpg", "rb") as pfp:

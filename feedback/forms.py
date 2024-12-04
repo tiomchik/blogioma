@@ -12,7 +12,7 @@ class FeedbackForm(forms.Form):
     )
 
     problem = forms.CharField(
-        min_length=5, max_length=50, label="Headling", widget=forms.TextInput(
+        min_length=5, max_length=50, label="Heading", widget=forms.TextInput(
             attrs={"class": "form-input"}
         )
     )

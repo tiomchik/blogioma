@@ -5,9 +5,9 @@ from celery import shared_task
 
 
 @shared_task
-def send_feedback(headling: str, desc: str) -> None:
+def send_feedback(heading: str, desc: str) -> None:
     sended_email = EmailMessage(
-        subject=headling, body=desc,
+        subject=heading, body=desc,
         from_email=settings.EMAIL_HOST_USER,
         to=[settings.EMAIL_HOST_USER]
     )

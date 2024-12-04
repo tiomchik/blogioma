@@ -26,7 +26,7 @@ def see_comments(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = get_paginator_context(
         request, object_list=comments,
-        name=f"Comments to article \"{article.headling}\".",
+        name=f"Comments to article \"{article.heading}\".",
         article=article
     )
 

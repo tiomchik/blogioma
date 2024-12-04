@@ -54,7 +54,7 @@ class CommentTests(GenericTestCase):
         self.assertContains(r, self.comment.profile.username)
 
     def test_read_comments_of_another_article(self) -> None:
-        article = self._create_article(headling="testing comments")
+        article = self._create_article(heading="testing comments")
         self.comment.delete()
         comment = Comment.objects.create(
             article=article, text="nice article", profile=self.user

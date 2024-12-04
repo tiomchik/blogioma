@@ -4,7 +4,7 @@ from authentication.models import User
 
 
 class Article(models.Model):
-    headling = models.CharField("Headling", max_length=100)
+    heading = models.CharField("Heading", max_length=100)
     full_text = models.TextField("Text")
     author = models.ForeignKey(
         User, models.CASCADE,verbose_name="Author", unique=False
@@ -15,7 +15,7 @@ class Article(models.Model):
     reports = models.ManyToManyField("feedback.Report", blank=True)
 
     def __str__(self) -> str:
-        return f"Article: {self.headling}"
+        return f"Article: {self.heading}"
 
     def get_absolute_url(self) -> str:
         return f"/article/{self.pk}"

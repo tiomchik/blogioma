@@ -4,8 +4,8 @@ from .models import Article
 
 
 class AddArticleForm(forms.ModelForm):
-    headling = forms.CharField(
-        min_length=1, max_length=100, label="Headling", widget=forms.TextInput(
+    heading = forms.CharField(
+        min_length=1, max_length=100, label="Heading", widget=forms.TextInput(
             attrs={"class": "form-input"}
         )
     )
@@ -18,4 +18,4 @@ class AddArticleForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ["headling", "full_text"]
+        fields = ["heading", "full_text"]

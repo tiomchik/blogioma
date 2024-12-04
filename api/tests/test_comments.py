@@ -64,7 +64,7 @@ class CommentTests(GenericTestCase):
         self.assertContains(r, self.comment.text)
 
     def test_read_comments_of_another_article(self) -> None:
-        another_article = self._create_article(headling="another article")
+        another_article = self._create_article(heading="another article")
 
         url = reverse(
             "comment-list", kwargs={"article_pk": another_article.pk}

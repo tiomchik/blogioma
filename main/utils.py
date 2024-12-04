@@ -78,12 +78,12 @@ class GenericTestCase(APITestCase):
         self.client.login(**new_user_data)
 
     def _create_article(
-        self, headling: str = "test_article",
+        self, heading: str = "test_article",
         full_text: str = "lorem ipsum dolor"
     ) -> Article:
         """Creates article and returns it."""
         data = {
-            "headling": headling, "full_text": full_text,
+            "heading": heading, "full_text": full_text,
             "author": self.user
         }
         return Article.objects.create(**data)

@@ -201,7 +201,7 @@ def logout_user(request: HttpRequest) -> HttpResponseRedirect:
 def see_profile(request: HttpRequest, username: str) -> HttpResponse:
     # Getting user articles
     articles = Article.objects.filter(author__username=username).values(
-        "headling", "full_text", "update", 
+        "heading", "full_text", "update", 
         "pub_date", "pk", "author", "author__pfp", 
         "author__username"
     )

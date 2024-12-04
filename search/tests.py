@@ -10,30 +10,30 @@ class SearchTests(GenericTestCase):
         self.setUpSessionAuth()
 
     def test_search(self) -> None:
-        article = self._create_article(headling="find_me")
+        article = self._create_article(heading="find_me")
 
-        r = self._search_article(article.headling)
+        r = self._search_article(article.heading)
 
-        # count=3: 1st in the title tag, 2nd in the main page headling
+        # count=3: 1st in the title tag, 2nd in the main page heading
         # (Search results by query: "find_me") and 3rd in the article card
-        self.assertContains(r, article.headling, count=3)
+        self.assertContains(r, article.heading, count=3)
 
     def test_search_by_author(self) -> None:
-        article = self._create_article(headling="my new article")
+        article = self._create_article(heading="my new article")
 
         r = self._search_article(self.user.username)
 
-        self.assertContains(r, self.article.headling)
-        self.assertContains(r, article.headling)
+        self.assertContains(r, self.article.heading)
+        self.assertContains(r, article.heading)
 
-    def test_search_by_part_of_article_headling(self) -> None:
-        headling = "nicest article"
-        self._create_article(headling=headling)
+    def test_search_by_part_of_article_heading(self) -> None:
+        heading = "nicest article"
+        self._create_article(heading=heading)
 
-        query = headling[:5]
+        query = heading[:5]
         r = self._search_article(query)
 
-        self.assertContains(r, headling)
+        self.assertContains(r, heading)
 
     # ========================
     # ====== Test utils ======

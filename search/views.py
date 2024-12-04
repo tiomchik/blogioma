@@ -31,14 +31,14 @@ class Search(DataMixin, FormView):
 def search_results(request: HttpRequest, query: str) -> HttpResponse:
     # Searching articles
     articles = Article.objects.filter(
-        # By headling
-        Q(headling__iregex=query) | 
+        # By heading
+        Q(heading__iregex=query) | 
         # Full text
         Q(full_text__iregex=query) |
         # Author username
         Q(author__username__iregex=query)
     ).values(
-        "headling", "full_text", "update", "pub_date", "pk",
+        "heading", "full_text", "update", "pub_date", "pk",
         "author", "author__pfp", "author__username"
     )
 

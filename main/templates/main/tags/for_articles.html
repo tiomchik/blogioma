@@ -1,7 +1,7 @@
 <div class="articles">
   {% for article in articles_for %}
   <article>
-    <h1>{{ article.headling|truncatechars:60 }}</h1>
+    <h1>{{ article.heading|truncatechars:60 }}</h1>
     <p>{{ article.full_text|truncatechars:110 }}</p>
     <div class="author">
       <a

@@ -40,7 +40,7 @@ main {
   min-height: 79.2vh;
 }
 
-.headling-page {
+.heading-page {
   text-align: center;
   font-size: 40px;
   margin-bottom: 25px;
@@ -48,7 +48,7 @@ main {
 }
 
 @media screen and (width <= 600px) {
-  .headling-page {
+  .heading-page {
     font-size: 33px;
   }
 }

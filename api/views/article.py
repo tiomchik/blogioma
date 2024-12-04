@@ -28,7 +28,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
     def create(self, request: Request, *args, **kwargs) -> Response:
         article_dict = {
-            "headling": request.data.get("headling"),
+            "heading": request.data.get("heading"),
             "full_text": request.data.get("full_text"),
             "author": self.request.user
         }
@@ -50,8 +50,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
         # If search query passed, then select articles that matches this query
         if query:
             queryset = Article.objects.filter(
-                # By headling
-                Q(headling__iregex=query) | 
+                # By heading
+                Q(heading__iregex=query) | 
                 # Full text
                 Q(full_text__iregex=query) |
                 # Author username
