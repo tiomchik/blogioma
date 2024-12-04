@@ -11,7 +11,7 @@ class UserTests(GenericTestCase):
     # ==========================
     # ======== Register ========
     # ==========================
-    def test_register_without_login(self) -> None:
+    def test_register_without_username(self) -> None:
         user_data = {"password": "12341234"}
         r = self._register_user(**user_data)
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
