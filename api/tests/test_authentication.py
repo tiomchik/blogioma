@@ -8,9 +8,6 @@ from main.utils import GenericTestCase
 
 
 class UserTests(GenericTestCase):
-    # ==========================
-    # ======== Register ========
-    # ==========================
     def test_register_without_username(self) -> None:
         user_data = {"password": "12341234"}
         r = self._register_user(**user_data)
@@ -41,9 +38,6 @@ class UserTests(GenericTestCase):
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
         self.assertIsNotNone(self.user.pfp)
 
-    # ==========================
-    # ===== Me and edit-me =====
-    # ==========================
     def test_me(self) -> None:
         url = reverse("me")
         r = self.client.get(url, headers={"Authorization": f"Token {self.token}"})
@@ -77,9 +71,6 @@ class UserTests(GenericTestCase):
         self.assertEqual(r.status_code, status.HTTP_200_OK)
         self.assertNotEqual(previous_password, self.user.password)
 
-    # ==========================
-    # ====== Social links ======
-    # ==========================
     def test_set_social_links(self) -> None:
         data = {
             "youtube": "https://www.youtube.com/",
@@ -124,9 +115,6 @@ class UserTests(GenericTestCase):
         self.assertEqual(r.json().get("twitch"), "")
         self.assertEqual(r.json().get("linkedin"), "")
 
-    # ========================
-    # ====== Test utils ======
-    # ========================
     def _set_social_links(
         self, youtube: str = "https://www.youtube.com/",
         tiktok: str = "https://tiktok.com/",
@@ -146,4 +134,3 @@ class UserTests(GenericTestCase):
         cache.clear()
 
         return r
-

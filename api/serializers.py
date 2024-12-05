@@ -66,7 +66,6 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    # default=None because we'll link chosen article from URL in view.
     article = serializers.HiddenField(default=None)
     profile = UserSerializer(read_only=True)
 
@@ -79,7 +78,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class ReportSerializer(serializers.ModelSerializer):
-    # default=None the same as in CommentSerializer
     reported_article = serializers.HiddenField(default=None)
     owner = UserSerializer(read_only=True)
 

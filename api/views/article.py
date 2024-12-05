@@ -47,14 +47,10 @@ class ArticleViewSet(viewsets.ModelViewSet):
     def list(self, request: Request, *args, **kwargs) -> Any | Response:
         query = request.query_params.get("q")
 
-        # If search query passed, then select articles that matches this query
         if query:
             queryset = Article.objects.filter(
-                # By heading
                 Q(heading__iregex=query) | 
-                # Full text
                 Q(full_text__iregex=query) |
-                # Author username
                 Q(author__username__iregex=query)
             )
         else:

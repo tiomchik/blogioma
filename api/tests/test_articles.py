@@ -8,9 +8,6 @@ from main.utils import GenericTestCase
 
 
 class ArticleTests(GenericTestCase):
-    # ==================
-    # ===== Create =====
-    # ==================
     def test_create(self) -> None:
         url = reverse("article-list")
         data = {
@@ -79,9 +76,6 @@ class ArticleTests(GenericTestCase):
             r.json().get("full_text"), ["This field is required."]
         )
 
-    # ==================
-    # ====== Read ======
-    # ==================
     def test_read_list(self) -> None:
         data = {
             "heading": "test_article_list",
@@ -133,9 +127,6 @@ class ArticleTests(GenericTestCase):
         self.assertIsNotNone(r.json().get("full_text"))
         self.assertIsNotNone(r.json().get("author"))
 
-    # ====================
-    # ====== Update ======
-    # ====================
     def test_update(self) -> None:
         update_data = {
             "heading": "test_article_update is passed",
@@ -188,7 +179,6 @@ class ArticleTests(GenericTestCase):
         self._check_unauth_response(r)
 
     def test_update_nonuser_article(self) -> None:
-        # Creating another user
         another_user_data = {
             "username": "test_user2",
             "password": "43214321",
@@ -211,9 +201,6 @@ class ArticleTests(GenericTestCase):
             "You do not have permission to perform this action."
         )
 
-    # ====================
-    # ====== Delete ======
-    # ====================
     def test_delete(self) -> None:
         url = reverse("article-detail", kwargs={"pk": self.article.pk})
         r = self.client.delete(
@@ -221,7 +208,6 @@ class ArticleTests(GenericTestCase):
         )
         self.assertEqual(r.status_code, status.HTTP_204_NO_CONTENT)
 
-        # Trying to get deleted article
         r = self.client.get(url)
 
         self.assertEqual(r.status_code, status.HTTP_404_NOT_FOUND)
@@ -244,9 +230,6 @@ class ArticleTests(GenericTestCase):
         )
         self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
 
-    # ====================
-    # ====== Report ======
-    # ====================
     def test_report(self) -> None:
         url = reverse("report-article", kwargs={"pk": self.article.pk})
         r = self.client.post(
@@ -264,9 +247,6 @@ class ArticleTests(GenericTestCase):
 
         self._check_unauth_response(r)
 
-    # ========================
-    # ====== Test utils ======
-    # ========================
     def _response_contains_article(
         self, r: HttpResponse, article_data: dict, html: bool = False
     ) -> None:

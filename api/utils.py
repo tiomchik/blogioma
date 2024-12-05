@@ -11,8 +11,6 @@ class Pagination(PageNumberPagination):
 
 
 def plus_viewing(article: Article) -> None:
-    """Changes article's `viewings` field to += 1 and saves passed
-    instance."""
     article.viewings = F("viewings") + 1
     article.save()
     article.refresh_from_db()

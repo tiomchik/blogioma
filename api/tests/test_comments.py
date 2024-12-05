@@ -6,9 +6,6 @@ from main.utils import GenericTestCase
 
 
 class CommentTests(GenericTestCase):
-    # ==================
-    # ===== Create =====
-    # ==================
     def test_create(self) -> None:
         text = "nice article"
         r = self._post_comment(text=text)
@@ -45,9 +42,6 @@ class CommentTests(GenericTestCase):
             ["Ensure this field has no more than 400 characters."]
         )
 
-    # ==================
-    # ====== Read ======
-    # ==================
     def test_read_list(self) -> None:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
         r = self.client.get(url)
@@ -73,9 +67,6 @@ class CommentTests(GenericTestCase):
 
         self.assertNotContains(r, self.comment.text)
 
-    # ====================
-    # ====== Update ======
-    # ====================
     def test_update(self) -> None:
         text = "bad article :("
         r = self._put_comment(text=text)
@@ -128,9 +119,6 @@ class CommentTests(GenericTestCase):
             "You do not have permission to perform this action."
         )
 
-    # ====================
-    # ====== Delete ======
-    # ====================
     def test_delete(self) -> None:
         r = self._del_comment()
         self.assertEqual(r.status_code, status.HTTP_204_NO_CONTENT)
@@ -156,9 +144,6 @@ class CommentTests(GenericTestCase):
             "You do not have permission to perform this action."
         )
 
-    # ========================
-    # ====== Test utils ======
-    # ========================
     def _post_comment(
         self, text: str = "nice article", auth: bool = True
     ) -> HttpResponse:
