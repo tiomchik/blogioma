@@ -27,5 +27,5 @@ class ReadCommentTests(CommentsGenericTestCase):
 
         self.assertNotContains(r, self.comment.text)
 
-    def _get_comment_list_url(article_pk: int) -> str:
+    def _get_comment_list_url(self, article_pk: int) -> str:
         return reverse("comment-list", kwargs={"article_pk": article_pk})
