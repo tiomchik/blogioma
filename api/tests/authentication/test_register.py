@@ -6,6 +6,8 @@ from .generic import AuthenticationGenericTestCase
 
 
 class RegisterTests(AuthenticationGenericTestCase):
+    url = reverse("register")
+
     def test_register_without_username(self) -> None:
         user_data = {"password": "12341234"}
         r = self._register_user(**user_data)
@@ -29,8 +31,7 @@ class RegisterTests(AuthenticationGenericTestCase):
             "password": "12341234",
             "pfp": pfp
         }
-        url = reverse("register")
-        r = self.client.post(url, user_data, format="multipart")
+        r = self.client.post(self.url, user_data, format="multipart")
         self.user.refresh_from_db()
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)

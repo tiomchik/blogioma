@@ -7,7 +7,7 @@ from .generic import ArticleGenericTestCase
 
 class ReportArticleTests(ArticleGenericTestCase):
     def test_report(self) -> None:
-        url = reverse("report-article", kwargs={"pk": self.article.pk})
+        url = self._get_report_article_url()
         r = self.client.post(
             url, {"reason": "Scam"},
             headers={"Authorization": f"Token {self.token}"}
@@ -18,7 +18,10 @@ class ReportArticleTests(ArticleGenericTestCase):
         self.assertIsNotNone(self.article.reports.get(pk=report.pk))
 
     def test_unauth_report(self) -> None:
-        url = reverse("report-article", kwargs={"pk": self.article.pk})
+        url = self._get_report_article_url()
         r = self.client.post(url, {"reason": "Scam"})
 
         self._check_unauth_response(r)
+
+    def _get_report_article_url(self) -> str:
+        return reverse("report-article", kwargs={"pk": self.article.pk})

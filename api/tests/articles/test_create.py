@@ -5,14 +5,15 @@ from .generic import ArticleGenericTestCase
 
 
 class CreateArticleTests(ArticleGenericTestCase):
+    url = reverse("article-list")
+
     def test_create(self) -> None:
-        url = reverse("article-list")
         data = {
             "heading": "lorem ipsum dolor",
             "full_text": "lorem ipsum dolor test"
         }
         r = self.client.post(
-            url, data, headers={"Authorization": f"Token {self.token}"}
+            self.url, data, headers={"Authorization": f"Token {self.token}"}
         )
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
@@ -24,20 +25,18 @@ class CreateArticleTests(ArticleGenericTestCase):
         )
 
     def test_unauth_create(self) -> None:
-        url = reverse("article-list")
         data = {
             "heading": "lorem ipsum dolor",
             "full_text": "lorem ipsum dolor test"
         }
-        r = self.client.post(url, data)
+        r = self.client.post(self.url, data)
 
         self._check_unauth_response(r)
 
     def test_create_without_heading(self) -> None:
-        url = reverse("article-list")
         data = {"full_text": "lorem ipsum dolor test"}
         r = self.client.post(
-            url, data, headers={"Authorization": f"Token {self.token}"}
+            self.url, data, headers={"Authorization": f"Token {self.token}"}
         )
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
@@ -46,13 +45,12 @@ class CreateArticleTests(ArticleGenericTestCase):
         )
 
     def test_create_with_very_long_heading(self) -> None:
-        url = reverse("article-list")
         data = {
             "heading": "lorem ipsum dolorrrrrrrrrrrrrrrrrrrrrrr" * 10,
             "full_text": "lorem ipsum dolor test"
         }
         r = self.client.post(
-            url, data, headers={"Authorization": f"Token {self.token}"}
+            self.url, data, headers={"Authorization": f"Token {self.token}"}
         )
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
@@ -62,10 +60,9 @@ class CreateArticleTests(ArticleGenericTestCase):
         )
 
     def test_create_without_full_text(self) -> None:
-        url = reverse("article-list")
         data = {"heading": "lorem ipsum dolor"}
         r = self.client.post(
-            url, data, headers={"Authorization": f"Token {self.token}"}
+            self.url, data, headers={"Authorization": f"Token {self.token}"}
         )
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)

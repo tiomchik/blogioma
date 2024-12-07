@@ -5,6 +5,8 @@ from .generic import AuthenticationGenericTestCase
 
 
 class SocialLinksTests(AuthenticationGenericTestCase):
+    url = reverse("me")
+
     def test_set_social_links(self) -> None:
         data = {
             "youtube": "https://www.youtube.com/",

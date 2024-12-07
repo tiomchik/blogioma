@@ -5,7 +5,7 @@ from .generic import CommentsGenericTestCase
 
 class ReadCommentTests(CommentsGenericTestCase):
     def test_read_list(self) -> None:
-        url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
+        url = self._get_comment_list_url(self.article.pk)
         r = self.client.get(url)
 
         self.assertContains(r, self.comment.text)
@@ -22,9 +22,10 @@ class ReadCommentTests(CommentsGenericTestCase):
     def test_read_comments_of_another_article(self) -> None:
         another_article = self._create_article(heading="another article")
 
-        url = reverse(
-            "comment-list", kwargs={"article_pk": another_article.pk}
-        )
+        url = self._get_comment_list_url(another_article.pk)
         r = self.client.get(url)
 
         self.assertNotContains(r, self.comment.text)
+
+    def _get_comment_list_url(article_pk: int) -> str:
+        return reverse("comment-list", kwargs={"article_pk": article_pk})
