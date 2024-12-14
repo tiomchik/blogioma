@@ -4,19 +4,20 @@ from .generic import ArticleGenericTestCase
 
 
 class UpdateArticleTests(ArticleGenericTestCase):
+    article_data = {
+        "heading": "test_update_article",
+        "full_text": "lorem_ipsum_dolor"
+    }
+
     def test_update(self) -> None:
-        update_data = {
-            "heading": "test_article_update is passed",
-            "full_text": "lorem_ipsum_dolor"
-        }
-        r = self._update_article(self.article.pk, update_data)
+        r = self._update_article(self.article.pk, self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_200_OK)
-        self._response_contains_article(r, update_data)
+        self._response_contains_article(r, self.article_data)
 
     def test_update_without_heading(self) -> None:
-        update_data = {"full_text": "lorem_ipsum_dolor"}
-        r = self._update_article(self.article.pk, update_data)
+        self.article_data.pop("heading")
+        r = self._update_article(self.article.pk, self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
@@ -24,12 +25,8 @@ class UpdateArticleTests(ArticleGenericTestCase):
         )
 
     def test_update_with_very_long_heading(self) -> None:
-        update_data = {
-            "heading":
-                "test_article_update is NOOOOOOOOOOOOOOOOOOOOOOOT passed" * 2,
-            "full_text": "lorem_ipsum_dolor"
-        }
-        r = self._update_article(self.article.pk, update_data)
+        self.article_data["heading"] = "test_update_article" * 100
+        r = self._update_article(self.article.pk, self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
@@ -38,8 +35,8 @@ class UpdateArticleTests(ArticleGenericTestCase):
         )
 
     def test_update_without_full_text(self) -> None:
-        update_data = {"heading": "test_article_update is NOT passed"}
-        r = self._update_article(self.article.pk, update_data)
+        self.article_data.pop("full_text")
+        r = self._update_article(self.article.pk, self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
@@ -47,12 +44,9 @@ class UpdateArticleTests(ArticleGenericTestCase):
         )
 
     def test_unauth_update(self) -> None:
-        update_data = {
-            "heading": "test_article_update is NOT passed",
-            "full_text": "lorem_ipsum_dolor"
-        }
-        r = self._update_article(self.article.pk, update_data, auth=False)
-
+        r = self._update_article(
+            self.article.pk, self.article_data, auth=False
+        )
         self._check_unauth_response(r)
 
     def test_update_nonuser_article(self) -> None:
@@ -64,12 +58,8 @@ class UpdateArticleTests(ArticleGenericTestCase):
         self._register_user(**another_user_data)
         another_user_token = self._obtain_token(**another_user_data)
 
-        update_data = {
-            "heading": "hahahah i updated your article",
-            "full_text": "no lorem ipsum dolor"
-        }
         r = self._update_article(
-            self.article.pk, update_data, token=another_user_token
+            self.article.pk, self.article_data, token=another_user_token
         )
 
         self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)

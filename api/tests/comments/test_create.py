@@ -5,12 +5,13 @@ from .generic import CommentsGenericTestCase
 
 
 class CreateCommentTests(CommentsGenericTestCase):
+    comment_text = "nice article"
+
     def test_create(self) -> None:
-        text = "nice article"
-        r = self._post_comment(text=text)
+        r = self._post_comment(text=self.comment_text)
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(r.json().get("text"), text)
+        self.assertEqual(r.json().get("text"), self.comment_text)
         self.assertEqual(
             r.json().get("profile").get("username"),
             self.user.username
@@ -30,8 +31,8 @@ class CreateCommentTests(CommentsGenericTestCase):
         )
 
     def test_create_with_very_long_text(self) -> None:
-        text = "very looooooooooooooooooooooooooooooooooooooong comment" * 10
-        r = self._post_comment(text=text)
+        self.comment_text = "very long comment" * 1000
+        r = self._post_comment(text=self.comment_text)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(

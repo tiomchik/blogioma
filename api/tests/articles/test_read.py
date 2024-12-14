@@ -6,44 +6,34 @@ from .generic import ArticleGenericTestCase
 
 
 class ReadArticleTests(ArticleGenericTestCase):
+    article_data = {
+        "heading": "test_article_read",
+        "full_text": "lorem ipsum dolor",
+    }
+
     def test_read_list(self) -> None:
-        data = {
-            "heading": "test_article_list",
-            "full_text": "lorem ipsum dolor",
-            "author": self.user
-        }
-        Article.objects.create(**data)
+        Article.objects.create(**self.article_data, author=self.user)
 
         url = reverse("article-list")
         r = self.client.get(url)
 
-        self._response_contains_article(r, data)
+        self._response_contains_article(r, self.article_data)
 
     def test_read_detail(self) -> None:
-        data = {
-            "heading": "test_article_detail",
-            "full_text": "lorem ipsum dolor",
-            "author": self.user
-        }
-        article = Article.objects.create(**data)
+        article = Article.objects.create(**self.article_data, author=self.user)
 
         url = reverse("article-detail", kwargs={"pk": article.pk})
         r = self.client.get(url)
 
-        self._response_contains_article(r, data)
+        self._response_contains_article(r, self.article_data)
 
     def test_search(self) -> None:
-        data = {
-            "heading": "find_me",
-            "full_text": "lorem ipsum dolor",
-            "author": self.user
-        }
-        Article.objects.create(**data)
+        Article.objects.create(**self.article_data, author=self.user)
 
-        url = reverse("article-list") + f"?q={data.get('heading')}"
+        url = reverse("article-list") + f"?q={self.article_data["heading"]}"
         r = self.client.get(url)
 
-        self._response_contains_article(r, data)
+        self._response_contains_article(r, self.article_data)
 
     def test_random(self) -> None:
         for i in range(10):

@@ -6,10 +6,12 @@ from .generic import ArticleGenericTestCase
 
 
 class ReportArticleTests(ArticleGenericTestCase):
+    report_data = {"reason": "Scam"}
+
     def test_report(self) -> None:
         url = self._get_report_article_url()
         r = self.client.post(
-            url, {"reason": "Scam"}, headers=self.authorization_header
+            url, self.report_data, headers=self.authorization_header
         )
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
@@ -18,7 +20,7 @@ class ReportArticleTests(ArticleGenericTestCase):
 
     def test_unauth_report(self) -> None:
         url = self._get_report_article_url()
-        r = self.client.post(url, {"reason": "Scam"})
+        r = self.client.post(url, self.report_data)
 
         self._check_unauth_response(r)
 

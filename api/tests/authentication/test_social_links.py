@@ -6,21 +6,21 @@ from .generic import AuthenticationGenericTestCase
 
 class SocialLinksTests(AuthenticationGenericTestCase):
     url = reverse("me")
+    social_links_data = {
+        "youtube": "https://www.youtube.com/",
+        "tiktok": "https://tiktok.com/",
+        "twitch": "https://twitch.tv/",
+        "linkedin": "https://linkedin.com/",
+    }
 
     def test_set_social_links(self) -> None:
-        data = {
-            "youtube": "https://www.youtube.com/",
-            "tiktok": "https://tiktok.com/",
-            "twitch": "https://twitch.tv/",
-            "linkedin": "https://linkedin.com/",
-        }
-        r = self._set_social_links(**data)
+        r = self._set_social_links(**self.social_links_data)
 
         self.assertEqual(r.status_code, status.HTTP_200_OK)
-        self.assertContains(r, data["youtube"])
-        self.assertContains(r, data["tiktok"])
-        self.assertContains(r, data["twitch"])
-        self.assertContains(r, data["linkedin"])
+        self.assertContains(r, self.social_links_data["youtube"])
+        self.assertContains(r, self.social_links_data["tiktok"])
+        self.assertContains(r, self.social_links_data["twitch"])
+        self.assertContains(r, self.social_links_data["linkedin"])
 
     def test_read_social_links(self) -> None:
         self._set_social_links()

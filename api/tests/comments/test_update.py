@@ -5,12 +5,13 @@ from .generic import CommentsGenericTestCase
 
 
 class UpdateCommentTests(CommentsGenericTestCase):
+    comment_text = "bad article :("
+
     def test_update(self) -> None:
-        text = "bad article :("
-        r = self._put_comment(text=text)
+        r = self._put_comment(text=self.comment_text)
 
         self.assertEqual(r.status_code, status.HTTP_200_OK)
-        self.assertEqual(r.json().get("text"), text)
+        self.assertEqual(r.json().get("text"), self.comment_text)
 
     def test_update_without_text(self) -> None:
         url = reverse(
@@ -25,8 +26,8 @@ class UpdateCommentTests(CommentsGenericTestCase):
         )
 
     def test_update_with_very_long_text(self) -> None:
-        text = "very looooooooooooooooooooooooooooooooooooooong comment" * 10
-        r = self._put_comment(text=text)
+        self.comment_text = "very long comment" * 1000
+        r = self._put_comment(text=self.comment_text)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
