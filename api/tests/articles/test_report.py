@@ -9,8 +9,7 @@ class ReportArticleTests(ArticleGenericTestCase):
     def test_report(self) -> None:
         url = self._get_report_article_url()
         r = self.client.post(
-            url, {"reason": "Scam"},
-            headers={"Authorization": f"Token {self.token}"}
+            url, {"reason": "Scam"}, headers=self.authorization_header
         )
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)

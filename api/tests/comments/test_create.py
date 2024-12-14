@@ -22,9 +22,7 @@ class CreateCommentTests(CommentsGenericTestCase):
 
     def test_create_without_text(self) -> None:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
-        r = self.client.post(
-            url, headers={"Authorization": f"Token {self.token}"}
-        )
+        r = self.client.post(url, headers=self.authorization_header)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(

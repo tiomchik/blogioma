@@ -13,7 +13,7 @@ class CreateArticleTests(ArticleGenericTestCase):
             "full_text": "lorem ipsum dolor test"
         }
         r = self.client.post(
-            self.url, data, headers={"Authorization": f"Token {self.token}"}
+            self.url, data, headers=self.authorization_header
         )
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
@@ -36,7 +36,7 @@ class CreateArticleTests(ArticleGenericTestCase):
     def test_create_without_heading(self) -> None:
         data = {"full_text": "lorem ipsum dolor test"}
         r = self.client.post(
-            self.url, data, headers={"Authorization": f"Token {self.token}"}
+            self.url, data, headers=self.authorization_header
         )
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
@@ -50,7 +50,7 @@ class CreateArticleTests(ArticleGenericTestCase):
             "full_text": "lorem ipsum dolor test"
         }
         r = self.client.post(
-            self.url, data, headers={"Authorization": f"Token {self.token}"}
+            self.url, data, headers=self.authorization_header
         )
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
@@ -62,7 +62,7 @@ class CreateArticleTests(ArticleGenericTestCase):
     def test_create_without_full_text(self) -> None:
         data = {"heading": "lorem ipsum dolor"}
         r = self.client.post(
-            self.url, data, headers={"Authorization": f"Token {self.token}"}
+            self.url, data, headers=self.authorization_header
         )
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)

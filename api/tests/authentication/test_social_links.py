@@ -25,9 +25,7 @@ class SocialLinksTests(AuthenticationGenericTestCase):
     def test_read_social_links(self) -> None:
         self._set_social_links()
         url = reverse("me")
-        r = self.client.get(
-            url, headers={"Authorization": f"Token {self.token}"}
-        )
+        r = self.client.get(url, headers=self.authorization_header)
 
         self.assertContains(r, self.user.youtube)
         self.assertContains(r, self.user.tiktok)

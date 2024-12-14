@@ -18,9 +18,8 @@ class AuthenticationGenericTestCase(GenericTestCase):
             "youtube": youtube, "tiktok": tiktok,
             "twitch": twitch, "linkedin": linkedin
         }
-        r = self.client.put(
-            url, data, headers={"Authorization": f"Token {self.token}"}
-        )
+        r = self.client.put(url, data, headers=self.authorization_header)
+
         self.user.refresh_from_db()
         cache.clear()
 

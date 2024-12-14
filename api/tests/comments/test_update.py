@@ -17,9 +17,7 @@ class UpdateCommentTests(CommentsGenericTestCase):
             "comment-detail",
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}
         )
-        r = self.client.put(
-            url, headers={"Authorization": f"Token {self.token}"}
-        )
+        r = self.client.put(url, headers=self.authorization_header)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(

@@ -8,13 +8,13 @@ class CommentsGenericTestCase(GenericTestCase):
     def _post_comment(
         self, text: str = "nice article", auth: bool = True
     ) -> HttpResponse:
-        headers = {}
-        if auth:
-            headers["Authorization"] = f"Token {self.token}"
-
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
         data = {"text": text}
-        r = self.client.post(url, data, headers=headers)
+
+        if auth:
+            r = self.client.post(url, data, headers=self.authorization_header)
+        else:
+            r = self.client.post(url, data)
 
         return r
 
