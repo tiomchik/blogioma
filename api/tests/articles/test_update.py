@@ -10,14 +10,14 @@ class UpdateArticleTests(ArticleGenericTestCase):
     }
 
     def test_update(self) -> None:
-        r = self._update_article(self.article.pk, self.article_data)
+        r = self._update_article(self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_200_OK)
         self._response_contains_article(r, self.article_data)
 
     def test_update_without_heading(self) -> None:
         self.article_data.pop("heading")
-        r = self._update_article(self.article.pk, self.article_data)
+        r = self._update_article(self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
@@ -26,7 +26,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
 
     def test_update_with_very_long_heading(self) -> None:
         self.article_data["heading"] = "test_update_article" * 100
-        r = self._update_article(self.article.pk, self.article_data)
+        r = self._update_article(self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
@@ -36,7 +36,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
 
     def test_update_without_full_text(self) -> None:
         self.article_data.pop("full_text")
-        r = self._update_article(self.article.pk, self.article_data)
+        r = self._update_article(self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
@@ -44,9 +44,8 @@ class UpdateArticleTests(ArticleGenericTestCase):
         )
 
     def test_unauth_update(self) -> None:
-        r = self._update_article(
-            self.article.pk, self.article_data, auth=False
-        )
+        self.authorization_header = None
+        r = self._update_article(self.article_data)
         self._check_unauth_response(r)
 
     def test_update_nonuser_article(self) -> None:
@@ -57,10 +56,11 @@ class UpdateArticleTests(ArticleGenericTestCase):
         }
         self._register_user(**another_user_data)
         another_user_token = self._obtain_token(**another_user_data)
+        self.authorization_header = {
+            "Authorization": f"Token {another_user_token}"
+        }
 
-        r = self._update_article(
-            self.article.pk, self.article_data, token=another_user_token
-        )
+        r = self._update_article(self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(

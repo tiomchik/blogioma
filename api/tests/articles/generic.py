@@ -12,16 +12,7 @@ class ArticleGenericTestCase(GenericTestCase):
         self.assertContains(r, article_data.get("full_text"))
         self.assertContains(r, self.user.username)
 
-    def _update_article(
-        self, pk: int, data: dict, auth: bool = True, token: str = None
-    ) -> HttpResponse:
-        headers = {}
-        if auth:
-            headers["Authorization"] = (
-                f"Token {token if token else self.token}"
-            )
-
-        url = reverse("article-detail", kwargs={"pk": pk})
-        r = self.client.put(url, data, headers=headers)
-
+    def _update_article(self, data: dict) -> HttpResponse:
+        url = reverse("article-detail", kwargs={"pk": self.article.pk})
+        r = self.client.put(url, data, headers=self.authorization_header)
         return r
