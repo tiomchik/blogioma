@@ -6,11 +6,11 @@ from main.utils import GenericTestCase
 
 class ArticleGenericTestCase(GenericTestCase):
     def _response_contains_article(
-        self, r: HttpResponse, article_data: dict, html: bool = False
+        self, r: HttpResponse, article_data: dict
     ) -> None:
-        self.assertContains(r, article_data.get("heading"), html=html)
-        self.assertContains(r, article_data.get("full_text"), html=html)
-        self.assertContains(r, self.user.username, html=html)
+        self.assertContains(r, article_data.get("heading"))
+        self.assertContains(r, article_data.get("full_text"))
+        self.assertContains(r, self.user.username)
 
     def _update_article(
         self, pk: int, data: dict, auth: bool = True, token: str = None
