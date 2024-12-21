@@ -13,7 +13,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
         r = self._update_article(self.article_data)
 
         self.assertEqual(r.status_code, status.HTTP_200_OK)
-        self._response_contains_article(r, self.article_data)
+        self._assert_response_contains_article(r, self.article_data)
 
     def test_update_without_heading(self) -> None:
         self.article_data.pop("heading")
