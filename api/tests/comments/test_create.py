@@ -18,7 +18,8 @@ class CreateCommentTests(CommentsGenericTestCase):
         )
 
     def test_unauth_create(self) -> None:
-        r = self._post_comment(auth=False)
+        self.authorization_header = {}
+        r = self._post_comment(text=self.comment_text)
         self._check_unauth_response(r)
 
     def test_create_without_text(self) -> None:

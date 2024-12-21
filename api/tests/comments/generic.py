@@ -5,16 +5,10 @@ from main.utils import GenericTestCase
 
 
 class CommentsGenericTestCase(GenericTestCase):
-    def _post_comment(
-        self, text: str = "nice article", auth: bool = True
-    ) -> HttpResponse:
+    def _post_comment(self, text: str) -> HttpResponse:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
         data = {"text": text}
-
-        if auth:
-            r = self.client.post(url, data, headers=self.authorization_header)
-        else:
-            r = self.client.post(url, data)
+        r = self.client.post(url, data, headers=self.authorization_header)
 
         return r
 
