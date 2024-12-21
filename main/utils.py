@@ -29,7 +29,7 @@ class GenericTestCase(APITestCase):
 
         self.user = User.objects.get(username=data["username"])
         self.token = self._obtain_token(**data)
-        self.authorization_header = {"Authorization": f"Token {self.token}"}
+        self.auth_header = {"Authorization": f"Token {self.token}"}
 
         self.article = self._create_article()
         self.comment = Comment.objects.create(

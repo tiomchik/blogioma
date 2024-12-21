@@ -44,7 +44,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
         )
 
     def test_unauth_update(self) -> None:
-        self.authorization_header = None
+        self.auth_header = None
         r = self._update_article(self.article_data)
         self._check_unauth_response(r)
 
@@ -56,7 +56,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
         }
         self._register_user(**another_user_data)
         another_user_token = self._obtain_token(**another_user_data)
-        self.authorization_header = {
+        self.auth_header = {
             "Authorization": f"Token {another_user_token}"
         }
 

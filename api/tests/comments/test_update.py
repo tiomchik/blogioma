@@ -18,7 +18,7 @@ class UpdateCommentTests(CommentsGenericTestCase):
             "comment-detail",
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}
         )
-        r = self.client.put(url, headers=self.authorization_header)
+        r = self.client.put(url, headers=self.auth_header)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
@@ -36,7 +36,7 @@ class UpdateCommentTests(CommentsGenericTestCase):
         )
 
     def test_unauth_update(self) -> None:
-        self.authorization_header = {}
+        self.auth_header = {}
         r = self._put_comment(text=self.comment_text)
         self._check_unauth_response(r)
 
@@ -48,7 +48,7 @@ class UpdateCommentTests(CommentsGenericTestCase):
         }
         self._register_user(**another_user_data)
         token = self._obtain_token(**another_user_data)
-        self.authorization_header = {"Authorization": f"Token {token}"}
+        self.auth_header = {"Authorization": f"Token {token}"}
 
         r = self._put_comment(text=self.comment_text)
 

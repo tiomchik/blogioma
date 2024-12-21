@@ -18,13 +18,13 @@ class CreateCommentTests(CommentsGenericTestCase):
         )
 
     def test_unauth_create(self) -> None:
-        self.authorization_header = {}
+        self.auth_header = {}
         r = self._post_comment(text=self.comment_text)
         self._check_unauth_response(r)
 
     def test_create_without_text(self) -> None:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
-        r = self.client.post(url, headers=self.authorization_header)
+        r = self.client.post(url, headers=self.auth_header)
 
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(

@@ -8,7 +8,7 @@ class CommentsGenericTestCase(GenericTestCase):
     def _post_comment(self, text: str) -> HttpResponse:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
         data = {"text": text}
-        r = self.client.post(url, data, headers=self.authorization_header)
+        r = self.client.post(url, data, headers=self.auth_header)
 
         return r
 
@@ -18,7 +18,7 @@ class CommentsGenericTestCase(GenericTestCase):
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}
         )
         data = {"text": text}
-        r = self.client.put(url, data, headers=self.authorization_header)
+        r = self.client.put(url, data, headers=self.auth_header)
 
         return r
 
@@ -27,6 +27,6 @@ class CommentsGenericTestCase(GenericTestCase):
             "comment-detail",
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}
         )
-        r = self.client.delete(url, headers=self.authorization_header)
+        r = self.client.delete(url, headers=self.auth_header)
 
         return r

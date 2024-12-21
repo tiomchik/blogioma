@@ -7,7 +7,7 @@ from .generic import ArticleGenericTestCase
 class DeleteArticleTests(ArticleGenericTestCase):
     def test_delete(self) -> None:
         url = self._get_article_detail_url()
-        r = self.client.delete(url, headers=self.authorization_header)
+        r = self.client.delete(url, headers=self.auth_header)
         self.assertEqual(r.status_code, status.HTTP_204_NO_CONTENT)
 
         r = self.client.get(url)

@@ -11,7 +11,7 @@ class ReportArticleTests(ArticleGenericTestCase):
     def test_report(self) -> None:
         url = self._get_report_article_url()
         r = self.client.post(
-            url, self.report_data, headers=self.authorization_header
+            url, self.report_data, headers=self.auth_header
         )
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)

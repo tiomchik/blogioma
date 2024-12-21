@@ -14,5 +14,5 @@ class ArticleGenericTestCase(GenericTestCase):
 
     def _update_article(self, data: dict) -> HttpResponse:
         url = reverse("article-detail", kwargs={"pk": self.article.pk})
-        r = self.client.put(url, data, headers=self.authorization_header)
+        r = self.client.put(url, data, headers=self.auth_header)
         return r

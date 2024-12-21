@@ -9,7 +9,7 @@ class DeleteCommentTests(CommentsGenericTestCase):
         self.assertEqual(r.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_unauth_delete(self) -> None:
-        self.authorization_header = {}
+        self.auth_header = {}
         r = self._del_comment()
         self._check_unauth_response(r)
 
@@ -21,7 +21,7 @@ class DeleteCommentTests(CommentsGenericTestCase):
         }
         self._register_user(**another_user_data)
         token = self._obtain_token(**another_user_data)
-        self.authorization_header = {"Authorization": f"Token {token}"}
+        self.auth_header = {"Authorization": f"Token {token}"}
 
         r = self._del_comment()
 
