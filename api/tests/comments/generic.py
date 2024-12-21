@@ -12,22 +12,13 @@ class CommentsGenericTestCase(GenericTestCase):
 
         return r
 
-    def _put_comment(
-        self, text: str = "bad article :(", auth: bool = True,
-        token: str | None = None
-    ) -> HttpResponse:
-        headers = {}
-        if auth:
-            headers["Authorization"] = (
-                f"Token {token if token else self.token}"
-            )
-
+    def _put_comment(self, text: str) -> HttpResponse:
         url = reverse(
             "comment-detail",
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}
         )
         data = {"text": text}
-        r = self.client.put(url, data, headers=headers)
+        r = self.client.put(url, data, headers=self.authorization_header)
 
         return r
 

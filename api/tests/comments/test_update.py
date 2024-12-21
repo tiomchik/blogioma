@@ -36,7 +36,8 @@ class UpdateCommentTests(CommentsGenericTestCase):
         )
 
     def test_unauth_update(self) -> None:
-        r = self._put_comment(auth=False)
+        self.authorization_header = {}
+        r = self._put_comment(text=self.comment_text)
         self._check_unauth_response(r)
 
     def test_update_nonuser_comment(self) -> None:
@@ -47,8 +48,9 @@ class UpdateCommentTests(CommentsGenericTestCase):
         }
         self._register_user(**another_user_data)
         token = self._obtain_token(**another_user_data)
+        self.authorization_header = {"Authorization": f"Token {token}"}
 
-        r = self._put_comment(token=token)
+        r = self._put_comment(text=self.comment_text)
 
         self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(
