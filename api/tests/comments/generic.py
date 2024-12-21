@@ -22,19 +22,11 @@ class CommentsGenericTestCase(GenericTestCase):
 
         return r
 
-    def _del_comment(
-        self, auth: bool = True, token: str | None = None
-    ) -> HttpResponse:
-        headers = {}
-        if auth:
-            headers["Authorization"] = (
-                f"Token {token if token else self.token}"
-            )
-
+    def _del_comment(self) -> HttpResponse:
         url = reverse(
             "comment-detail",
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}
         )
-        r = self.client.delete(url, headers=headers)
+        r = self.client.delete(url, headers=self.authorization_header)
 
         return r
