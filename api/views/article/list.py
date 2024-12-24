@@ -11,7 +11,7 @@ from articles.models import Article
 
 class ListArticleMixin(ListModelMixin):
     @method_decorator(cache_page(30))
-    def list(self, request: Request, *args, **kwargs) -> Any | Response:
+    def list(self, request: Request) -> Any | Response:
         query = request.query_params.get("q")
 
         if query:

@@ -8,7 +8,7 @@ from api.serializers import ArticleSerializer
 
 
 class UpdateArticleMixin(UpdateModelMixin):
-    def update(self, request: Request, *args, **kwargs) -> Response:
+    def update(self, request: Request, **kwargs) -> Response:
         partial = kwargs.pop("partial", False)
         instance: Article = self.get_object()
         serializer = ArticleSerializer(

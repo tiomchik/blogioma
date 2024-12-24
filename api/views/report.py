@@ -22,7 +22,7 @@ class ReportArticle(generics.CreateAPIView):
 
         return report
 
-    def post(self, request: Request, *args, **kwargs) -> Response:
+    def post(self, request: Request, **kwargs) -> Response:
         obj = get_object_or_404(Article.objects.all(), pk=kwargs.get("pk"))
 
         report_dict = {

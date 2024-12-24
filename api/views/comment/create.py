@@ -13,7 +13,7 @@ class CreateCommentMixin(CreateModelMixin):
     def perform_create(self, **kwargs) -> Comment:
         return Comment.objects.create(**kwargs)
 
-    def create(self, request: Request, *args, **kwargs) -> Response:
+    def create(self, request: Request, **kwargs) -> Response:
         article = get_object_or_404(
             Article.objects.all(), pk=kwargs.get("article_pk")
         )

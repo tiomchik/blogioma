@@ -11,7 +11,7 @@ from comments.models import Comment
 
 class ListCommentMixin(ListModelMixin):
     @method_decorator(cache_page(30))
-    def list(self, request: Request, *args, **kwargs) -> Any | Response:
+    def list(self, request: Request, **kwargs) -> Any | Response:
         article_pk = kwargs.pop("article_pk")
         article = Article.objects.get(pk=article_pk)
         queryset = Comment.objects.filter(

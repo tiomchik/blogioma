@@ -11,7 +11,7 @@ class CreateArticleMixin(CreateModelMixin):
     def perform_create(self, **kwargs) -> Article:
         return Article.objects.create(**kwargs)
 
-    def create(self, request: Request, *args, **kwargs) -> Response:
+    def create(self, request: Request) -> Response:
         article_dict = {
             "heading": request.data.get("heading"),
             "full_text": request.data.get("full_text"),
