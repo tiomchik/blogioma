@@ -6,7 +6,7 @@ from rest_framework.authtoken import views
 
 from main.utils import my_path
 from .views.article.viewset import ArticleViewSet
-from .views.comment import CommentViewSet
+from .views.comment.viewset import CommentViewSet
 from .views.report import ReportArticle
 from .views.authentication import RegisterView, Me, Edit
 
