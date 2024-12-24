@@ -4,14 +4,15 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.mixins import RetrieveModelMixin
 
-from api.utils import plus_viewing
+from articles.models import Article
 from api.serializers import ArticleSerializer
 
 
 class RetrieveArticleMixin(RetrieveModelMixin):
     @method_decorator(cache_page(30))
     def retrieve(self, request: Request, **kwargs) -> Response:
-        instance = self.get_object()
-        plus_viewing(instance)
+        instance: Article = self.get_object()
+        instance.increment_viewings()
+        instance.save_and_refresh()
         serializer = ArticleSerializer(instance)
         return Response(serializer.data)

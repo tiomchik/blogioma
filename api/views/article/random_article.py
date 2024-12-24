@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from random import randint
 
 from articles.models import Article
-from api.utils import plus_viewing
 from api.serializers import ArticleSerializer
 
 
@@ -27,7 +26,8 @@ class RandomArticleView(APIView):
             except Article.DoesNotExist:
                 continue
 
-        plus_viewing(article)
+        article.increment_viewings()
+        article.save_and_refresh()
 
         serializer = ArticleSerializer(article)
         return Response(serializer.data)
