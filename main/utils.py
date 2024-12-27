@@ -80,6 +80,13 @@ class GenericTestCase(APITestCase):
         self.assertTrue(error.startswith("Ensure this field has no more"))
         self.assertTrue(error.endswith(" characters."))
 
+    def _assert_forbidden_response(self, r: HttpResponse) -> None:
+        self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(
+            r.json().get("detail"),
+            "You do not have permission to perform this action."
+        )
+
     def _auth_to_another_user(
         self, username: str = "test_user123", password: str = "12341234"
     ) -> None:

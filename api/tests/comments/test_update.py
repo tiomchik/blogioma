@@ -43,8 +43,4 @@ class UpdateCommentTests(CommentsGenericTestCase):
 
         r = self._put_comment(text=self.comment_text)
 
-        self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(
-            r.json().get("detail"),
-            "You do not have permission to perform this action."
-        )
+        self._assert_forbidden_response(r)

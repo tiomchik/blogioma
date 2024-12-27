@@ -30,7 +30,7 @@ class DeleteArticleTests(ArticleGenericTestCase):
         r = self.client.delete(
             url, headers={"Authorization": f"Token {another_user_token}"}
         )
-        self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
+        self._assert_forbidden_response(r)
 
     def _get_article_detail_url(self) -> str:
         return reverse("article-detail", kwargs={"pk": self.article.pk})

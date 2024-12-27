@@ -49,8 +49,4 @@ class UpdateArticleTests(ArticleGenericTestCase):
 
         r = self._update_article(self.article_data)
 
-        self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(
-            r.json().get("detail"),
-            "You do not have permission to perform this action."
-        )
+        self._assert_forbidden_response(r)
