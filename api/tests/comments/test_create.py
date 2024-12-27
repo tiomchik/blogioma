@@ -20,7 +20,7 @@ class CreateCommentTests(CommentsGenericTestCase):
     def test_unauth_create(self) -> None:
         self.auth_header = {}
         r = self._post_comment(text=self.comment_text)
-        self._check_unauth_response(r)
+        self._assert_unauth_response(r)
 
     def test_create_without_text(self) -> None:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})

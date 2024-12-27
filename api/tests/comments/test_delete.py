@@ -11,7 +11,7 @@ class DeleteCommentTests(CommentsGenericTestCase):
     def test_unauth_delete(self) -> None:
         self.auth_header = {}
         r = self._del_comment()
-        self._check_unauth_response(r)
+        self._assert_unauth_response(r)
 
     def test_delete_nonuser_comment(self) -> None:
         another_user_data = {

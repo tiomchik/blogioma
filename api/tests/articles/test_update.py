@@ -32,7 +32,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
     def test_unauth_update(self) -> None:
         self.auth_header = None
         r = self._update_article(self.article_data)
-        self._check_unauth_response(r)
+        self._assert_unauth_response(r)
 
     def test_update_nonuser_article(self) -> None:
         another_user_data = {

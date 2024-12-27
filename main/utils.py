@@ -67,7 +67,7 @@ class GenericTestCase(APITestCase):
             "Authorization": f"Token {another_user_token}"
         }
 
-    def _check_unauth_response(self, r: HttpResponse) -> None:
+    def _assert_unauth_response(self, r: HttpResponse) -> None:
         """Checks that response is returned error of unauthorized user."""
         self.assertEqual(r.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(

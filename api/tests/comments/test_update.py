@@ -28,7 +28,7 @@ class UpdateCommentTests(CommentsGenericTestCase):
     def test_unauth_update(self) -> None:
         self.auth_header = {}
         r = self._put_comment(text=self.comment_text)
-        self._check_unauth_response(r)
+        self._assert_unauth_response(r)
 
     def test_update_nonuser_comment(self) -> None:
         another_user_data = {

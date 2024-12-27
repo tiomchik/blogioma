@@ -20,7 +20,7 @@ class CreateArticleTests(ArticleGenericTestCase):
 
     def test_unauth_create(self) -> None:
         r = self.client.post(self.url, self.article_data)
-        self._check_unauth_response(r)
+        self._assert_unauth_response(r)
 
     def test_create_without_heading(self) -> None:
         self.article_data.pop("heading")
