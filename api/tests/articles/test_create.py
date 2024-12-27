@@ -15,18 +15,8 @@ class CreateArticleTests(ArticleGenericTestCase):
         r = self.client.post(
             self.url, self.article_data, headers=self.auth_header
         )
-
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(
-            r.json().get("heading"), self.article_data["heading"]
-        )
-        self.assertEqual(
-            r.json().get("full_text"), self.article_data["full_text"]
-        )
-        self.assertEqual(
-            r.json().get("author").get("username"),
-            self.user.username
-        )
+        self._assert_response_contains_article(r, self.article_data)
 
     def test_unauth_create(self) -> None:
         r = self.client.post(self.url, self.article_data)
