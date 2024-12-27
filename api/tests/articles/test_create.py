@@ -27,11 +27,7 @@ class CreateArticleTests(ArticleGenericTestCase):
         r = self.client.post(
             self.url, self.article_data, headers=self.auth_header
         )
-
-        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            r.json().get("heading"), ["This field is required."]
-        )
+        self._assert_field_is_required(r, "heading")
 
     def test_create_with_very_long_heading(self) -> None:
         self.article_data["heading"] = "lorem ipsum dolor" * 100
@@ -50,8 +46,4 @@ class CreateArticleTests(ArticleGenericTestCase):
         r = self.client.post(
             self.url, self.article_data, headers=self.auth_header
         )
-
-        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            r.json().get("full_text"), ["This field is required."]
-        )
+        self._assert_field_is_required(r, "full_text")

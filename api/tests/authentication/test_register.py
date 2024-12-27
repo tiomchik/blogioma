@@ -18,14 +18,12 @@ class RegisterTests(AuthenticationGenericTestCase):
     def test_register_without_username(self) -> None:
         self.user_data.pop("username")
         r = self._register_user(**self.user_data)
-        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(r.json().get("username"), ["This field is required."])
+        self._assert_field_is_required(r, "username")
 
     def test_register_without_password(self) -> None:
         self.user_data.pop("password")
         r = self._register_user(**self.user_data)
-        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(r.json().get("password"), ["This field is required."])
+        self._assert_field_is_required(r, "password")
 
     def test_register_with_pfp(self) -> None:
         with open("api/tests/authentication/cat.jpg", "rb") as picture:

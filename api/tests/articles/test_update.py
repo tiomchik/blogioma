@@ -18,11 +18,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
     def test_update_without_heading(self) -> None:
         self.article_data.pop("heading")
         r = self._update_article(self.article_data)
-
-        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            r.json().get("heading"), ["This field is required."]
-        )
+        self._assert_field_is_required(r, "heading")
 
     def test_update_with_very_long_heading(self) -> None:
         self.article_data["heading"] = "test_update_article" * 100
@@ -37,11 +33,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
     def test_update_without_full_text(self) -> None:
         self.article_data.pop("full_text")
         r = self._update_article(self.article_data)
-
-        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            r.json().get("full_text"), ["This field is required."]
-        )
+        self._assert_field_is_required(r, "full_text")
 
     def test_unauth_update(self) -> None:
         self.auth_header = None
