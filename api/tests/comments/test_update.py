@@ -9,7 +9,6 @@ class UpdateCommentTests(CommentsGenericTestCase):
 
     def test_update(self) -> None:
         r = self._put_comment(text=self.comment_text)
-
         self.assertEqual(r.status_code, status.HTTP_200_OK)
         self.assertEqual(r.json().get("text"), self.comment_text)
 
@@ -37,10 +36,6 @@ class UpdateCommentTests(CommentsGenericTestCase):
             "password": "12341234", 
             "email": "test2@test.com"
         }
-        self._register_user(**another_user_data)
-        token = self._obtain_token(**another_user_data)
-        self.auth_header = {"Authorization": f"Token {token}"}
-
+        self._set_another_user(**another_user_data)
         r = self._put_comment(text=self.comment_text)
-
         self._assert_forbidden_response(r)

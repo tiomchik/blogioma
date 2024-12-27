@@ -19,10 +19,6 @@ class DeleteCommentTests(CommentsGenericTestCase):
             "password": "12341234",
             "email": "test3@test.com"
         }
-        self._register_user(**another_user_data)
-        token = self._obtain_token(**another_user_data)
-        self.auth_header = {"Authorization": f"Token {token}"}
-
+        self._set_another_user(**another_user_data)
         r = self._del_comment()
-
         self._assert_forbidden_response(r)

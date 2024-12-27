@@ -60,6 +60,13 @@ class GenericTestCase(APITestCase):
         url = reverse("register")
         return self.client.post(url, user_data)
 
+    def _set_another_user(self, **another_user_data) -> None:
+        self._register_user(**another_user_data)
+        another_user_token = self._obtain_token(**another_user_data)
+        self.auth_header = {
+            "Authorization": f"Token {another_user_token}"
+        }
+
     def _check_unauth_response(self, r: HttpResponse) -> None:
         """Checks that response is returned error of unauthorized user."""
         self.assertEqual(r.status_code, status.HTTP_401_UNAUTHORIZED)

@@ -41,12 +41,6 @@ class UpdateArticleTests(ArticleGenericTestCase):
             "password": "43214321",
             "email": "test2@test.com"
         }
-        self._register_user(**another_user_data)
-        another_user_token = self._obtain_token(**another_user_data)
-        self.auth_header = {
-            "Authorization": f"Token {another_user_token}"
-        }
-
+        self._set_another_user(**another_user_data)
         r = self._update_article(self.article_data)
-
         self._assert_forbidden_response(r)

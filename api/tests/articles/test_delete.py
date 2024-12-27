@@ -23,13 +23,10 @@ class DeleteArticleTests(ArticleGenericTestCase):
             "password": "43214321",
             "email": "test3@test.com"
         }
-        self._register_user(**another_user_data)
-        another_user_token = self._obtain_token(**another_user_data)
+        self._set_another_user(**another_user_data)
 
         url = self._get_article_detail_url()
-        r = self.client.delete(
-            url, headers={"Authorization": f"Token {another_user_token}"}
-        )
+        r = self.client.delete(url, headers=self.auth_header)
         self._assert_forbidden_response(r)
 
     def _get_article_detail_url(self) -> str:
