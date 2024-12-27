@@ -11,7 +11,6 @@ class UpdateArticleTests(ArticleGenericTestCase):
 
     def test_update(self) -> None:
         r = self._update_article(self.article_data)
-
         self.assertEqual(r.status_code, status.HTTP_200_OK)
         self._assert_response_contains_article(r, self.article_data)
 
