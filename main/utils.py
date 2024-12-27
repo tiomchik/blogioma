@@ -74,6 +74,12 @@ class GenericTestCase(APITestCase):
             r.json().get(field), ["This field is required."]
         )
 
+    def _assert_field_is_too_long(self, r: HttpResponse, field: str) -> None:
+        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
+        error: str = r.json().get(field)[0]
+        self.assertTrue(error.startswith("Ensure this field has no more"))
+        self.assertTrue(error.endswith(" characters."))
+
     def _auth_to_another_user(
         self, username: str = "test_user123", password: str = "12341234"
     ) -> None:

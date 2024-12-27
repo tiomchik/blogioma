@@ -30,9 +30,4 @@ class CreateCommentTests(CommentsGenericTestCase):
     def test_create_with_very_long_text(self) -> None:
         self.comment_text = "very long comment" * 1000
         r = self._post_comment(text=self.comment_text)
-
-        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            r.json().get("text"),
-            ["Ensure this field has no more than 400 characters."]
-        )
+        self._assert_field_is_too_long(r, "text")

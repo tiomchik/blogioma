@@ -34,12 +34,7 @@ class CreateArticleTests(ArticleGenericTestCase):
         r = self.client.post(
             self.url, self.article_data, headers=self.auth_header
         )
-
-        self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(
-            r.json().get("heading"),
-            ["Ensure this field has no more than 100 characters."]
-        )
+        self._assert_field_is_too_long(r, "heading")
 
     def test_create_without_full_text(self) -> None:
         self.article_data.pop("full_text")
