@@ -1,28 +1,11 @@
 from django.urls import include
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-from rest_framework import routers
 from rest_framework.authtoken import views
 
-from main.utils import my_path
-from .views.article.viewset import ArticleViewSet
-from .views.comment.viewset import CommentViewSet
+from .router import router
+from .swagger import schema_view
 from .views.report import ReportArticle
 from .views.authentication import RegisterView, Me, Edit
-
-router = routers.DefaultRouter()
-router.register(r"articles", ArticleViewSet)
-router.register(r"articles/(?P<article_pk>[^/.]+)/comments", CommentViewSet)
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Blogioma API",
-        default_version="v1",
-        description="Simple Django blog application (https://github.com/tiomchik/blogioma)",
-        license=openapi.License(name="MIT License"),
-    ),
-    public=True,
-)
+from main.utils import my_path
 
 urlpatterns = [
     my_path("", include(router.urls)),
