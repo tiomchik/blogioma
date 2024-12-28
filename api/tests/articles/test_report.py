@@ -1,5 +1,4 @@
 from rest_framework import status
-from django.urls import reverse
 
 from feedback.models import Report
 from .generic import ArticleGenericTestCase

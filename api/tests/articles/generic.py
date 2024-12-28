@@ -1,4 +1,3 @@
-from rest_framework import status
 from django.http import HttpResponse
 from django.urls import reverse
 

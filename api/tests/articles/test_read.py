@@ -1,7 +1,6 @@
 from django.urls import reverse
 from rest_framework import status
 
-from articles.models import Article
 from .generic import ArticleGenericTestCase
 
 
