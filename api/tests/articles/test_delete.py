@@ -10,7 +10,7 @@ class DeleteArticleTests(ArticleGenericTestCase):
         self.url = reverse("article-detail", kwargs={"pk": self.article.pk})
 
     def test_delete(self) -> None:
-        r = self.client.delete(self.url, headers=self.auth_header)
+        r = self.delete_article()
         self.assertEqual(r.status_code, status.HTTP_204_NO_CONTENT)
 
         r = self.client.get(self.url)
@@ -26,5 +26,5 @@ class DeleteArticleTests(ArticleGenericTestCase):
             "email": "test3@test.com"
         }
         self._set_another_user(**another_user_data)
-        r = self.client.delete(self.url, headers=self.auth_header)
+        r = self.delete_article()
         self.assertForbiddenResponse(r)

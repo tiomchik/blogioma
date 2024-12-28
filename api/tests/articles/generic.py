@@ -26,3 +26,8 @@ class ArticleGenericTestCase(GenericTestCase):
         url = reverse("article-detail", kwargs={"pk": self.article.pk})
         r = self.client.put(url, data, headers=self.auth_header)
         return r
+
+    def delete_article(self) -> HttpResponse:
+        url = reverse("article-detail", kwargs={"pk": self.article.pk})
+        r = self.client.delete(url, headers=self.auth_header)
+        return r
