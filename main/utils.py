@@ -94,6 +94,14 @@ class GenericTestCase(APITestCase):
             "You do not have permission to perform this action."
         )
 
+    def assertContainsList(self, r: HttpResponse, list: list) -> None:
+        for item in list:
+            self.assertContains(r, item)
+
+    def assertNotContainsList(self, r: HttpResponse, list: list) -> None:
+        for item in list:
+            self.assertNotContains(r, item)
+
     def auth_to_another_user(
         self, username: str = "test_user123", password: str = "12341234"
     ) -> None:

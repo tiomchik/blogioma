@@ -14,14 +14,12 @@ class SocialLinksTests(AuthenticationGenericTestCase):
     def test_set_social_links(self) -> None:
         r = self.set_and_refresh_social_links(self.social_links_data)
         self.assertEqual(r.status_code, status.HTTP_200_OK)
-        for link in self.social_links_data.values():
-            self.assertContains(r, link)
+        self.assertContainsList(r, self.social_links_data.values())
 
     def test_read_social_links(self) -> None:
         self.set_and_refresh_social_links(self.social_links_data)
         r = self.get_me()
-        for link in self.social_links_data.values():
-            self.assertContains(r, link)
+        self.assertContainsList(r, self.social_links_data.values())
 
     def test_update_social_links(self) -> None:
         self.set_and_refresh_social_links(self.social_links_data)
@@ -37,6 +35,4 @@ class SocialLinksTests(AuthenticationGenericTestCase):
             "twitch": "",
             "linkedin": "",
         })
-
-        for link in self.social_links_data.values():
-            self.assertNotContains(r, link)
+        self.assertNotContainsList(r, self.social_links_data.values())
