@@ -9,8 +9,8 @@ from django.http import (
     Http404, HttpResponse, HttpResponsePermanentRedirect,
     HttpResponseRedirect, HttpRequest
 )
-from random import randint
 
+from articles.utils import get_random_article
 from main.utils import DataMixin, get_paginator_context
 from .forms import AddArticleForm
 from .models import Article
@@ -101,23 +101,8 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
 def random_article(
     request: HttpRequest
 ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-    # Getting total number of articles
-    total = Article.objects.last().pk
-
-    pk = 0
-    while True:
-        # Generating random id
-        pk = randint(0, total)
-
-        # If article with this id exist
-        try:
-            Article.objects.get(pk=pk)
-            break
-        except Article.DoesNotExist:
-            continue
-
-    # Redirect to random article
-    return redirect("read", pk=pk)
+    article = get_random_article()
+    return redirect("read", pk=article.pk)
 
 
 @cache_page(30)
