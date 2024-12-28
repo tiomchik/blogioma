@@ -14,3 +14,8 @@ class AuthenticationGenericTestCase(GenericTestCase):
         cache.clear()
 
         return r
+
+    def update_user_data(self, data: dict) -> HttpResponse:
+        url = reverse("edit-me")
+        r = self.client.put(url, data, headers=self.auth_header)
+        return r
