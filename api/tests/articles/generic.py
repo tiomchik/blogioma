@@ -17,7 +17,7 @@ class ArticleGenericTestCase(GenericTestCase):
         )
         self.assertContains(r, self.user.username, status_code=r.status_code)
 
-    def _update_article(self, data: dict) -> HttpResponse:
+    def update_article(self, data: dict) -> HttpResponse:
         url = reverse("article-detail", kwargs={"pk": self.article.pk})
         r = self.client.put(url, data, headers=self.auth_header)
         return r

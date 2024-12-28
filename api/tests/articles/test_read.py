@@ -37,7 +37,7 @@ class ReadArticleTests(ArticleGenericTestCase):
 
     def test_random(self) -> None:
         for i in range(10):
-            self._create_article(heading=f"test_article{i}")
+            self.create_article(heading=f"test_article{i}")
 
         url = reverse("article-random-article")
         r = self.client.get(url)

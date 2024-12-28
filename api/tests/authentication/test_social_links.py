@@ -14,26 +14,26 @@ class SocialLinksTests(AuthenticationGenericTestCase):
     }
 
     def test_set_social_links(self) -> None:
-        r = self._set_and_refresh_social_links(self.social_links_data)
+        r = self.set_and_refresh_social_links(self.social_links_data)
         self.assertEqual(r.status_code, status.HTTP_200_OK)
         for link in self.social_links_data.values():
             self.assertContains(r, link)
 
     def test_read_social_links(self) -> None:
-        self._set_and_refresh_social_links(self.social_links_data)
+        self.set_and_refresh_social_links(self.social_links_data)
         r = self.client.get(self.url, headers=self.auth_header)
         for link in self.social_links_data.values():
             self.assertContains(r, link)
 
     def test_update_social_links(self) -> None:
-        self._set_and_refresh_social_links(self.social_links_data)
+        self.set_and_refresh_social_links(self.social_links_data)
         youtube = "https://www.youtube.com/@test"
-        r = self._set_and_refresh_social_links({"youtube": youtube})
+        r = self.set_and_refresh_social_links({"youtube": youtube})
         self.assertContains(r, youtube)
 
     def test_delete_social_links(self) -> None:
-        self._set_and_refresh_social_links(self.social_links_data)
-        r = self._set_and_refresh_social_links({
+        self.set_and_refresh_social_links(self.social_links_data)
+        r = self.set_and_refresh_social_links({
             "youtube": "",
             "tiktok": "",
             "twitch": "",

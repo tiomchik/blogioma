@@ -8,7 +8,7 @@ class CreateCommentTests(CommentsGenericTestCase):
     comment_text = "nice article"
 
     def test_create(self) -> None:
-        r = self._post_comment(text=self.comment_text)
+        r = self.post_comment(text=self.comment_text)
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
         self.assertEqual(r.json().get("text"), self.comment_text)
@@ -19,7 +19,7 @@ class CreateCommentTests(CommentsGenericTestCase):
 
     def test_unauth_create(self) -> None:
         self.auth_header = {}
-        r = self._post_comment(text=self.comment_text)
+        r = self.post_comment(text=self.comment_text)
         self.assertUnauthResponse(r)
 
     def test_create_without_text(self) -> None:
@@ -29,5 +29,5 @@ class CreateCommentTests(CommentsGenericTestCase):
 
     def test_create_with_very_long_text(self) -> None:
         self.comment_text = "very long comment" * 1000
-        r = self._post_comment(text=self.comment_text)
+        r = self.post_comment(text=self.comment_text)
         self.assertFieldIsTooLong(r, "text")

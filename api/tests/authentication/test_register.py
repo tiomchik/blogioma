@@ -17,12 +17,12 @@ class RegisterTests(AuthenticationGenericTestCase):
 
     def test_register_without_username(self) -> None:
         self.user_data.pop("username")
-        r = self._register_user(**self.user_data)
+        r = self.register_user(**self.user_data)
         self.assertFieldIsRequired(r, "username")
 
     def test_register_without_password(self) -> None:
         self.user_data.pop("password")
-        r = self._register_user(**self.user_data)
+        r = self.register_user(**self.user_data)
         self.assertFieldIsRequired(r, "password")
 
     def test_register_with_pfp(self) -> None:

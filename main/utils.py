@@ -25,13 +25,13 @@ class DataMixin():
 class GenericTestCase(APITestCase):
     def setUp(self) -> None:
         data = {"username": "test_user1", "password": "12341234"}
-        self._register_user(**data)
+        self.register_user(**data)
 
         self.user = User.objects.get(username=data["username"])
         self.token = self._obtain_token(**data)
         self.auth_header = {"Authorization": f"Token {self.token}"}
 
-        self.article = self._create_article()
+        self.article = self.create_article()
         self.comment = Comment.objects.create(
             text="nice article", article=self.article, profile=self.user
         )
@@ -44,7 +44,7 @@ class GenericTestCase(APITestCase):
         self.user = User.objects.create_user(**user_data)
         self.client.login(**user_data)
 
-        self.article = self._create_article()
+        self.article = self.create_article()
 
     def _obtain_token(self, **user_data) -> str:
         """Obtains token according to passed `user_data`."""
@@ -55,13 +55,13 @@ class GenericTestCase(APITestCase):
 
         return token
 
-    def _register_user(self, **user_data) -> HttpResponse:
+    def register_user(self, **user_data) -> HttpResponse:
         """Registers a user with `user_data`."""
         url = reverse("register")
         return self.client.post(url, user_data)
 
     def _set_another_user(self, **another_user_data) -> None:
-        self._register_user(**another_user_data)
+        self.register_user(**another_user_data)
         another_user_token = self._obtain_token(**another_user_data)
         self.auth_header = {
             "Authorization": f"Token {another_user_token}"
@@ -94,7 +94,7 @@ class GenericTestCase(APITestCase):
             "You do not have permission to perform this action."
         )
 
-    def _auth_to_another_user(
+    def auth_to_another_user(
         self, username: str = "test_user123", password: str = "12341234"
     ) -> None:
         """Authenticates `self.client` using `self.client.login()`
@@ -104,7 +104,7 @@ class GenericTestCase(APITestCase):
         User.objects.create(**new_user_data)
         self.client.login(**new_user_data)
 
-    def _create_article(
+    def create_article(
         self, heading: str = "test_article",
         full_text: str = "lorem ipsum dolor"
     ) -> Article:

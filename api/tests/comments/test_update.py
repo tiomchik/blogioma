@@ -8,7 +8,7 @@ class UpdateCommentTests(CommentsGenericTestCase):
     comment_text = "bad article :("
 
     def test_update(self) -> None:
-        r = self._put_comment(text=self.comment_text)
+        r = self.put_comment(text=self.comment_text)
         self.assertEqual(r.status_code, status.HTTP_200_OK)
         self.assertEqual(r.json().get("text"), self.comment_text)
 
@@ -22,12 +22,12 @@ class UpdateCommentTests(CommentsGenericTestCase):
 
     def test_update_with_very_long_text(self) -> None:
         self.comment_text = "very long comment" * 1000
-        r = self._put_comment(text=self.comment_text)
+        r = self.put_comment(text=self.comment_text)
         self.assertFieldIsTooLong(r, "text")
 
     def test_unauth_update(self) -> None:
         self.auth_header = {}
-        r = self._put_comment(text=self.comment_text)
+        r = self.put_comment(text=self.comment_text)
         self.assertUnauthResponse(r)
 
     def test_update_nonuser_comment(self) -> None:
@@ -37,5 +37,5 @@ class UpdateCommentTests(CommentsGenericTestCase):
             "email": "test2@test.com"
         }
         self._set_another_user(**another_user_data)
-        r = self._put_comment(text=self.comment_text)
+        r = self.put_comment(text=self.comment_text)
         self.assertForbiddenResponse(r)

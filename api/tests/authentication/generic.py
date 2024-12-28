@@ -6,7 +6,7 @@ from main.utils import GenericTestCase
 
 
 class AuthenticationGenericTestCase(GenericTestCase):
-    def _set_and_refresh_social_links(self, data: dict) -> HttpResponse:
+    def set_and_refresh_social_links(self, data: dict) -> HttpResponse:
         url = reverse("edit-me")
         r = self.client.put(url, data, headers=self.auth_header)
 

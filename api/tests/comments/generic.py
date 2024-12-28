@@ -5,14 +5,14 @@ from main.utils import GenericTestCase
 
 
 class CommentsGenericTestCase(GenericTestCase):
-    def _post_comment(self, text: str) -> HttpResponse:
+    def post_comment(self, text: str) -> HttpResponse:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
         data = {"text": text}
         r = self.client.post(url, data, headers=self.auth_header)
 
         return r
 
-    def _put_comment(self, text: str) -> HttpResponse:
+    def put_comment(self, text: str) -> HttpResponse:
         url = reverse(
             "comment-detail",
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}
@@ -22,7 +22,7 @@ class CommentsGenericTestCase(GenericTestCase):
 
         return r
 
-    def _del_comment(self) -> HttpResponse:
+    def del_comment(self) -> HttpResponse:
         url = reverse(
             "comment-detail",
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}

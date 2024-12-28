@@ -26,7 +26,7 @@ class FeedbackTests(GenericTestCase):
 
     def test_report(self) -> None:
         desc = "lorem ipsum dolor"
-        r = self._post_report(desc=desc)
+        r = self.post_report(desc=desc)
 
         self.assertEqual(r.status_code, 200)
         self.assertTrue(
@@ -38,7 +38,7 @@ class FeedbackTests(GenericTestCase):
     def test_unauth_report(self) -> None:
         self.client.logout()
         desc = "lorem ipsum dolor"
-        self._post_report(desc=desc)
+        self.post_report(desc=desc)
 
         self.assertFalse(
             Report.objects.filter(
@@ -49,7 +49,7 @@ class FeedbackTests(GenericTestCase):
     # ========================
     # ====== Test utils ======
     # ========================
-    def _post_report(
+    def post_report(
         self, reason: str = "Scam", desc: str = "lorem ipsum dolor"
     ) -> HttpResponse:
         """Creates a report using POST."""

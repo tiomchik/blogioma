@@ -122,7 +122,7 @@ class ArticleTests(GenericTestCase):
         self.assertFalse(Article.objects.filter(heading=heading).exists())
 
     def test_update_nonuser_article(self) -> None:
-        self._auth_to_another_user()
+        self.auth_to_another_user()
 
         heading = "updated article"
         full_text = "new lorem ipsum dolor"
@@ -142,7 +142,7 @@ class ArticleTests(GenericTestCase):
         )
 
     def test_delete_nonuser_article(self) -> None:
-        self._auth_to_another_user()
+        self.auth_to_another_user()
 
         r = self._del_article()
         self.assertTrue(
