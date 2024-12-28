@@ -11,28 +11,23 @@ class ReadArticleTests(ArticleGenericTestCase):
         "full_text": "lorem ipsum dolor",
     }
 
-    def test_read_list(self) -> None:
-        Article.objects.create(**self.article_data, author=self.user)
+    def setUp(self):
+        super().setUp()
+        self.article = self.create_article(**self.article_data)
 
+    def test_read_list(self) -> None:
         url = reverse("article-list")
         r = self.client.get(url)
-
         self.assertResponseContainsArticle(r, self.article_data)
 
     def test_read_detail(self) -> None:
-        article = Article.objects.create(**self.article_data, author=self.user)
-
-        url = reverse("article-detail", kwargs={"pk": article.pk})
+        url = reverse("article-detail", kwargs={"pk": self.article.pk})
         r = self.client.get(url)
-
         self.assertResponseContainsArticle(r, self.article_data)
 
     def test_search(self) -> None:
-        Article.objects.create(**self.article_data, author=self.user)
-
         url = reverse("article-list") + f"?q={self.article_data["heading"]}"
         r = self.client.get(url)
-
         self.assertResponseContainsArticle(r, self.article_data)
 
     def test_random(self) -> None:
