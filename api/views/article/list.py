@@ -1,25 +1,19 @@
-from typing import Any
-from django.db.models import Q
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from rest_framework.mixins import ListModelMixin
 from rest_framework.response import Response
 from rest_framework.request import Request
 
-from articles.models import Article
+from articles.utils import search_articles
 
 
 class ListArticleMixin(ListModelMixin):
     @method_decorator(cache_page(30))
-    def list(self, request: Request) -> Any | Response:
+    def list(self, request: Request) -> Response:
         query = request.query_params.get("q")
 
         if query:
-            queryset = Article.objects.filter(
-                Q(heading__iregex=query) |
-                Q(full_text__iregex=query) |
-                Q(author__username__iregex=query)
-            )
+            queryset = search_articles(query)
         else:
             queryset = self.filter_queryset(self.get_queryset())
 
