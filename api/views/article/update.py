@@ -16,14 +16,7 @@ class UpdateArticleMixin(UpdateModelMixin):
         )
         serializer.is_valid(raise_exception=True)
         instance.update = timezone.now()
-
-        # In serializer.save() occures TypeError: "'NoneType' object
-        # is not iterable", but the update is successful.
-        # That's why we need to wrap this method in try/except.
-        try:
-            serializer.save()
-        except TypeError:
-            pass
+        self.save(serializer)
 
         if getattr(instance, "_prefetched_objects_cache", None):
             # If 'prefetch_related' has been applied to a queryset, we need to
@@ -31,3 +24,12 @@ class UpdateArticleMixin(UpdateModelMixin):
             instance._prefetched_objects_cache = {}
 
         return Response(serializer.data)
+
+    def save(self, serializer: ArticleSerializer) -> None:
+        # In serializer.save() occures TypeError: "'NoneType' object
+        # is not iterable", but the update is successful.
+        # That's why we need to wrap this method in try/except.
+        try:
+            serializer.save()
+        except TypeError:
+            pass
