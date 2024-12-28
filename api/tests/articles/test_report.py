@@ -23,4 +23,4 @@ class ReportArticleTests(ArticleGenericTestCase):
 
     def test_unauth_report(self) -> None:
         r = self.client.post(self.url, self.report_data)
-        self._assert_unauth_response(r)
+        self.assertUnauthResponse(r)

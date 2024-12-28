@@ -27,4 +27,4 @@ class DeleteArticleTests(ArticleGenericTestCase):
         }
         self._set_another_user(**another_user_data)
         r = self.client.delete(self.url, headers=self.auth_header)
-        self._assert_forbidden_response(r)
+        self.assertForbiddenResponse(r)

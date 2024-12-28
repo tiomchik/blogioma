@@ -6,7 +6,7 @@ from main.utils import GenericTestCase
 
 
 class ArticleGenericTestCase(GenericTestCase):
-    def _assert_response_contains_article(
+    def assertResponseContainsArticle(
         self, r: HttpResponse, article_data: dict
     ) -> None:
         self.assertContains(

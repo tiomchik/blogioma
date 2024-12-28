@@ -20,14 +20,14 @@ class CreateCommentTests(CommentsGenericTestCase):
     def test_unauth_create(self) -> None:
         self.auth_header = {}
         r = self._post_comment(text=self.comment_text)
-        self._assert_unauth_response(r)
+        self.assertUnauthResponse(r)
 
     def test_create_without_text(self) -> None:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
         r = self.client.post(url, headers=self.auth_header)
-        self._assert_field_is_required(r, "text")
+        self.assertFieldIsRequired(r, "text")
 
     def test_create_with_very_long_text(self) -> None:
         self.comment_text = "very long comment" * 1000
         r = self._post_comment(text=self.comment_text)
-        self._assert_field_is_too_long(r, "text")
+        self.assertFieldIsTooLong(r, "text")

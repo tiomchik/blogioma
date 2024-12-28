@@ -18,17 +18,17 @@ class UpdateCommentTests(CommentsGenericTestCase):
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}
         )
         r = self.client.put(url, headers=self.auth_header)
-        self._assert_field_is_required(r, "text")
+        self.assertFieldIsRequired(r, "text")
 
     def test_update_with_very_long_text(self) -> None:
         self.comment_text = "very long comment" * 1000
         r = self._put_comment(text=self.comment_text)
-        self._assert_field_is_too_long(r, "text")
+        self.assertFieldIsTooLong(r, "text")
 
     def test_unauth_update(self) -> None:
         self.auth_header = {}
         r = self._put_comment(text=self.comment_text)
-        self._assert_unauth_response(r)
+        self.assertUnauthResponse(r)
 
     def test_update_nonuser_comment(self) -> None:
         another_user_data = {
@@ -38,4 +38,4 @@ class UpdateCommentTests(CommentsGenericTestCase):
         }
         self._set_another_user(**another_user_data)
         r = self._put_comment(text=self.comment_text)
-        self._assert_forbidden_response(r)
+        self.assertForbiddenResponse(r)

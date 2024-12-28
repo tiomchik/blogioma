@@ -17,7 +17,7 @@ class HomeTests(GenericTestCase):
         articles = self._create_list_of_articles()
         cache.clear()
         r = self.client.get(self.url)
-        self._assert_response_contains_articles(r, articles)
+        self.assertResponseContainsArticles(r, articles)
 
     def _create_list_of_articles(self) -> list[Article]:
         articles = []
@@ -27,7 +27,7 @@ class HomeTests(GenericTestCase):
 
         return articles
 
-    def _assert_response_contains_articles(
+    def assertResponseContainsArticles(
         self, r: HttpResponse, articles: list[Article]
     ) -> None:
         for article in articles:

@@ -17,7 +17,7 @@ class ReadArticleTests(ArticleGenericTestCase):
         url = reverse("article-list")
         r = self.client.get(url)
 
-        self._assert_response_contains_article(r, self.article_data)
+        self.assertResponseContainsArticle(r, self.article_data)
 
     def test_read_detail(self) -> None:
         article = Article.objects.create(**self.article_data, author=self.user)
@@ -25,7 +25,7 @@ class ReadArticleTests(ArticleGenericTestCase):
         url = reverse("article-detail", kwargs={"pk": article.pk})
         r = self.client.get(url)
 
-        self._assert_response_contains_article(r, self.article_data)
+        self.assertResponseContainsArticle(r, self.article_data)
 
     def test_search(self) -> None:
         Article.objects.create(**self.article_data, author=self.user)
@@ -33,7 +33,7 @@ class ReadArticleTests(ArticleGenericTestCase):
         url = reverse("article-list") + f"?q={self.article_data["heading"]}"
         r = self.client.get(url)
 
-        self._assert_response_contains_article(r, self.article_data)
+        self.assertResponseContainsArticle(r, self.article_data)
 
     def test_random(self) -> None:
         for i in range(10):

@@ -67,7 +67,7 @@ class GenericTestCase(APITestCase):
             "Authorization": f"Token {another_user_token}"
         }
 
-    def _assert_unauth_response(self, r: HttpResponse) -> None:
+    def assertUnauthResponse(self, r: HttpResponse) -> None:
         """Checks that response is returned error of unauthorized user."""
         self.assertEqual(r.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(
@@ -75,19 +75,19 @@ class GenericTestCase(APITestCase):
             "Authentication credentials were not provided."
         )
 
-    def _assert_field_is_required(self, r: HttpResponse, field: str) -> None:
+    def assertFieldIsRequired(self, r: HttpResponse, field: str) -> None:
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             r.json().get(field), ["This field is required."]
         )
 
-    def _assert_field_is_too_long(self, r: HttpResponse, field: str) -> None:
+    def assertFieldIsTooLong(self, r: HttpResponse, field: str) -> None:
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         error: str = r.json().get(field)[0]
         self.assertTrue(error.startswith("Ensure this field has no more"))
         self.assertTrue(error.endswith(" characters."))
 
-    def _assert_forbidden_response(self, r: HttpResponse) -> None:
+    def assertForbiddenResponse(self, r: HttpResponse) -> None:
         self.assertEqual(r.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(
             r.json().get("detail"),
