@@ -4,7 +4,7 @@ from rest_framework.request import Request
 from rest_framework.mixins import CreateModelMixin
 
 from articles.models import Article
-from api.serializers import ArticleSerializer
+from api.serializers.article import ArticleSerializer
 
 
 class CreateArticleMixin(CreateModelMixin):

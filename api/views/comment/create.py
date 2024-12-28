@@ -5,7 +5,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from articles.models import Article
-from api.serializers import CommentSerializer
+from api.serializers.comment import CommentSerializer
 from comments.models import Comment
 
 

@@ -2,7 +2,7 @@ from rest_framework.mixins import RetrieveModelMixin, DestroyModelMixin
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from api.serializers import CommentSerializer
+from api.serializers.comment import CommentSerializer
 from api.permissions import IsAuthorOrStaffOrReadOnly
 from api.utils import Pagination
 from comments.models import Comment

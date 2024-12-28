@@ -5,8 +5,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
 from articles.models import Article
-from authentication.models import User
-from api.serializers import ReportSerializer
+from api.serializers.report import ReportSerializer
 from feedback.models import Report
 
 

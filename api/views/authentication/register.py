@@ -1,7 +1,7 @@
 from rest_framework.generics import CreateAPIView
 
 from authentication.models import User
-from api.serializers import UserSerializer
+from api.serializers.user import UserSerializer
 
 
 class RegisterView(CreateAPIView):

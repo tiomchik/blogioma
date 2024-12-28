@@ -1,7 +1,7 @@
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from api.serializers import EditUserSerializer
+from api.serializers.user import EditUserSerializer
 from authentication.models import User
 
 

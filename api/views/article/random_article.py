@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from articles.utils import get_random_article
-from api.serializers import ArticleSerializer
+from api.serializers.article import ArticleSerializer
 
 
 class RandomArticleView(APIView):

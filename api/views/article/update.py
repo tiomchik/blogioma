@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin
 
 from articles.models import Article
-from api.serializers import ArticleSerializer
+from api.serializers.article import ArticleSerializer
 
 
 class UpdateArticleMixin(UpdateModelMixin):

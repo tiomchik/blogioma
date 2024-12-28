@@ -6,7 +6,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from authentication.models import User
-from api.serializers import UserSerializer
+from api.serializers.user import UserSerializer
 
 
 class Me(RetrieveAPIView):

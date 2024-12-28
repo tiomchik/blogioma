@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.mixins import RetrieveModelMixin
 
 from articles.models import Article
-from api.serializers import ArticleSerializer
+from api.serializers.article import ArticleSerializer
 
 
 class RetrieveArticleMixin(RetrieveModelMixin):
