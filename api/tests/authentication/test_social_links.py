@@ -1,11 +1,9 @@
-from django.urls import reverse
 from rest_framework import status
 
 from .generic import AuthenticationGenericTestCase
 
 
 class SocialLinksTests(AuthenticationGenericTestCase):
-    url = reverse("me")
     social_links_data = {
         "youtube": "https://www.youtube.com/",
         "tiktok": "https://tiktok.com/",
@@ -21,7 +19,7 @@ class SocialLinksTests(AuthenticationGenericTestCase):
 
     def test_read_social_links(self) -> None:
         self.set_and_refresh_social_links(self.social_links_data)
-        r = self.client.get(self.url, headers=self.auth_header)
+        r = self.get_me()
         for link in self.social_links_data.values():
             self.assertContains(r, link)
 

@@ -19,3 +19,8 @@ class AuthenticationGenericTestCase(GenericTestCase):
         url = reverse("edit-me")
         r = self.client.put(url, data, headers=self.auth_header)
         return r
+
+    def get_me(self) -> HttpResponse:
+        url = reverse("me")
+        r = self.client.get(url, headers=self.auth_header)
+        return r
