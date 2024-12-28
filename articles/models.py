@@ -20,6 +20,13 @@ class Article(models.Model):
     def get_absolute_url(self) -> str:
         return f"/article/{self.pk}"
 
+    def increment_viewings(self) -> None:
+        self.viewings = models.F("viewings") + 1
+
+    def save_and_refresh(self):
+        self.save()
+        self.refresh_from_db()
+
     class Meta:
         ordering = ["pub_date"]
         verbose_name = "Article"

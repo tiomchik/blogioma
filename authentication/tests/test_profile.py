@@ -19,9 +19,9 @@ class ProfileTests(GenericTestCase):
         self.assertContains(r, self.user.username)
 
     def test_get_profile_articles(self) -> None:
-        article = self._create_article(heading="article")
-        article1 = self._create_article(heading="article1")
-        article2 = self._create_article(heading="article2")
+        article = self.create_article(heading="article")
+        article1 = self.create_article(heading="article1")
+        article2 = self.create_article(heading="article2")
 
         cache.clear()
         url = reverse(
@@ -87,7 +87,7 @@ class ProfileTests(GenericTestCase):
             "twitch": "https://twitch.tv/",
             "linkedin": "https://linkedin.com/",
         }
-        r = self._set_social_links(**data)
+        r = self.set_social_links(**data)
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(self.user.youtube, data["youtube"])
@@ -96,7 +96,7 @@ class ProfileTests(GenericTestCase):
         self.assertEqual(self.user.linkedin, data["linkedin"])
 
     def test_read_social_links(self) -> None:
-        self._set_social_links()
+        self.set_social_links()
 
         url = reverse("see_profile", kwargs={"username": self.user.username})
         cache.clear()
@@ -108,7 +108,7 @@ class ProfileTests(GenericTestCase):
         self.assertIn(self.user.linkedin, str(r.content))
 
     def test_update_social_links(self) -> None:
-        self._set_social_links()
+        self.set_social_links()
 
         url = reverse(
             "social_media_links", kwargs={"username": self.user.username}
@@ -124,8 +124,8 @@ class ProfileTests(GenericTestCase):
         self.assertEqual(self.user.youtube, youtube)
 
     def test_delete_social_links(self) -> None:
-        self._set_social_links()
-        self._set_social_links(youtube="", tiktok="", twitch="", linkedin="")
+        self.set_social_links()
+        self.set_social_links(youtube="", tiktok="", twitch="", linkedin="")
 
         self.assertEqual(self.user.youtube, "")
         self.assertEqual(self.user.tiktok, "")
@@ -135,7 +135,7 @@ class ProfileTests(GenericTestCase):
     # ========================
     # ====== Test utils ======
     # ========================
-    def _set_social_links(
+    def set_social_links(
         self, youtube: str = "https://www.youtube.com/",
         tiktok: str = "https://tiktok.com/",
         twitch: str = "https://twitch.tv/",

@@ -14,20 +14,20 @@ class HomeTests(GenericTestCase):
         self.assertContains(r, self.article.heading)
 
     def test_home_with_list_of_articles(self) -> None:
-        articles = self._create_list_of_articles()
+        articles = self.create_list_of_articles()
         cache.clear()
         r = self.client.get(self.url)
-        self._assert_response_contains_articles(r, articles)
+        self.assertResponseContainsArticles(r, articles)
 
-    def _create_list_of_articles(self) -> list[Article]:
+    def create_list_of_articles(self) -> list[Article]:
         articles = []
         for i in range(5):
-            article = self._create_article(f"test_article_{i}")
+            article = self.create_article(f"test_article_{i}")
             articles.append(article)
 
         return articles
 
-    def _assert_response_contains_articles(
+    def assertResponseContainsArticles(
         self, r: HttpResponse, articles: list[Article]
     ) -> None:
         for article in articles:

@@ -1,10 +1,7 @@
-from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
 
-from articles.models import Article
 from authentication.models import User
-from comments.models import Comment
-from feedback.models import Report
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -53,36 +50,3 @@ def url_platform_validator(
 class EditUserSerializer(UserSerializer):
     username = serializers.CharField(required=False)
     password = serializers.CharField(required=False, write_only=True)
-
-
-class ArticleSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
-    reports = serializers.HiddenField(default=None)
-
-    class Meta:
-        model = Article
-        fields = "__all__"
-        read_only_fields = ("author", "pub_date", "viewings", "update")
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    # default=None because we'll link chosen article from URL in view.
-    article = serializers.HiddenField(default=None)
-    profile = UserSerializer(read_only=True)
-
-    class Meta:
-        model = Comment
-        fields = "__all__"
-        read_only_fields = (
-            "author", "profile", "article", "pub_date", "update"
-        )
-
-
-class ReportSerializer(serializers.ModelSerializer):
-    # default=None the same as in CommentSerializer
-    reported_article = serializers.HiddenField(default=None)
-    owner = UserSerializer(read_only=True)
-
-    class Meta:
-        model = Report
-        fields = "__all__"

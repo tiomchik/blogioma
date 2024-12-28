@@ -1,11 +1,13 @@
 from typing import Any
-from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
+from django.http import (
+    HttpRequest, HttpResponse,
+    HttpResponsePermanentRedirect, HttpResponseRedirect
+)
 from django.shortcuts import render, redirect
-from django.db.models import Q
 from django.views.generic.edit import FormView
 
 from .forms import SearchForm
-from articles.models import Article
+from articles.utils import search_articles
 from main.utils import get_paginator_context, DataMixin
 
 
@@ -30,14 +32,7 @@ class Search(DataMixin, FormView):
 
 def search_results(request: HttpRequest, query: str) -> HttpResponse:
     # Searching articles
-    articles = Article.objects.filter(
-        # By heading
-        Q(heading__iregex=query) | 
-        # Full text
-        Q(full_text__iregex=query) |
-        # Author username
-        Q(author__username__iregex=query)
-    ).values(
+    articles = search_articles(query).values(
         "heading", "full_text", "update", "pub_date", "pk",
         "author", "author__pfp", "author__username"
     )

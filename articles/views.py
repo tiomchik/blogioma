@@ -2,7 +2,6 @@ from typing import Any
 from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import F
 from django.views.decorators.cache import cache_page
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
@@ -10,8 +9,8 @@ from django.http import (
     Http404, HttpResponse, HttpResponsePermanentRedirect,
     HttpResponseRedirect, HttpRequest
 )
-from random import randint
 
+from articles.utils import get_random_article
 from main.utils import DataMixin, get_paginator_context
 from .forms import AddArticleForm
 from .models import Article
@@ -51,10 +50,10 @@ class ReadArticle(DataMixin, DetailView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         # Getting article by passed id
-        article = context["article"]
+        article: Article = context["article"]
         # +1 viewing
-        article.viewings = F("viewings") + 1
-        article.save()
+        article.increment_viewings()
+        article.save_and_refresh()
         base = self.get_base_context(article.heading, article=article)
 
         return dict(list(context.items()) + list(base.items()))
@@ -102,23 +101,8 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
 def random_article(
     request: HttpRequest
 ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-    # Getting total number of articles
-    total = Article.objects.last().pk
-
-    pk = 0
-    while True:
-        # Generating random id
-        pk = randint(0, total)
-
-        # If article with this id exist
-        try:
-            Article.objects.get(pk=pk)
-            break
-        except Article.DoesNotExist:
-            continue
-
-    # Redirect to random article
-    return redirect("read", pk=pk)
+    article = get_random_article()
+    return redirect("read", pk=article.pk)
 
 
 @cache_page(30)
