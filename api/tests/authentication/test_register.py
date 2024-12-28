@@ -26,14 +26,15 @@ class RegisterTests(AuthenticationGenericTestCase):
         self.assertFieldIsRequired(r, "password")
 
     def test_register_with_pfp(self) -> None:
-        with open("api/tests/authentication/cat.jpg", "rb") as picture:
-            pfp = SimpleUploadedFile(
-                "cat.jpg", picture.read(), content_type="image/jpeg"
-            )
-
-        self.user_data["pfp"] = pfp
+        self.user_data["pfp"] = self.load_pfp()
         r = self.client.post(self.url, self.user_data, format="multipart")
         self.user.refresh_from_db()
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
         self.assertIsNotNone(self.user.pfp)
+
+    def load_pfp(self) -> SimpleUploadedFile:
+        with open("api/tests/authentication/cat.jpg", "rb") as picture:
+            return SimpleUploadedFile(
+                "cat.jpg", picture.read(), content_type="image/jpeg"
+            )
