@@ -1,5 +1,4 @@
 from django.urls import reverse
-from rest_framework import status
 
 from .generic import CommentsGenericTestCase
 
@@ -9,7 +8,7 @@ class UpdateCommentTests(CommentsGenericTestCase):
 
     def test_update(self) -> None:
         r = self.put_comment(text=self.comment_text)
-        self.assertEqual(r.status_code, status.HTTP_200_OK)
+        self.assertOkStatus(r)
         self.assertEqual(r.json().get("text"), self.comment_text)
 
     def test_update_without_text(self) -> None:

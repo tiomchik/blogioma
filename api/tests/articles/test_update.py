@@ -1,5 +1,3 @@
-from rest_framework import status
-
 from .generic import ArticleGenericTestCase
 
 
@@ -11,7 +9,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
 
     def test_update(self) -> None:
         r = self.update_article(self.article_data)
-        self.assertEqual(r.status_code, status.HTTP_200_OK)
+        self.assertOkStatus(r)
         self.assertResponseContainsArticle(r, self.article_data)
 
     def test_update_without_heading(self) -> None:

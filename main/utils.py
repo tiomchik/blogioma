@@ -102,6 +102,9 @@ class GenericTestCase(APITestCase):
         for item in list:
             self.assertNotContains(r, item)
 
+    def assertOkStatus(self, r: HttpResponse) -> None:
+        self.assertEqual(r.status_code, status.HTTP_200_OK)
+
     def auth_to_another_user(
         self, username: str = "test_user123", password: str = "12341234"
     ) -> None:

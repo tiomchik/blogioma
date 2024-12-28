@@ -1,5 +1,4 @@
 from django.urls import reverse
-from rest_framework import status
 
 from .generic import ArticleGenericTestCase
 
@@ -36,7 +35,7 @@ class ReadArticleTests(ArticleGenericTestCase):
         url = reverse("article-random-article")
         r = self.client.get(url)
 
-        self.assertEqual(r.status_code, status.HTTP_200_OK)
+        self.assertOkStatus(r)
         self.assertIsNotNone(r.json().get("heading"))
         self.assertIsNotNone(r.json().get("full_text"))
         self.assertIsNotNone(r.json().get("author"))

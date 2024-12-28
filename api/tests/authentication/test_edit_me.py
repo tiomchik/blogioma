@@ -1,5 +1,3 @@
-from rest_framework import status
-
 from .generic import AuthenticationGenericTestCase
 
 
@@ -8,7 +6,7 @@ class EditMeTests(AuthenticationGenericTestCase):
         data = {"username": "updated_test_user"}
         r = self.update_user_data(data)
 
-        self.assertEqual(r.status_code, status.HTTP_200_OK)
+        self.assertOkStatus(r)
         self.assertContains(r, data["username"])
 
     def test_change_password(self) -> None:
@@ -17,5 +15,5 @@ class EditMeTests(AuthenticationGenericTestCase):
         r = self.update_user_data(data)
 
         self.user.refresh_from_db()
-        self.assertEqual(r.status_code, status.HTTP_200_OK)
+        self.assertOkStatus(r)
         self.assertNotEqual(previous_password, self.user.password)
