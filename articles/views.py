@@ -22,7 +22,7 @@ class AddArticle(DataMixin, LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        # on_article_page for illumination of add article button
+        # on_add_article_page for illumination of add article button
         base = self.get_base_context("Add article", on_add_article_page=1)
 
         return dict(list(context.items()) + list(base.items()))
@@ -30,11 +30,9 @@ class AddArticle(DataMixin, LoginRequiredMixin, CreateView):
     def form_valid(
         self, form: AddArticleForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-        # Getting data from a form and format text to markdown
         heading = form.cleaned_data.get("heading")
         full_text = form.cleaned_data.get("full_text")
 
-        # Creating a new article
         Article.objects.create(
             heading=heading, full_text=full_text, author=self.request.user
         )
@@ -49,23 +47,18 @@ class ReadArticle(DataMixin, DetailView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        # Getting article by passed id
         article: Article = context["article"]
-        # +1 viewing
         article.increment_viewings()
         article.save_and_refresh()
         base = self.get_base_context(article.heading, article=article)
-
         return dict(list(context.items()) + list(base.items()))
 
 
 def delete_article(
     request: HttpRequest, pk: int
 ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-    # Getting article
     article = Article.objects.get(pk=pk)
 
-    # If user is author or staff
     if request.user == article.author or request.user.is_staff:
         article.delete()
 
@@ -86,10 +79,8 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
     def form_valid(
         self, form: AddArticleForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-        # Getting article by passed id
         article = get_object_or_404(Article, pk=self.kwargs["pk"])
 
-        # Updating data
         article.update = timezone.now()
         article.heading = form.cleaned_data.get("heading")
         article.full_text = form.cleaned_data.get("full_text")
@@ -107,7 +98,6 @@ def random_article(
 
 @cache_page(30)
 def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
-    # GET query check
     if order_by == "latest":
         field = "-pub_date"
         name = "Latest articles"
@@ -117,7 +107,6 @@ def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
     else:
         raise Http404()
 
-    # Getting articles
     articles = Article.objects.order_by(field).values(
         "heading", "full_text", "update", "pub_date", "pk", 
         "author", "author__pfp", "author__username"

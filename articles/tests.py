@@ -11,9 +11,6 @@ class ArticleTests(GenericTestCase):
     def setUp(self) -> None:
         self.setUpSessionAuth()
 
-    # ====================
-    # ====== Create ======
-    # ====================
     def test_create(self) -> None:
         heading = "article test"
         full_text = "lorem ipsum dolor"
@@ -54,9 +51,6 @@ class ArticleTests(GenericTestCase):
 
         self.assertFalse(Article.objects.filter(heading=heading).exists())
 
-    # ==================
-    # ====== Read ======
-    # ==================
     def test_read_at_home_page(self) -> None:
         url = reverse("home")
         r = self.client.get(url)
@@ -78,9 +72,6 @@ class ArticleTests(GenericTestCase):
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.article.full_text)
 
-    # ====================
-    # ====== Update ======
-    # ====================
     def test_update(self) -> None:
         heading = "updated article"
         full_text = "new lorem ipsum dolor"
@@ -131,9 +122,6 @@ class ArticleTests(GenericTestCase):
 
         self.assertFalse(Article.objects.filter(heading=heading).exists())
 
-    # ====================
-    # ====== Delete ======
-    # ====================
     def test_delete(self) -> None:
         r = self._del_article()
         self.assertEqual(r.status_code, 200)
@@ -149,9 +137,6 @@ class ArticleTests(GenericTestCase):
             Article.objects.filter(heading=self.article.heading).exists()
         )
 
-    # ========================
-    # ====== Test utils ======
-    # ========================
     def _post_article(self, encoded_data: str) -> HttpResponse:
         """Creates an article using POST."""
         url = reverse("add_article")
