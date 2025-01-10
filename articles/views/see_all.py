@@ -2,7 +2,7 @@ from django.http import HttpRequest, HttpResponse, Http404
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 
-from articles.models import Article
+from articles.utils import get_articles_ordered_by_field
 from main.utils import get_paginator_context
 
 order_by_options = {
@@ -18,10 +18,7 @@ def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
     if order_by not in order_by_options.keys():
         raise Http404()
 
-    articles = Article.objects.order_by(field).values(
-        "heading", "full_text", "update", "pub_date", "pk", 
-        "author", "author__pfp", "author__username"
-    )
+    articles = get_articles_ordered_by_field(field)
 
     context = get_paginator_context(request, articles, name)
 

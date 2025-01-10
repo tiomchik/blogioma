@@ -26,3 +26,10 @@ def get_random_article() -> Article:
             continue
 
     return article
+
+
+def get_articles_ordered_by_field(field: str) -> list[Article]:
+    return Article.objects.order_by(field).values(
+        "heading", "full_text", "update", "pub_date", "pk",
+        "author", "author__pfp", "author__username"
+    )
