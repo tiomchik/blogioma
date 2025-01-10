@@ -20,3 +20,13 @@ class ReadArticleTests(ArticleGenericTestCase):
         url = reverse("random_article")
         r = self.client.get(url, follow=True)
         self.assertPageContainsArticle(r, self.article)
+
+    def test_see_all_latest(self) -> None:
+        url = reverse("see_all", kwargs={"order_by": "latest"})
+        r = self.client.get(url)
+        self.assertPageContainsArticle(r, self.article)
+
+    def test_see_all_popular(self) -> None:
+        url = reverse("see_all", kwargs={"order_by": "popular"})
+        r = self.client.get(url)
+        self.assertPageContainsArticle(r, self.article)
