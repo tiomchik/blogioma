@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.cache import cache_page
 from django.views.generic.edit import CreateView, UpdateView
 
-from articles.models import Article
+from articles.utils import get_article_by_pk
 from main.utils import get_paginator_context, DataMixin
 from .forms import AddCommentForm
 from .models import Comment
@@ -18,7 +18,7 @@ from .models import Comment
 @cache_page(30)
 def see_comments(request: HttpRequest, pk: int) -> HttpResponse:
     # Getting comments by related article
-    article = Article.objects.get(pk=pk)
+    article = get_article_by_pk(pk)
     comments = Comment.objects.filter(article=article).values(
         "profile", "profile__pfp", "pk", "article__pk",
         "profile__username", "update", "pub_date", "text"
@@ -48,7 +48,7 @@ class AddComment(DataMixin, LoginRequiredMixin, CreateView):
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         # Getting article pk, data from from and etc.
         pk = self.kwargs["pk"]
-        article = Article.objects.get(pk=pk)
+        article = get_article_by_pk(pk)
         text = form.cleaned_data.get("text")
 
         # Creating a new comment
@@ -64,7 +64,7 @@ def delete_comment(
 ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     # Getting article and related comment
     comment = Comment.objects.get(pk=comment_pk)
-    article = Article.objects.get(pk=pk)
+    article = get_article_by_pk(pk)
 
     # Author and related article check
     if request.user != comment.profile:

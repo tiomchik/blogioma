@@ -20,12 +20,16 @@ def get_random_article() -> Article:
         pk = randint(0, total)
 
         try:
-            article = Article.objects.get(pk=pk)
+            article = get_article_by_pk(pk)
             break
         except Article.DoesNotExist:
             continue
 
     return article
+
+
+def get_article_by_pk(pk: int) -> Article:
+    return Article.objects.get(pk=pk)
 
 
 def get_articles_ordered_by_field(field: str) -> list[Article]:

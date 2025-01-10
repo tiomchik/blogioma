@@ -6,13 +6,14 @@ from django.http import (
 from django.shortcuts import redirect
 
 from articles.models import Article
+from articles.utils import get_article_by_pk
 from authentication.models import User
 
 
 def delete_article(
     request: HttpRequest, pk: int
 ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-    article = Article.objects.get(pk=pk)
+    article = get_article_by_pk(pk)
 
     if is_author_or_staff(request.user, article):
         article.delete()
