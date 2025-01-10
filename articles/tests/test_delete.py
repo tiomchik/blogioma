@@ -12,8 +12,5 @@ class DeleteArticleTests(ArticleGenericTestCase):
 
     def test_delete_nonuser_article(self) -> None:
         self.auth_to_another_user()
-
-        r = self.del_article()
-        self.assertTrue(
-            Article.objects.filter(heading=self.article.heading).exists()
-        )
+        self.del_article()
+        self.assertArticleExists(heading=self.article.heading)

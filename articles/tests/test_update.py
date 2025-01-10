@@ -14,9 +14,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
 
     def test_update(self) -> None:
         self.update_article(urlencode(self.form_data))
-        self.assertTrue(
-            Article.objects.filter(heading=self.form_data["heading"]).exists()
-        )
+        self.assertArticleExists(heading=self.form_data["heading"])
 
     def test_update_without_heading(self) -> None:
         self.form_data.pop("heading")

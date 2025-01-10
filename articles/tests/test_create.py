@@ -12,9 +12,7 @@ class CreateArticleTests(ArticleGenericTestCase):
 
     def test_create(self) -> None:
         self.post_article(urlencode(self.form_data))
-        self.assertTrue(
-            Article.objects.filter(heading=self.form_data["heading"]).exists()
-        )
+        self.assertArticleExists(heading=self.form_data["heading"])
 
     def test_unauth_create(self) -> None:
         self.client.logout()

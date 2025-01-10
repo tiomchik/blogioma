@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.urls import reverse
 
+from articles.models import Article
 from main.utils import GenericTestCase
 
 
@@ -14,7 +15,6 @@ class ArticleGenericTestCase(GenericTestCase):
             url, encoded_data,
             content_type="application/x-www-form-urlencoded", follow=True
         )
-
         return r
 
     def update_article(self, encoded_data: str) -> HttpResponse:
@@ -23,11 +23,12 @@ class ArticleGenericTestCase(GenericTestCase):
             url, encoded_data,
             content_type="application/x-www-form-urlencoded", follow=True
         )
-
         return r
 
     def del_article(self) -> HttpResponse:
         url = reverse("delete", kwargs={"pk": self.article.pk})
         r = self.client.get(url, follow=True)
-
         return r
+
+    def assertArticleExists(self, **filter_kwargs) -> None:
+        self.assertTrue(Article.objects.filter(**filter_kwargs).exists())
