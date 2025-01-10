@@ -5,42 +5,43 @@ from articles.models import Article
 
 
 class CreateArticleTests(ArticleGenericTestCase):
-    def test_create(self) -> None:
-        heading = "article test"
-        full_text = "lorem ipsum dolor"
-        data = urlencode({"heading": heading, "full_text": full_text})
-        self.post_article(data)
+    form_data = {
+        "heading": "article test",
+        "full_text": "lorem ipsum dolor"
+    }
 
-        self.assertTrue(Article.objects.filter(heading=heading).exists())
+    def test_create(self) -> None:
+        self.post_article(urlencode(self.form_data))
+        self.assertTrue(
+            Article.objects.filter(heading=self.form_data["heading"]).exists()
+        )
 
     def test_unauth_create(self) -> None:
         self.client.logout()
-
-        heading = "article test"
-        full_text = "lorem ipsum dolor"
-        data = urlencode({"heading": heading, "full_text": full_text})
-        self.post_article(data)
-
-        self.assertFalse(Article.objects.filter(heading=heading).exists())
+        self.post_article(urlencode(self.form_data))
+        self.assertFalse(
+            Article.objects.filter(heading=self.form_data["heading"]).exists()
+        )
 
     def test_create_without_heading(self) -> None:
-        full_text = "lorem ipsum dolor without heading"
-        data = urlencode({"full_text": full_text})
-        self.post_article(data)
-
-        self.assertFalse(Article.objects.filter(full_text=full_text).exists())
+        self.form_data = {"full_text": "lorem ipsum dolor without heading"}
+        self.post_article(urlencode(self.form_data))
+        self.assertFalse(
+            Article.objects.filter(
+                full_text=self.form_data["full_text"]
+            ).exists()
+        )
 
     def test_create_with_very_long_heading(self) -> None:
-        heading = "article test" * 10
-        full_text = "lorem ipsum dolor"
-        data = urlencode({"heading": heading, "full_text": full_text})
-        self.post_article(data)
-
-        self.assertFalse(Article.objects.filter(heading=heading).exists())
+        self.form_data["heading"] = "article test" * 10
+        self.post_article(urlencode(self.form_data))
+        self.assertFalse(
+            Article.objects.filter(heading=self.form_data["heading"]).exists()
+        )
 
     def test_create_without_full_text(self) -> None:
-        heading = "article test"
-        data = urlencode({"heading": heading})
-        self.post_article(data)
-
-        self.assertFalse(Article.objects.filter(heading=heading).exists())
+        self.form_data.pop("full_text")
+        self.post_article(urlencode(self.form_data))
+        self.assertFalse(
+            Article.objects.filter(heading=self.form_data["heading"]).exists()
+        )
