@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.urls import reverse
+from urllib.parse import urlencode
 
 from articles.models import Article
 from main.utils import GenericTestCase
@@ -9,18 +10,18 @@ class ArticleGenericTestCase(GenericTestCase):
     def setUp(self) -> None:
         self.setUpSessionAuth()
 
-    def post_article(self, encoded_data: str) -> HttpResponse:
+    def post_article(self, data: dict) -> HttpResponse:
         url = reverse("add_article")
         r = self.client.post(
-            url, encoded_data,
+            url, urlencode(data),
             content_type="application/x-www-form-urlencoded", follow=True
         )
         return r
 
-    def update_article(self, encoded_data: str) -> HttpResponse:
+    def update_article(self, data: dict) -> HttpResponse:
         url = reverse("update", kwargs={"pk": self.article.pk})
         r = self.client.post(
-            url, encoded_data,
+            url, urlencode(data),
             content_type="application/x-www-form-urlencoded", follow=True
         )
         return r
