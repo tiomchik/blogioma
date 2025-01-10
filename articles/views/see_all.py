@@ -5,16 +5,17 @@ from django.views.decorators.cache import cache_page
 from articles.models import Article
 from main.utils import get_paginator_context
 
+order_by_options = {
+    "latest": {"field": "-pub_date", "name": "Latest articles"},
+    "popular": {"field": "-viewings", "name": "Popular articles \U0001F525"},
+}
+
 
 @cache_page(30)
 def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
-    if order_by == "latest":
-        field = "-pub_date"
-        name = "Latest articles"
-    elif order_by == "popular":
-        field = "-viewings"
-        name = "Popular articles \U0001F525"
-    else:
+    field = order_by_options[order_by]["field"]
+    name = order_by_options[order_by]["name"]
+    if order_by not in order_by_options.keys():
         raise Http404()
 
     articles = Article.objects.order_by(field).values(
