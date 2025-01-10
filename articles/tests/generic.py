@@ -32,3 +32,6 @@ class ArticleGenericTestCase(GenericTestCase):
 
     def assertArticleExists(self, **filter_kwargs) -> None:
         self.assertTrue(Article.objects.filter(**filter_kwargs).exists())
+
+    def assertArticleDoesntExists(self, **filter_kwargs) -> None:
+        self.assertFalse(Article.objects.filter(**filter_kwargs).exists())
