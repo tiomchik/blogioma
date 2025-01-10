@@ -35,3 +35,10 @@ class ArticleGenericTestCase(GenericTestCase):
 
     def assertArticleDoesntExists(self, **filter_kwargs) -> None:
         self.assertFalse(Article.objects.filter(**filter_kwargs).exists())
+
+    def assertPageContainsArticle(
+        self, r: HttpResponse, article: Article
+    ) -> None:
+        self.assertContains(r, article.heading)
+        self.assertContains(r, article.full_text)
+        self.assertContains(r, article.author.username)
