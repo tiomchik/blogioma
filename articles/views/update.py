@@ -18,17 +18,17 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Update article")
-
         return dict(list(context.items()) + list(base.items()))
 
     def form_valid(
         self, form: AddArticleForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         article = get_object_or_404(Article, pk=self.kwargs["pk"])
-
-        article.update = timezone.now()
-        article.heading = form.cleaned_data.get("heading")
-        article.full_text = form.cleaned_data.get("full_text")
-        article.save()
-
+        self.update_and_save(article, form.cleaned_data)
         return redirect("read", pk=self.kwargs["pk"])
+
+    def update_and_save(self, article: Article, data: dict[str]) -> None:
+        article.update = timezone.now()
+        article.heading = data.get("heading")
+        article.full_text = data.get("full_text")
+        article.save()
