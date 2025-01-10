@@ -109,7 +109,6 @@ class ChangePfpForm(forms.ModelForm):
         fields = ["new_pfp"]
 
 
-# URL validators
 def url_platform_validator(
     value: str, platform: str, platform_url_part: str
 ) -> None:

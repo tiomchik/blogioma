@@ -34,7 +34,6 @@ class SignUp(DataMixin, CreateView):
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         request = self.request
 
-        # Getting data from a form
         username = form.cleaned_data.get("username")
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
@@ -43,7 +42,6 @@ class SignUp(DataMixin, CreateView):
         if password != password1:
             form.add_error("password1", "Password's don't match")
 
-        # Email and username uniqueness check
         try:
             User.objects.get(username=username)
             form.add_error("username", "This username already exist")
@@ -60,13 +58,11 @@ class SignUp(DataMixin, CreateView):
         if form.errors:
             return self.form_invalid(form)
 
-        # Creating a new user
         pfp = request.FILES.get("pfp")
         user = User.objects.create(
             username=username, email=email, password=password, pfp=pfp
         )
 
-        # Logging in
         login(request, user)
 
         return redirect("home")
@@ -85,24 +81,19 @@ class Login(DataMixin, FormView):
     def form_valid(
         self, form: LoginForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect | HttpResponse:
-        # Getting data from a form
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
 
-        # Authentication
         user = authenticate(
             self.request, username=username, password=password,
         )
 
-        # If valid
         if user:
             login(self.request, user)
             return redirect("home")
 
-        # If invalid
         form.add_error("password", "Invalid username and/or password")
 
-        # Showing form with errors
         return self.form_invalid(form)
 
 
@@ -120,7 +111,6 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
     def form_valid(
         self, form: ChangeUsernameForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        # Getting username from a form and uniqueness check
         new_username = form.cleaned_data.get("new_username")
         user_exists = User.objects.filter(username=new_username).exists()
 
@@ -128,7 +118,6 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
             form.add_error("new_username", "This username already exist")
             return self.form_invalid(form)
 
-        # Changing username and saving changes
         self.request.user.username = new_username
         self.request.user.save()
 
@@ -149,16 +138,13 @@ class ChangePassword(DataMixin, LoginRequiredMixin, FormView):
     def form_valid(
         self, form: ChangePasswordForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        # Getting data from a form
         new_password = form.cleaned_data.get("new_password")
         new_password1 = form.cleaned_data.get("new_password1")
 
-        # If the passwords dont match
         if new_password != new_password1:
             form.add_error("new_password1", "Password's don't match")
             return self.form_invalid(form)
 
-        # Else
         self.request.user.set_password(new_password)
         self.request.user.save()
 
@@ -179,13 +165,11 @@ class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
     def form_valid(
         self, form: ChangePfpForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        # Getting a new pfp from a form
         new_pfp = form.cleaned_data.get("new_pfp")
         if not new_pfp:
             form.add_error("new_pfp", "This field is required")
             return self.form_invalid(form)
 
-        # Getting user and changing pfp
         self.request.user.pfp = new_pfp
         self.request.user.save()
 
@@ -199,7 +183,6 @@ def logout_user(request: HttpRequest) -> HttpResponseRedirect:
 
 @cache_page(30)
 def see_profile(request: HttpRequest, username: str) -> HttpResponse:
-    # Getting user articles
     articles = Article.objects.filter(author__username=username).values(
         "heading", "full_text", "update", 
         "pub_date", "pk", "author", "author__pfp", 
@@ -216,10 +199,8 @@ def see_profile(request: HttpRequest, username: str) -> HttpResponse:
 
 @cache_page(60 * 30)
 def profile_settings(request: HttpRequest, username: str) -> HttpResponse:
-    # Getting profile or raising 404
     user = get_object_or_404(User, username=username)
 
-    # Validation
     valid = 0
     if request.user.is_authenticated and request.user.username == username:
         valid = 1

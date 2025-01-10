@@ -77,9 +77,6 @@ class ProfileTests(GenericTestCase):
         self.user.refresh_from_db()
         self.assertNotEqual(self.user.password, previous_password)
 
-    # ==========================
-    # ====== Social links ======
-    # ==========================
     def test_set_social_links(self) -> None:
         data = {
             "youtube": "https://www.youtube.com/",
@@ -132,17 +129,12 @@ class ProfileTests(GenericTestCase):
         self.assertEqual(self.user.twitch, "")
         self.assertEqual(self.user.linkedin, "")
 
-    # ========================
-    # ====== Test utils ======
-    # ========================
     def set_social_links(
         self, youtube: str = "https://www.youtube.com/",
         tiktok: str = "https://tiktok.com/",
         twitch: str = "https://twitch.tv/",
         linkedin: str = "https://linkedin.com/"
     ) -> HttpResponse:
-        """Sets a passed social media links to the `self.user`
-        using POST."""
         url = reverse(
             "social_media_links", kwargs={"username": self.user.username}
         )
