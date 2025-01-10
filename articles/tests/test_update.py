@@ -9,14 +9,14 @@ class UpdateArticleTests(ArticleGenericTestCase):
         heading = "updated article"
         full_text = "new lorem ipsum dolor"
         data = urlencode({"heading": heading, "full_text": full_text})
-        self._update_article(data)
+        self.update_article(data)
 
         self.assertTrue(Article.objects.filter(heading=heading).exists())
 
     def test_update_without_heading(self) -> None:
         full_text = "new lorem ipsum dolor"
         data = urlencode({"full_text": full_text})
-        self._update_article(data)
+        self.update_article(data)
 
         self.assertFalse(Article.objects.filter(full_text=full_text).exists())
 
@@ -24,14 +24,14 @@ class UpdateArticleTests(ArticleGenericTestCase):
         heading = "updated article" * 10
         full_text = "new lorem ipsum dolor"
         data = urlencode({"heading": heading, "full_text": full_text})
-        self._update_article(data)
+        self.update_article(data)
 
         self.assertFalse(Article.objects.filter(heading=heading).exists())
 
     def test_update_without_full_text(self) -> None:
         heading = "updated article"
         data = urlencode({"heading": heading})
-        self._update_article(data)
+        self.update_article(data)
 
         self.assertFalse(Article.objects.filter(heading=heading).exists())
 
@@ -41,7 +41,7 @@ class UpdateArticleTests(ArticleGenericTestCase):
         heading = "updated article"
         full_text = "new lorem ipsum dolor"
         data = urlencode({"heading": heading, "full_text": full_text})
-        self._update_article(data)
+        self.update_article(data)
 
         self.assertFalse(Article.objects.filter(heading=heading).exists())
 
@@ -51,6 +51,6 @@ class UpdateArticleTests(ArticleGenericTestCase):
         heading = "updated article"
         full_text = "new lorem ipsum dolor"
         data = urlencode({"heading": heading, "full_text": full_text})
-        self._update_article(data)
+        self.update_article(data)
 
         self.assertFalse(Article.objects.filter(heading=heading).exists())
