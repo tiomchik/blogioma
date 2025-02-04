@@ -26,12 +26,12 @@ class SignUpTests(AuthenticationGenericTestCase):
     def test_sign_up_without_username(self) -> None:
         self.form_data.pop("username")
         r = self.sign_up_user(self.form_data)
-        self.assertContains(r, "This field is required")
+        self.assertFieldIsRequiredOnPage(r)
 
     def test_sign_up_without_password(self) -> None:
         self.form_data.pop("password")
         r = self.sign_up_user(self.form_data)
-        self.assertContains(r, "This field is required")
+        self.assertFieldIsRequiredOnPage(r)
 
     def test_sign_up_with_invalid_email(self) -> None:
         self.form_data["email"] = "invalid_email"

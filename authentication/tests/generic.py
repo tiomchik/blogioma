@@ -53,3 +53,6 @@ class AuthenticationGenericTestCase(GenericTestCase):
 
     def assertUserIsNotAuthenticated(self, r: HttpResponse) -> None:
         self.assertFalse(r.context["user"].is_authenticated)
+
+    def assertFieldIsRequiredOnPage(self, r: HttpResponse) -> None:
+        self.assertContains(r, "This field is required")
