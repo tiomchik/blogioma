@@ -6,20 +6,21 @@ from .generic import AuthenticationGenericTestCase
 
 
 class SocialLinksTests(AuthenticationGenericTestCase):
+    form_data = {
+        "youtube": "https://www.youtube.com/",
+        "tiktok": "https://tiktok.com/",
+        "twitch": "https://twitch.tv/",
+        "linkedin": "https://linkedin.com/",
+    }
+
     def test_set_social_links(self) -> None:
-        data = {
-            "youtube": "https://www.youtube.com/",
-            "tiktok": "https://tiktok.com/",
-            "twitch": "https://twitch.tv/",
-            "linkedin": "https://linkedin.com/",
-        }
-        r = self.set_social_links(**data)
+        r = self.set_social_links(**self.form_data)
 
         self.assertEqual(r.status_code, 200)
-        self.assertEqual(self.user.youtube, data["youtube"])
-        self.assertEqual(self.user.tiktok, data["tiktok"])
-        self.assertEqual(self.user.twitch, data["twitch"])
-        self.assertEqual(self.user.linkedin, data["linkedin"])
+        self.assertEqual(self.user.youtube, self.form_data["youtube"])
+        self.assertEqual(self.user.tiktok, self.form_data["tiktok"])
+        self.assertEqual(self.user.twitch, self.form_data["twitch"])
+        self.assertEqual(self.user.linkedin, self.form_data["linkedin"])
 
     def test_read_social_links(self) -> None:
         self.set_social_links()
