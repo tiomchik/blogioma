@@ -1,16 +1,12 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.cache import cache
-from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
 
-from main.utils import GenericTestCase
+from .generic import AuthenticationGenericTestCase
 
 
-class ProfileTests(GenericTestCase):
-    def setUp(self) -> None:
-        self.setUpSessionAuth()
-
+class ProfileTests(AuthenticationGenericTestCase):
     def test_get_profile(self) -> None:
         url = reverse(
             "see_profile", kwargs={"username": self.user.username}
@@ -128,24 +124,3 @@ class ProfileTests(GenericTestCase):
         self.assertEqual(self.user.tiktok, "")
         self.assertEqual(self.user.twitch, "")
         self.assertEqual(self.user.linkedin, "")
-
-    def set_social_links(
-        self, youtube: str = "https://www.youtube.com/",
-        tiktok: str = "https://tiktok.com/",
-        twitch: str = "https://twitch.tv/",
-        linkedin: str = "https://linkedin.com/"
-    ) -> HttpResponse:
-        url = reverse(
-            "social_media_links", kwargs={"username": self.user.username}
-        )
-        data = urlencode({
-            "youtube": youtube, "tiktok": tiktok, "twitch": twitch,
-            "linkedin": linkedin
-        })
-        r = self.client.post(
-            url, data, content_type="application/x-www-form-urlencoded",
-            follow=True
-        )
-        self.user.refresh_from_db()
-
-        return r

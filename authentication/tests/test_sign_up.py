@@ -1,13 +1,8 @@
-from django.http import HttpResponse
-from django.urls import reverse
-from urllib.parse import urlencode
-
 from authentication.models import User
-from main.utils import GenericTestCase
+from .generic import AuthenticationGenericTestCase
 
 
-class SignUpTests(GenericTestCase):
-    url = reverse("sign_up")
+class SignUpTests(AuthenticationGenericTestCase):
     form_data = {
         "username": "test_user123",
         "password": "12341234",
@@ -16,6 +11,10 @@ class SignUpTests(GenericTestCase):
         "captcha_0": "value",
         "captcha_1": "PASSED",
     }
+
+    def setUp(self):
+        super().setUp()
+        self.client.logout()
 
     def test_sign_up(self) -> None:
         self.sign_up_user(self.form_data)
@@ -38,11 +37,3 @@ class SignUpTests(GenericTestCase):
         self.form_data["email"] = "invalid_email"
         r = self.sign_up_user(self.form_data)
         self.assertContains(r, "Enter a valid email address")
-
-    def sign_up_user(self, form_data: dict) -> HttpResponse:
-        return self.client.post(
-            self.url,
-            urlencode(form_data),
-            follow=True,
-            content_type="application/x-www-form-urlencoded"
-        )

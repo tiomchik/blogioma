@@ -1,12 +1,7 @@
-from django.urls import reverse
-from django.http import HttpResponse
-from urllib.parse import urlencode
-
-from main.utils import GenericTestCase
+from .generic import AuthenticationGenericTestCase
 
 
-class LoginTests(GenericTestCase):
-    url = reverse("log_in")
+class LoginTests(AuthenticationGenericTestCase):
     form_data = {
         "username": "test_user123",
         "password": "12341234",
@@ -17,6 +12,7 @@ class LoginTests(GenericTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.register_user(**self.form_data)
+        self.client.logout()
 
     def test_login(self) -> None:
         r = self.login_user(self.form_data)
@@ -41,17 +37,3 @@ class LoginTests(GenericTestCase):
         self.form_data["password"] = "invalid_password"
         r = self.login_user(self.form_data)
         self.assertUserIsNotAuthenticated(r)
-
-    def login_user(self, form_data: dict) -> HttpResponse:
-        return self.client.post(
-            self.url,
-            urlencode(form_data),
-            follow=True,
-            content_type="application/x-www-form-urlencoded"
-        )
-
-    def assertUserIsAuthenticated(self, r: HttpResponse) -> None:
-        self.assertTrue(r.context["user"].is_authenticated)
-
-    def assertUserIsNotAuthenticated(self, r: HttpResponse) -> None:
-        self.assertFalse(r.context["user"].is_authenticated)
