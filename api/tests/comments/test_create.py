@@ -25,7 +25,7 @@ class CreateCommentTests(CommentsGenericTestCase):
     def test_create_without_text(self) -> None:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
         r = self.client.post(url, headers=self.auth_header)
-        self.assertFieldIsRequired(r, "text")
+        self.assertFieldIsRequiredInJson(r, "text")
 
     def test_create_with_very_long_text(self) -> None:
         self.comment_text = "very long comment" * 1000

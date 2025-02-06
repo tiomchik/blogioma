@@ -22,7 +22,7 @@ class CreateArticleTests(ArticleGenericTestCase):
     def test_create_without_heading(self) -> None:
         self.article_data.pop("heading")
         r = self.post_article(self.article_data)
-        self.assertFieldIsRequired(r, "heading")
+        self.assertFieldIsRequiredInJson(r, "heading")
 
     def test_create_with_very_long_heading(self) -> None:
         self.article_data["heading"] = "lorem ipsum dolor" * 100
@@ -32,4 +32,4 @@ class CreateArticleTests(ArticleGenericTestCase):
     def test_create_without_full_text(self) -> None:
         self.article_data.pop("full_text")
         r = self.post_article(self.article_data)
-        self.assertFieldIsRequired(r, "full_text")
+        self.assertFieldIsRequiredInJson(r, "full_text")

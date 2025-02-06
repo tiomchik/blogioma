@@ -75,7 +75,7 @@ class GenericTestCase(APITestCase):
             "Authentication credentials were not provided."
         )
 
-    def assertFieldIsRequired(self, r: HttpResponse, field: str) -> None:
+    def assertFieldIsRequiredInJson(self, r: HttpResponse, field: str) -> None:
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             r.json().get(field), ["This field is required."]
