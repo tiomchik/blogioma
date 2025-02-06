@@ -27,7 +27,7 @@ class AuthenticationGenericTestCase(GenericTestCase):
             content_type="application/x-www-form-urlencoded"
         )
 
-    def set_social_links(self, data: dict) -> HttpResponse:
+    def set_and_refresh_social_links(self, data: dict) -> HttpResponse:
         url = reverse(
             "social_media_links", kwargs={"username": self.user.username}
         )

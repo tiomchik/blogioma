@@ -14,7 +14,7 @@ class SocialLinksTests(AuthenticationGenericTestCase):
     }
 
     def test_set_social_links(self) -> None:
-        r = self.set_social_links(self.form_data)
+        r = self.set_and_refresh_social_links(self.form_data)
 
         self.assertEqual(r.status_code, 200)
         self.assertEqual(self.user.youtube, self.form_data["youtube"])
@@ -23,7 +23,7 @@ class SocialLinksTests(AuthenticationGenericTestCase):
         self.assertEqual(self.user.linkedin, self.form_data["linkedin"])
 
     def test_read_social_links(self) -> None:
-        self.set_social_links(self.form_data)
+        self.set_and_refresh_social_links(self.form_data)
 
         url = reverse("see_profile", kwargs={"username": self.user.username})
         cache.clear()
@@ -35,7 +35,7 @@ class SocialLinksTests(AuthenticationGenericTestCase):
         self.assertIn(self.user.linkedin, str(r.content))
 
     def test_update_social_links(self) -> None:
-        self.set_social_links(self.form_data)
+        self.set_and_refresh_social_links(self.form_data)
 
         url = reverse(
             "social_media_links", kwargs={"username": self.user.username}
@@ -51,8 +51,8 @@ class SocialLinksTests(AuthenticationGenericTestCase):
         self.assertEqual(self.user.youtube, youtube)
 
     def test_delete_social_links(self) -> None:
-        self.set_social_links(self.form_data)
-        self.set_social_links({
+        self.set_and_refresh_social_links(self.form_data)
+        self.set_and_refresh_social_links({
             "youtube": "",
             "tiktok": "",
             "twitch": "",
