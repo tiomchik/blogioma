@@ -37,17 +37,9 @@ class SocialLinksTests(AuthenticationGenericTestCase):
     def test_update_social_links(self) -> None:
         self.set_and_refresh_social_links(self.form_data)
 
-        url = reverse(
-            "social_media_links", kwargs={"username": self.user.username}
-        )
         youtube = "https://www.youtube.com/@test"
-        data = urlencode({"youtube": youtube})
-        self.client.post(
-            url, data, content_type="application/x-www-form-urlencoded",
-            follow=True
-        )
+        self.set_and_refresh_social_links({"youtube": youtube})
 
-        self.user.refresh_from_db()
         self.assertEqual(self.user.youtube, youtube)
 
     def test_delete_social_links(self) -> None:
