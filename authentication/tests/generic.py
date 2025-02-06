@@ -27,19 +27,11 @@ class AuthenticationGenericTestCase(GenericTestCase):
             content_type="application/x-www-form-urlencoded"
         )
 
-    def set_social_links(
-        self, youtube: str = "https://www.youtube.com/",
-        tiktok: str = "https://tiktok.com/",
-        twitch: str = "https://twitch.tv/",
-        linkedin: str = "https://linkedin.com/"
-    ) -> HttpResponse:
+    def set_social_links(self, data: dict) -> HttpResponse:
         url = reverse(
             "social_media_links", kwargs={"username": self.user.username}
         )
-        data = urlencode({
-            "youtube": youtube, "tiktok": tiktok, "twitch": twitch,
-            "linkedin": linkedin
-        })
+        data = urlencode(data)
         r = self.client.post(
             url, data, content_type="application/x-www-form-urlencoded",
             follow=True
