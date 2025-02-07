@@ -101,6 +101,12 @@ class GenericTestCase(APITestCase):
             "You do not have permission to perform this action."
         )
 
+    def assertResponseContainsArticles(
+        self, r: HttpResponse, articles: list[Article]
+    ) -> None:
+        for article in articles:
+            self.assertContains(r, article.heading)
+
     def assertContainsList(self, r: HttpResponse, list: list) -> None:
         for item in list:
             self.assertContains(r, item)
@@ -132,6 +138,14 @@ class GenericTestCase(APITestCase):
             "author": self.user
         }
         return Article.objects.create(**data)
+
+    def create_list_of_articles(self, quantity: int) -> list[Article]:
+        articles = []
+        for i in range(quantity):
+            article = self.create_article(f"test_article_{i}")
+            articles.append(article)
+
+        return articles
 
 
 def get_base_context(

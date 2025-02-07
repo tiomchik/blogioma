@@ -11,16 +11,10 @@ class ProfileTests(AuthenticationGenericTestCase):
         self.assertContains(r, self.user.username)
 
     def test_get_profile_articles(self) -> None:
-        article = self.create_article(heading="article")
-        article1 = self.create_article(heading="article1")
-        article2 = self.create_article(heading="article2")
-
+        articles = self.create_list_of_articles(3)
         cache.clear()
         r = self.get_profile_page()
-
-        self.assertContains(r, article.heading)
-        self.assertContains(r, article1.heading)
-        self.assertContains(r, article2.heading)
+        self.assertResponseContainsArticles(r, articles)
 
     def test_change_pfp(self) -> None:
         new_pfp = self.load_pfp("authentication/tests/cat.jpg")
