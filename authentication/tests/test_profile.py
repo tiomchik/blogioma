@@ -7,10 +7,7 @@ from .generic import AuthenticationGenericTestCase
 
 class ProfileTests(AuthenticationGenericTestCase):
     def test_get_profile(self) -> None:
-        url = reverse(
-            "see_profile", kwargs={"username": self.user.username}
-        )
-        r = self.client.get(url)
+        r = self.get_profile_page()
         self.assertContains(r, self.user.username)
 
     def test_get_profile_articles(self) -> None:
@@ -19,10 +16,7 @@ class ProfileTests(AuthenticationGenericTestCase):
         article2 = self.create_article(heading="article2")
 
         cache.clear()
-        url = reverse(
-            "see_profile", kwargs={"username": self.user.username}
-        )
-        r = self.client.get(url)
+        r = self.get_profile_page()
 
         self.assertContains(r, article.heading)
         self.assertContains(r, article1.heading)

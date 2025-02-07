@@ -40,6 +40,10 @@ class AuthenticationGenericTestCase(GenericTestCase):
 
         return r
 
+    def get_profile_page(self) -> HttpResponse:
+        url = reverse("see_profile", kwargs={"username": self.user.username})
+        return self.client.get(url)
+
     def assertUserIsAuthenticated(self, r: HttpResponse) -> None:
         self.assertTrue(r.context["user"].is_authenticated)
 
