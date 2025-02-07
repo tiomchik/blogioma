@@ -1,5 +1,6 @@
 from typing import Any
 from collections.abc import Awaitable, Callable, Sequence
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse, HttpResponseBase
 from django.urls import reverse
@@ -66,6 +67,12 @@ class GenericTestCase(APITestCase):
         self.auth_header = {
             "Authorization": f"Token {another_user_token}"
         }
+
+    def load_pfp(self, path: str) -> SimpleUploadedFile:
+        with open(path, "rb") as picture:
+            return SimpleUploadedFile(
+                "cat.jpg", picture.read(), content_type="image/jpeg"
+            )
 
     def assertUnauthResponse(self, r: HttpResponse) -> None:
         """Checks that response is returned error of unauthorized user."""

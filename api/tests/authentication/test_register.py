@@ -26,15 +26,9 @@ class RegisterTests(AuthenticationGenericTestCase):
         self.assertFieldIsRequiredInJson(r, "password")
 
     def test_register_with_pfp(self) -> None:
-        self.user_data["pfp"] = self.load_pfp()
+        self.user_data["pfp"] = self.load_pfp("api/tests/authentication/cat.jpg")
         r = self.client.post(self.url, self.user_data, format="multipart")
         self.user.refresh_from_db()
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
         self.assertIsNotNone(self.user.pfp)
-
-    def load_pfp(self) -> SimpleUploadedFile:
-        with open("api/tests/authentication/cat.jpg", "rb") as picture:
-            return SimpleUploadedFile(
-                "cat.jpg", picture.read(), content_type="image/jpeg"
-            )

@@ -1,4 +1,3 @@
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.cache import cache
 from django.urls import reverse
 from urllib.parse import urlencode
@@ -30,10 +29,7 @@ class ProfileTests(AuthenticationGenericTestCase):
         self.assertContains(r, article2.heading)
 
     def test_change_pfp(self) -> None:
-        with open("authentication/tests/cat.jpg", "rb") as pfp:
-            new_pfp = SimpleUploadedFile(
-                "cat.jpg", pfp.read(), content_type="image/jpeg"
-            )
+        new_pfp = self.load_pfp("authentication/tests/cat.jpg")
 
         url = reverse("change_pfp")
         self.client.post(
