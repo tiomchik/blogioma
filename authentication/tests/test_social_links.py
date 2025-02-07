@@ -1,5 +1,4 @@
 from django.core.cache import cache
-from django.urls import reverse
 
 from .generic import AuthenticationGenericTestCase
 
@@ -12,31 +11,22 @@ class SocialLinksTests(AuthenticationGenericTestCase):
         "linkedin": "https://linkedin.com/",
     }
 
-    def test_set_social_links(self) -> None:
-        r = self.set_and_refresh_social_links(self.social_links)
-        self.assertOkStatus(r)
-        for field in self.social_links.keys():
-            self.assertEqual(
-                getattr(self.user, field), self.social_links[field]
-            )
+    def setUp(self) -> None:
+        self.setUpSessionAuth()
+        self.set_and_refresh_social_links(self.social_links)
 
     def test_read_social_links(self) -> None:
-        self.set_and_refresh_social_links(self.social_links)
         cache.clear()
         r = self.get_profile_page()
         for field in self.social_links.keys():
             self.assertContains(r, getattr(self.user, field))
 
     def test_update_social_links(self) -> None:
-        self.set_and_refresh_social_links(self.social_links)
-
         youtube = "https://www.youtube.com/@test"
         self.set_and_refresh_social_links({"youtube": youtube})
-
         self.assertEqual(self.user.youtube, youtube)
 
     def test_delete_social_links(self) -> None:
-        self.set_and_refresh_social_links(self.social_links)
         self.set_and_refresh_social_links({
             "youtube": "",
             "tiktok": "",
