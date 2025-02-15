@@ -1,5 +1,3 @@
-from django.core.cache import cache
-
 from .generic import AuthenticationGenericTestCase
 
 

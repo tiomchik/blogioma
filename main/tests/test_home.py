@@ -1,5 +1,4 @@
 from django.urls import reverse
-from django.core.cache import cache
 
 from main.utils import GenericTestCase
 

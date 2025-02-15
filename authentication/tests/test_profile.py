@@ -1,4 +1,3 @@
-from django.core.cache import cache
 from django.urls import reverse
 from urllib.parse import urlencode
 
