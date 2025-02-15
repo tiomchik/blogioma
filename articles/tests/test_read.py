@@ -6,7 +6,6 @@ from .generic import ArticleGenericTestCase
 
 class ReadArticleTests(ArticleGenericTestCase):
     def test_read_at_home_page(self) -> None:
-        cache.clear()
         url = reverse("home")
         r = self.client.get(url)
         self.assertPageContainsArticle(r, self.article)

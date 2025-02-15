@@ -13,6 +13,5 @@ class HomeTests(GenericTestCase):
 
     def test_home_with_list_of_articles(self) -> None:
         articles = self.create_list_of_articles(5)
-        cache.clear()
         r = self.client.get(self.url)
         self.assertResponseContainsArticles(r, articles)

@@ -11,7 +11,6 @@ class AuthenticationGenericTestCase(GenericTestCase):
         r = self.client.put(url, data, headers=self.auth_header)
 
         self.user.refresh_from_db()
-        cache.clear()
 
         return r
 

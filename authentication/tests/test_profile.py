@@ -12,7 +12,6 @@ class ProfileTests(AuthenticationGenericTestCase):
 
     def test_get_profile_articles(self) -> None:
         articles = self.create_list_of_articles(3)
-        cache.clear()
         r = self.get_profile_page()
         self.assertResponseContainsArticles(r, articles)
 

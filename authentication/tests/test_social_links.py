@@ -16,7 +16,6 @@ class SocialLinksTests(AuthenticationGenericTestCase):
         self.set_and_refresh_social_links(self.social_links)
 
     def test_read_social_links(self) -> None:
-        cache.clear()
         r = self.get_profile_page()
         for field in self.social_links.keys():
             self.assertContains(r, getattr(self.user, field))
