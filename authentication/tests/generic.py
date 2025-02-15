@@ -63,6 +63,16 @@ class AuthenticationGenericTestCase(GenericTestCase):
             content_type="application/x-www-form-urlencoded"
         )
 
+    def change_password(self, password: str) -> HttpResponse:
+        data = urlencode({
+            "new_password": password, "new_password1": password,
+            "captcha_0": "value", "captcha_1": "PASSED"
+        })
+        url = reverse("change_password")
+        return self.client.post(
+            url, data, content_type="application/x-www-form-urlencoded"
+        )
+
     def assertUserIsAuthenticated(self, r: HttpResponse) -> None:
         self.assertTrue(r.context["user"].is_authenticated)
 

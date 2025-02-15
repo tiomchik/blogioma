@@ -1,6 +1,3 @@
-from django.urls import reverse
-from urllib.parse import urlencode
-
 from .generic import AuthenticationGenericTestCase
 
 
@@ -28,15 +25,7 @@ class ProfileTests(AuthenticationGenericTestCase):
 
     def test_change_password(self) -> None:
         password = "new_password"
-        data = urlencode({
-            "new_password": password, "new_password1": password,
-            "captcha_0": "value", "captcha_1": "PASSED"
-        })
-        url = reverse("change_password")
-        self.client.post(
-            url, data, content_type="application/x-www-form-urlencoded"
-        )
-
+        self.change_password(password)
         previous_password = self.user.password
         self.user.refresh_from_db()
         self.assertNotEqual(self.user.password, previous_password)
