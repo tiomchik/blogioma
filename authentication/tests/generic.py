@@ -1,3 +1,4 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
@@ -43,6 +44,12 @@ class AuthenticationGenericTestCase(GenericTestCase):
     def get_profile_page(self) -> HttpResponse:
         url = reverse("see_profile", kwargs={"username": self.user.username})
         return self.client.get(url)
+
+    def change_pfp(self, new_pfp: SimpleUploadedFile) -> HttpResponse:
+        url = reverse("change_pfp")
+        return self.client.post(
+            url, {"new_pfp": new_pfp}, follow=True, format="multipart"
+        )
 
     def assertUserIsAuthenticated(self, r: HttpResponse) -> None:
         self.assertTrue(r.context["user"].is_authenticated)

@@ -16,12 +16,7 @@ class ProfileTests(AuthenticationGenericTestCase):
 
     def test_change_pfp(self) -> None:
         new_pfp = self.load_pfp("authentication/tests/cat.jpg")
-
-        url = reverse("change_pfp")
-        self.client.post(
-            url, {"new_pfp": new_pfp}, follow=True, format="multipart"
-        )
-
+        self.change_pfp(new_pfp)
         self.user.refresh_from_db()
         self.assertIsNotNone(self.user.pfp)
 
