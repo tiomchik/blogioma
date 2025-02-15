@@ -45,10 +45,22 @@ class AuthenticationGenericTestCase(GenericTestCase):
         url = reverse("see_profile", kwargs={"username": self.user.username})
         return self.client.get(url)
 
-    def change_pfp(self, new_pfp: SimpleUploadedFile) -> HttpResponse:
+    def change_pfp(self, pfp: SimpleUploadedFile) -> HttpResponse:
         url = reverse("change_pfp")
         return self.client.post(
-            url, {"new_pfp": new_pfp}, follow=True, format="multipart"
+            url, {"new_pfp": pfp}, follow=True, format="multipart"
+        )
+
+    def change_username(self, username: str) -> HttpResponse:
+        data = urlencode({
+            "new_username": username,
+            "captcha_0": "value",
+            "captcha_1": "PASSED"
+        })
+        url = reverse("change_username")
+        return self.client.post(
+            url, data, follow=True,
+            content_type="application/x-www-form-urlencoded"
         )
 
     def assertUserIsAuthenticated(self, r: HttpResponse) -> None:

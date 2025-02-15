@@ -22,16 +22,7 @@ class ProfileTests(AuthenticationGenericTestCase):
 
     def test_change_username(self) -> None:
         username = "new_username"
-        data = urlencode({
-            "new_username": username, "captcha_0": "value",
-            "captcha_1": "PASSED"
-        })
-        url = reverse("change_username")
-        self.client.post(
-            url, data, follow=True,
-            content_type="application/x-www-form-urlencoded"
-        )
-
+        self.change_username(username)
         self.user.refresh_from_db()
         self.assertEqual(self.user.username, username)
 
