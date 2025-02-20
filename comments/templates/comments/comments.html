@@ -52,7 +52,7 @@
   <div class="comment">
     <div class="comment-info">
       <a
-        href="{% url 'see_profile' comment.profile__username %}"
+        href="{% url 'profile' comment.profile__username %}"
         class="author"
       >
         {% if comment.profile__pfp %}

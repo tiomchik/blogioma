@@ -13,7 +13,7 @@ urlpatterns = [
     ),
     my_path("logout/", views.logout, name="logout"),
 
-    my_path("profile/<str:username>/", views.see_profile, name="see_profile"),
+    my_path("profile/<str:username>/", views.profile, name="profile"),
     my_path(
         "profile/<str:username>/settings/", views.profile_settings,
         name="profile_settings"

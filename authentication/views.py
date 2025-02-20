@@ -121,7 +121,7 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
         self.request.user.username = new_username
         self.request.user.save()
 
-        return redirect("see_profile", username=new_username)
+        return redirect("profile", username=new_username)
 
 
 class ChangePassword(DataMixin, LoginRequiredMixin, FormView):
@@ -173,7 +173,7 @@ class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
         self.request.user.pfp = new_pfp
         self.request.user.save()
 
-        return redirect("see_profile", username=self.request.user.username)
+        return redirect("profile", username=self.request.user.username)
 
 
 def logout(request: HttpRequest) -> HttpResponseRedirect:
@@ -182,7 +182,7 @@ def logout(request: HttpRequest) -> HttpResponseRedirect:
 
 
 @cache_page(30)
-def see_profile(request: HttpRequest, username: str) -> HttpResponse:
+def profile(request: HttpRequest, username: str) -> HttpResponse:
     articles = Article.objects.filter(author__username=username).values(
         "heading", "full_text", "update", 
         "pub_date", "pk", "author", "author__pfp", 

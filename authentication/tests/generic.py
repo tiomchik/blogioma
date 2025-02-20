@@ -42,7 +42,7 @@ class AuthenticationGenericTestCase(GenericTestCase):
         return r
 
     def get_profile_page(self) -> HttpResponse:
-        url = reverse("see_profile", kwargs={"username": self.user.username})
+        url = reverse("profile", kwargs={"username": self.user.username})
         return self.client.get(url)
 
     def change_pfp(self, pfp: SimpleUploadedFile) -> HttpResponse:
