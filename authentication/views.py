@@ -1,5 +1,5 @@
 from typing import Any
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.http import (
@@ -176,8 +176,8 @@ class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
         return redirect("see_profile", username=self.request.user.username)
 
 
-def logout_user(request: HttpRequest) -> HttpResponseRedirect:
-    logout(request)
+def logout(request: HttpRequest) -> HttpResponseRedirect:
+    django_logout(request)
     return HttpResponseRedirect("/")
 
 
