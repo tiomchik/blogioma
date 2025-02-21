@@ -34,12 +34,6 @@ class SignUp(DataMixin, CreateView):
         if password != password1:
             form.add_error("password1", "Password's don't match")
 
-        try:
-            User.objects.get(username=username)
-            form.add_error("username", "This username already exist")
-        except User.DoesNotExist:
-            pass
-
         if "@" in email:
             try:
                 User.objects.get(email=email)
