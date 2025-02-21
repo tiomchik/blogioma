@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.views.generic.edit import UpdateView
 
-from authentication.forms import SocialMediaLinksForm
+from authentication.forms.social_media_links import SocialMediaLinksForm
 from authentication.models import User
 from main.utils import DataMixin
 

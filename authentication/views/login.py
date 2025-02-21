@@ -6,7 +6,7 @@ from django.http import (
 from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 
-from authentication.forms import LoginForm
+from authentication.forms.login import LoginForm
 from main.utils import DataMixin
 
 

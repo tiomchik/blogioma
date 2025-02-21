@@ -7,7 +7,7 @@ from django.http import (
 from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 
-from authentication.forms import ChangeUsernameForm
+from authentication.forms.change_username import ChangeUsernameForm
 from authentication.models import User
 from main.utils import DataMixin
 

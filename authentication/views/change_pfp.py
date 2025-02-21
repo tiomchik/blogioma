@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from authentication.forms import ChangePfpForm
+from authentication.forms.change_pfp import ChangePfpForm
 from authentication.models import User
 from main.utils import DataMixin
 
