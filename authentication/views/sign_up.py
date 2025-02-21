@@ -24,28 +24,33 @@ class SignUp(DataMixin, CreateView):
     def form_valid(
         self, form: SignUpForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        request = self.request
-
-        username = form.cleaned_data.get("username")
-        email = form.cleaned_data.get("email")
-        password = form.cleaned_data.get("password")
-        password1 = form.cleaned_data.get("password1")
-
-        if password != password1:
-            form.add_error("password1", "Password's don't match")
-
-        if "@" in email:
-            if User.objects.filter(email=email).exists():
-                form.add_error("email", "This email already busy")
+        self.validate_passwords_match(form)
+        self.validate_email_uniqness(form)
 
         if form.errors:
             return self.form_invalid(form)
 
-        pfp = request.FILES.get("pfp")
-        user = User.objects.create(
-            username=username, email=email, password=password, pfp=pfp
-        )
-
-        login(request, user)
+        user = self.create_user(form)
+        login(self.request, user)
 
         return redirect("home")
+
+    def validate_passwords_match(self, form: SignUpForm) -> None:
+        password = form.cleaned_data.get("password")
+        password1 = form.cleaned_data.get("password1")
+        if password != password1:
+            form.add_error("password1", "Password's don't match")
+
+    def validate_email_uniqness(self, form: SignUpForm) -> None:
+        email = form.cleaned_data.get("email")
+        if email and User.objects.filter(email=email).exists():
+            form.add_error("email", "This email already busy")
+
+    def create_user(self, form: SignUpForm) -> User:
+        username = form.cleaned_data.get("username")
+        email = form.cleaned_data.get("email")
+        password = form.cleaned_data.get("password")
+        pfp = self.request.FILES.get("pfp")
+        return User.objects.create(
+            username=username, email=email, password=password, pfp=pfp
+        )
