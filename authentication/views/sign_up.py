@@ -35,11 +35,8 @@ class SignUp(DataMixin, CreateView):
             form.add_error("password1", "Password's don't match")
 
         if "@" in email:
-            try:
-                User.objects.get(email=email)
+            if User.objects.filter(email=email).exists():
                 form.add_error("email", "This email already busy")
-            except User.DoesNotExist:
-                pass
 
         if form.errors:
             return self.form_invalid(form)
