@@ -1,7 +1,7 @@
 {% extends 'profile/profile_base.html' %} {% block profile_content %}
 
 <div class="settings">
-  {% if valid %}
+  {% if request.user.is_authenticated and request.user.username == profile.user.username %}
   <div class="change">
     <h1>Profile picture:</h1>
     <a href="{% url 'change_pfp' %}">
