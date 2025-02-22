@@ -26,14 +26,18 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
     def form_valid(
         self, form: ChangeUsernameForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        new_username = form.cleaned_data.get("new_username")
-        user_exists = User.objects.filter(username=new_username).exists()
-
-        if user_exists:
-            form.add_error("new_username", "This username already exist")
+        self.validate_username_uniqness(form)
+        if form.errors:
             return self.form_invalid(form)
+        self.set_new_username(form)
+        return redirect("profile", username=self.request.user.username)
 
+    def validate_username_uniqness(self, form: ChangeUsernameForm) -> None:
+        new_username = form.cleaned_data.get("new_username")
+        if User.objects.filter(username=new_username).exists():
+            form.add_error("new_username", "This username already busy")
+
+    def set_new_username(self, form: ChangeUsernameForm) -> None:
+        new_username = form.cleaned_data.get("new_username")
         self.request.user.username = new_username
         self.request.user.save()
-
-        return redirect("profile", username=new_username)
