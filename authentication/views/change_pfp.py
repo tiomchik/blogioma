@@ -26,11 +26,6 @@ class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
         self, form: ChangePfpForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         new_pfp = form.cleaned_data.get("new_pfp")
-        if not new_pfp:
-            form.add_error("new_pfp", "This field is required")
-            return self.form_invalid(form)
-
         self.request.user.pfp = new_pfp
         self.request.user.save()
-
         return redirect("profile", username=self.request.user.username)
