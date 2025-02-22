@@ -48,7 +48,7 @@ class SignUp(DataMixin, CreateView):
 
     def create_user(self, form: SignUpForm) -> User:
         username = form.cleaned_data.get("username")
-        email = form.cleaned_data.get("email")
+        email = form.cleaned_data.get("email") or None
         password = form.cleaned_data.get("password")
         pfp = self.request.FILES.get("pfp")
         return User.objects.create(
