@@ -1,5 +1,6 @@
 from typing import Any
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import AbstractUser
 from django.http import (
     HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 )
@@ -23,17 +24,22 @@ class Login(DataMixin, FormView):
     def form_valid(
         self, form: LoginForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect | HttpResponse:
+        user = self.authenticate_user(form)
+        self.validate_user(form, user)
+        if form.errors:
+            return self.form_invalid(form)
+        login(self.request, user)
+        return redirect("home")
+
+    def authenticate_user(self, form: LoginForm) -> AbstractUser | None:
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
-
-        user = authenticate(
+        return authenticate(
             self.request, username=username, password=password,
         )
 
-        if user:
-            login(self.request, user)
-            return redirect("home")
-
-        form.add_error("password", "Invalid username and/or password")
-
-        return self.form_invalid(form)
+    def validate_user(
+        self, form: LoginForm, user: AbstractUser | None
+    ) -> None:
+        if not user:
+            form.add_error("password", "Invalid username and/or password")
