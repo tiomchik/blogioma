@@ -26,8 +26,7 @@ class ChangePassword(DataMixin, LoginRequiredMixin, FormView):
         self, form: ChangePasswordForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         self.validate_passwords_match(form)
-        if form.errors:
-            return self.form_invalid(form)
+        self.show_form_errors_if_exist(form)
         self.set_new_password(form)
         return redirect(self.login_url)
 

@@ -27,8 +27,7 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
         self, form: ChangeUsernameForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
         self.validate_username_uniqness(form)
-        if form.errors:
-            return self.form_invalid(form)
+        self.show_form_errors_if_exist(form)
         self.set_new_username(form)
         return redirect("profile", username=self.request.user.username)
 

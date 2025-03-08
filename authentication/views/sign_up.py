@@ -27,12 +27,10 @@ class SignUp(DataMixin, CreateView):
         self.validate_passwords_match(form)
         self.validate_email_uniqness(form)
 
-        if form.errors:
-            return self.form_invalid(form)
+        self.show_form_errors_if_exist(form)
 
         user = self.create_user(form)
         login(self.request, user)
-
         return redirect("home")
 
     def validate_passwords_match(self, form: SignUpForm) -> None:
