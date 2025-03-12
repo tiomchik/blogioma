@@ -1,5 +1,3 @@
-from comments.models import Comment
-
 from .generic import CommentGenericTestCase
 
 

@@ -1,4 +1,3 @@
-from django.urls import reverse
 from comments.models import Comment
 
 from .generic import CommentGenericTestCase
@@ -17,5 +16,4 @@ class ReadCommentTests(CommentGenericTestCase):
         )
 
         r = self.get_comments()
-
         self.assertNotContains(r, comment.text)
