@@ -37,3 +37,12 @@ class SignUpTests(AuthenticationGenericTestCase):
         self.form_data["email"] = "invalid_email"
         r = self.sign_up_user(self.form_data)
         self.assertContains(r, "Enter a valid email address")
+
+    def test_sign_up_with_non_unique_email(self) -> None:
+        email = "test@test.com"
+        self.register_user(
+            username="new_user", email=email, password="12341234"
+        )
+        self.form_data["email"] = email
+        r = self.sign_up_user(self.form_data)
+        self.assertContains(r, "This email already busy")

@@ -63,9 +63,11 @@ class AuthenticationGenericTestCase(GenericTestCase):
             content_type="application/x-www-form-urlencoded"
         )
 
-    def change_password(self, password: str) -> HttpResponse:
+    def change_password(
+        self, password: str, confirm_password: str
+    ) -> HttpResponse:
         data = urlencode({
-            "new_password": password, "new_password1": password,
+            "new_password": password, "new_password1": confirm_password,
             "captcha_0": "value", "captcha_1": "PASSED"
         })
         url = reverse("change_password")
