@@ -5,7 +5,7 @@
     <p>{{ article.full_text|truncatechars:110 }}</p>
     <div class="author">
       <a
-        href="{% url 'see_profile' article.author__username %}"
+        href="{% url 'profile' article.author__username %}"
         class="user"
       >
         {% if not article.author__pfp %}

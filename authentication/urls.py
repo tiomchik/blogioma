@@ -11,9 +11,9 @@ urlpatterns = [
     my_path(
         "login/", cache_page(60 * 60)(views.Login.as_view()), name="log_in"
     ),
-    my_path("logout_user/", views.logout_user, name="logout_user"),
+    my_path("logout/", views.logout, name="logout"),
 
-    my_path("profile/<str:username>/", views.see_profile, name="see_profile"),
+    my_path("profile/<str:username>/", views.profile, name="profile"),
     my_path(
         "profile/<str:username>/settings/", views.profile_settings,
         name="profile_settings"

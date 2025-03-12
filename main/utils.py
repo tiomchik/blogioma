@@ -1,5 +1,6 @@
 from typing import Any
 from collections.abc import Awaitable, Callable, Sequence
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse, HttpResponseBase
 from django.urls import reverse
@@ -67,6 +68,12 @@ class GenericTestCase(APITestCase):
             "Authorization": f"Token {another_user_token}"
         }
 
+    def load_pfp(self, path: str) -> SimpleUploadedFile:
+        with open(path, "rb") as picture:
+            return SimpleUploadedFile(
+                "cat.jpg", picture.read(), content_type="image/jpeg"
+            )
+
     def assertUnauthResponse(self, r: HttpResponse) -> None:
         """Checks that response is returned error of unauthorized user."""
         self.assertEqual(r.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -75,7 +82,7 @@ class GenericTestCase(APITestCase):
             "Authentication credentials were not provided."
         )
 
-    def assertFieldIsRequired(self, r: HttpResponse, field: str) -> None:
+    def assertFieldIsRequiredInJson(self, r: HttpResponse, field: str) -> None:
         self.assertEqual(r.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(
             r.json().get(field), ["This field is required."]
@@ -93,6 +100,12 @@ class GenericTestCase(APITestCase):
             r.json().get("detail"),
             "You do not have permission to perform this action."
         )
+
+    def assertResponseContainsArticles(
+        self, r: HttpResponse, articles: list[Article]
+    ) -> None:
+        for article in articles:
+            self.assertContains(r, article.heading)
 
     def assertContainsList(self, r: HttpResponse, list: list) -> None:
         for item in list:
@@ -125,6 +138,14 @@ class GenericTestCase(APITestCase):
             "author": self.user
         }
         return Article.objects.create(**data)
+
+    def create_list_of_articles(self, quantity: int) -> list[Article]:
+        articles = []
+        for i in range(quantity):
+            article = self.create_article(f"test_article_{i}")
+            articles.append(article)
+
+        return articles
 
 
 def get_base_context(

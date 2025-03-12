@@ -4,7 +4,7 @@
 <section>
   <!-- Author -->
   <div class="article-info">
-    <a href="{% url 'see_profile' article.author %}" class="article-author">
+    <a href="{% url 'profile' article.author %}" class="article-author">
       {% if article.author.pfp %}
       <div class="wrapper">
         <img

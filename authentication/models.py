@@ -3,7 +3,9 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    email = models.EmailField("Email address", null=True, blank=True)
+    email = models.EmailField(
+        "Email address", unique=True, null=True, blank=True
+    )
     pfp = models.ImageField("Profile picture", upload_to="pfps/",blank=True)
     last_login = models.DateTimeField("Last login", auto_now=True)
     youtube = models.CharField(

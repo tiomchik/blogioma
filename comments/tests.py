@@ -1,4 +1,3 @@
-from django.core.cache import cache
 from django.urls import reverse
 from django.http import HttpResponse
 from urllib.parse import urlencode
@@ -47,7 +46,6 @@ class CommentTests(GenericTestCase):
     # ==================
     def test_read_list(self) -> None:
         url = reverse("comments", kwargs={"pk": self.article.pk})
-        cache.clear()
         r = self.client.get(url)
 
         self.assertContains(r, self.comment.text)
@@ -61,7 +59,6 @@ class CommentTests(GenericTestCase):
         )
 
         url = reverse("comments", kwargs={"pk": self.article.pk})
-        cache.clear()
         r = self.client.get(url)
 
         self.assertNotContains(r, comment.text)

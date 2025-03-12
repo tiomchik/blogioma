@@ -159,8 +159,8 @@
 
             {% else %}
             <p>
-              <a href="{% url 'logout_user' %}">Log out </a>||<a
-                href="{% url 'see_profile' request.user.username %}"
+              <a href="{% url 'logout' %}">Log out </a>||<a
+                href="{% url 'profile' request.user.username %}"
               >
                 {{ request.user.username }} {% if user_profile.pfp %}
                 <img

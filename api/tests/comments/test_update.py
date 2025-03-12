@@ -17,7 +17,7 @@ class UpdateCommentTests(CommentsGenericTestCase):
             kwargs={"article_pk": self.article.pk, "pk": self.comment.pk}
         )
         r = self.client.put(url, headers=self.auth_header)
-        self.assertFieldIsRequired(r, "text")
+        self.assertFieldIsRequiredInJson(r, "text")
 
     def test_update_with_very_long_text(self) -> None:
         self.comment_text = "very long comment" * 1000
