@@ -34,7 +34,7 @@ class GenericTestCase(APITestCase):
 
         self.article = self.create_article()
         self.comment = Comment.objects.create(
-            text="nice article", article=self.article, profile=self.user
+            text="nice article", article=self.article, author=self.user
         )
 
     def setUpSessionAuth(self) -> None:

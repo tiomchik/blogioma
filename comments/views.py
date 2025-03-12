@@ -19,8 +19,8 @@ from .models import Comment
 def see_comments(request: HttpRequest, pk: int) -> HttpResponse:
     article = get_article_by_pk(pk)
     comments = Comment.objects.filter(article=article).values(
-        "profile", "profile__pfp", "pk", "article__pk",
-        "profile__username", "update", "pub_date", "text"
+        "author", "author__pfp", "pk", "article__pk",
+        "author__username", "update", "pub_date", "text"
     )
 
     context = get_paginator_context(
@@ -50,7 +50,7 @@ class AddComment(DataMixin, LoginRequiredMixin, CreateView):
         text = form.cleaned_data.get("text")
 
         Comment.objects.create(
-            profile=self.request.user, article=article, text=text
+            author=self.request.user, article=article, text=text
         )
 
         return redirect("comments", pk=pk)
@@ -62,7 +62,7 @@ def delete_comment(
     comment = Comment.objects.get(pk=comment_pk)
     article = get_article_by_pk(pk)
 
-    if request.user != comment.profile:
+    if request.user != comment.author:
         return redirect("home")
     if comment.article != article:
         return redirect("home")

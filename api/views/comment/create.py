@@ -18,7 +18,7 @@ class CreateCommentMixin(CreateModelMixin):
             Article.objects.all(), pk=kwargs.get("article_pk")
         )
         comment_dict = {
-            "profile": self.request.user,
+            "author": self.request.user,
             "article": article,
             "text": request.data.get("text")
         }

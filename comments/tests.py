@@ -10,7 +10,7 @@ class CommentTests(GenericTestCase):
     def setUp(self) -> None:
         self.setUpSessionAuth()
         self.comment = Comment.objects.create(
-            article=self.article, text="nice article", profile=self.user
+            article=self.article, text="nice article", author=self.user
         )
 
     def test_create(self) -> None:
@@ -43,13 +43,13 @@ class CommentTests(GenericTestCase):
         r = self.client.get(url)
 
         self.assertContains(r, self.comment.text)
-        self.assertContains(r, self.comment.profile.username)
+        self.assertContains(r, self.comment.author.username)
 
     def test_read_comments_of_another_article(self) -> None:
         article = self.create_article(heading="testing comments")
         self.comment.delete()
         comment = Comment.objects.create(
-            article=article, text="nice article", profile=self.user
+            article=article, text="nice article", author=self.user
         )
 
         url = reverse("comments", kwargs={"pk": self.article.pk})
