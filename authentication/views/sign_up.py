@@ -24,25 +24,29 @@ class SignUp(DataMixin, CreateView):
     def form_valid(
         self, form: SignUpForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        self.validate_passwords_match(form)
-        self.validate_email_uniqness(form)
-
-        self.show_form_errors_if_exist(form)
+        if not self.is_passwords_match(form):
+            form.add_error("password1", "Password's don't match")
+            return self.form_invalid(form)
+        if self.is_email_not_blank(form) and not self.is_email_unique(form):
+            form.add_error("email", "This email already busy")
+            return self.form_invalid(form)
 
         user = self.create_user(form)
         login(self.request, user)
         return redirect("home")
 
-    def validate_passwords_match(self, form: SignUpForm) -> None:
+    def is_passwords_match(self, form: SignUpForm) -> bool:
         password = form.cleaned_data.get("password")
         password1 = form.cleaned_data.get("password1")
-        if password != password1:
-            form.add_error("password1", "Password's don't match")
+        return password == password1
 
-    def validate_email_uniqness(self, form: SignUpForm) -> None:
+    def is_email_not_blank(self, form: SignUpForm) -> bool:
         email = form.cleaned_data.get("email")
-        if email and User.objects.filter(email=email).exists():
-            form.add_error("email", "This email already busy")
+        return bool(email)
+
+    def is_email_unique(self, form: SignUpForm) -> bool:
+        email = form.cleaned_data.get("email")
+        return not User.objects.filter(email=email).exists()
 
     def create_user(self, form: SignUpForm) -> User:
         username = form.cleaned_data.get("username")

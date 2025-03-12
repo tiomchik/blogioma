@@ -2,7 +2,6 @@ from typing import Any
 from collections.abc import Awaitable, Callable, Sequence
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.paginator import Paginator
-from django.forms import Form
 from django.http import HttpRequest, HttpResponse, HttpResponseBase
 from django.urls import reverse
 from django.urls.conf import _path
@@ -22,10 +21,6 @@ class DataMixin():
         """Returns a base context dict with passed name and kwargs"""
 
         return get_base_context(self.request, name, **kwargs)
-
-    def show_form_errors_if_exist(self, form: Form) -> None:
-        if form.errors:
-            return self.form_invalid(form)
 
 
 class GenericTestCase(APITestCase):

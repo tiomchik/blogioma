@@ -25,16 +25,17 @@ class ChangePassword(DataMixin, LoginRequiredMixin, FormView):
     def form_valid(
         self, form: ChangePasswordForm
     ) -> HttpResponse | HttpResponseRedirect | HttpResponsePermanentRedirect:
-        self.validate_passwords_match(form)
-        self.show_form_errors_if_exist(form)
+        if not self.is_passwords_match(form):
+            form.add_error("new_password1", "Password's don't match")
+            return self.form_invalid(form)
+
         self.set_new_password(form)
         return redirect(self.login_url)
 
-    def validate_passwords_match(self, form: ChangePasswordForm) -> None:
+    def is_passwords_match(self, form: ChangePasswordForm) -> bool:
         new_password = form.cleaned_data.get("new_password")
         new_password1 = form.cleaned_data.get("new_password1")
-        if new_password != new_password1:
-            form.add_error("new_password1", "Password's don't match")
+        return new_password == new_password1
 
     def set_new_password(self, form: ChangePasswordForm) -> None:
         new_password = form.cleaned_data.get("new_password")
