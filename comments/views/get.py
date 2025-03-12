@@ -8,7 +8,7 @@ from comments.models import Comment
 
 
 @cache_page(30)
-def see_comments(request: HttpRequest, pk: int) -> HttpResponse:
+def get_comments(request: HttpRequest, pk: int) -> HttpResponse:
     article = get_article_by_pk(pk)
     comments = Comment.objects.filter(article=article).values(
         "author", "author__pfp", "pk", "article__pk",
