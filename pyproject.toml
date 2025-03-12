@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "blogioma"
-version = "1.4.11"
+version = "1.4.12"
 description = "Simple Django blog application"
 authors = ["tiomchik <artemkaun228@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 bleach = "6.0.0"
-django = "4.2.17"
+django = "4.2.20"
 djangorestframework = "3.15.2"
 drf-yasg = "1.21.7"
 django-filter = "23.2"
