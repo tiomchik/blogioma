@@ -13,7 +13,7 @@ class CommentGenericTestCase(GenericTestCase):
             article=self.article, text="nice article", author=self.user
         )
 
-    def post_comment(self, text: str = "nice article") -> HttpResponse:
+    def post_comment(self, text: str) -> HttpResponse:
         data = urlencode({"text": text})
         url = reverse("add_comment", kwargs={"pk": self.article.pk})
         r = self.client.post(
@@ -23,7 +23,7 @@ class CommentGenericTestCase(GenericTestCase):
 
         return r
 
-    def update_comment(self, text: str = "bad article :(") -> HttpResponse:
+    def update_comment(self, text: str) -> HttpResponse:
         data = urlencode({"text": text})
         url = reverse(
             "update_comment",
