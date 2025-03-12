@@ -23,6 +23,11 @@ class CommentGenericTestCase(GenericTestCase):
 
         return r
 
+    def get_comments(self) -> HttpResponse:
+        url = reverse("comments", kwargs={"pk": self.article.pk})
+        r = self.client.get(url)
+        return r
+
     def update_comment(self, text: str) -> HttpResponse:
         data = urlencode({"text": text})
         url = reverse(
