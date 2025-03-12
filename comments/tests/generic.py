@@ -49,3 +49,13 @@ class CommentGenericTestCase(GenericTestCase):
         r = self.client.get(url)
 
         return r
+
+    def assertCommentExists(self, **filter_kwargs) -> None:
+        self.assertTrue(Comment.objects.filter(**filter_kwargs).exists())
+
+    def assertCommentDoesntExists(self, **filter_kwargs) -> None:
+        self.assertFalse(Comment.objects.filter(**filter_kwargs).exists())
+
+    def assertPageContainsComment(self, r: HttpResponse) -> None:
+        self.assertContains(r, self.comment.text)
+        self.assertContains(r, self.comment.author.username)

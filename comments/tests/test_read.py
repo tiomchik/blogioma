@@ -7,8 +7,7 @@ from .generic import CommentGenericTestCase
 class ReadCommentTests(CommentGenericTestCase):
     def test_read_list(self) -> None:
         r = self.get_comments()
-        self.assertContains(r, self.comment.text)
-        self.assertContains(r, self.comment.author.username)
+        self.assertPageContainsComment(r)
 
     def test_read_comments_of_another_article(self) -> None:
         article = self.create_article(heading="testing comments")
