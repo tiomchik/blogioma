@@ -17,7 +17,6 @@ from .models import Comment
 
 @cache_page(30)
 def see_comments(request: HttpRequest, pk: int) -> HttpResponse:
-    # Getting comments by related article
     article = get_article_by_pk(pk)
     comments = Comment.objects.filter(article=article).values(
         "profile", "profile__pfp", "pk", "article__pk",
@@ -46,12 +45,10 @@ class AddComment(DataMixin, LoginRequiredMixin, CreateView):
     def form_valid(
         self, form: AddCommentForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-        # Getting article pk, data from from and etc.
         pk = self.kwargs["pk"]
         article = get_article_by_pk(pk)
         text = form.cleaned_data.get("text")
 
-        # Creating a new comment
         Comment.objects.create(
             profile=self.request.user, article=article, text=text
         )
@@ -62,17 +59,14 @@ class AddComment(DataMixin, LoginRequiredMixin, CreateView):
 def delete_comment(
     request: HttpRequest, pk: int, comment_pk: int
 ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-    # Getting article and related comment
     comment = Comment.objects.get(pk=comment_pk)
     article = get_article_by_pk(pk)
 
-    # Author and related article check
     if request.user != comment.profile:
         return redirect("home")
     if comment.article != article:
         return redirect("home")
 
-    # If all valid
     comment.delete()
 
     return redirect("comments", pk=pk)
@@ -92,16 +86,13 @@ class UpdateComment(DataMixin, LoginRequiredMixin, UpdateView):
     def form_valid(
         self, form: AddCommentForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-        # Getting comment
         comment = get_object_or_404(
             Comment, pk=self.kwargs["pk"],
             article_id=self.kwargs["article_pk"]
         )
 
-        # Updating
         comment.update = timezone.now()
         comment.text = form.cleaned_data.get("text")
         comment.save()
 
-        # Redirect to commented article
         return redirect("comments", pk=self.kwargs["article_pk"])

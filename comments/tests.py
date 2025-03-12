@@ -13,9 +13,6 @@ class CommentTests(GenericTestCase):
             article=self.article, text="nice article", profile=self.user
         )
 
-    # ==================
-    # ===== Create =====
-    # ==================
     def test_create(self) -> None:
         text = "nice article"
         self.post_comment(text=text)
@@ -41,9 +38,6 @@ class CommentTests(GenericTestCase):
 
         self.assertFalse(Comment.objects.filter(text=text).exists())
 
-    # ==================
-    # ====== Read ======
-    # ==================
     def test_read_list(self) -> None:
         url = reverse("comments", kwargs={"pk": self.article.pk})
         r = self.client.get(url)
@@ -63,9 +57,6 @@ class CommentTests(GenericTestCase):
 
         self.assertNotContains(r, comment.text)
 
-    # ====================
-    # ====== Update ======
-    # ====================
     def test_update(self) -> None:
         text = "bad article :("
         self.update_comment(text=text)
@@ -93,9 +84,6 @@ class CommentTests(GenericTestCase):
         self.update_comment(text=text)
         self.assertFalse(Comment.objects.filter(text=text).exists())
 
-    # ====================
-    # ====== Delete ======
-    # ====================
     def test_delete(self) -> None:
         self.del_comment()
         self.assertFalse(Comment.objects.filter(pk=self.comment.pk).exists())
@@ -110,11 +98,7 @@ class CommentTests(GenericTestCase):
         self.del_comment()
         self.assertTrue(Comment.objects.filter(pk=self.comment.pk).exists())
 
-    # ========================
-    # ====== Test utils ======
-    # ========================
     def post_comment(self, text: str = "nice article") -> HttpResponse:
-        """Creates a comment using POST."""
         data = urlencode({"text": text})
         url = reverse("add_comment", kwargs={"pk": self.article.pk})
         r = self.client.post(
@@ -125,7 +109,6 @@ class CommentTests(GenericTestCase):
         return r
 
     def update_comment(self, text: str = "bad article :(") -> HttpResponse:
-        """Updates a comment using POST."""
         data = urlencode({"text": text})
         url = reverse(
             "update_comment",
@@ -139,7 +122,6 @@ class CommentTests(GenericTestCase):
         return r
 
     def del_comment(self) -> HttpResponse:
-        """Deletes a comment using GET."""
         url = reverse(
             "delete_comment",
             kwargs={"pk": self.article.pk, "comment_pk": self.comment.pk}
