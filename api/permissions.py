@@ -12,7 +12,4 @@ class IsAuthorOrStaffOrReadOnly(permissions.BasePermission):
             request.user.is_staff):
             return True
 
-        try:
-            return obj.author == request.user
-        except AttributeError:
-            return obj.profile == request.user
+        return obj.author == request.user

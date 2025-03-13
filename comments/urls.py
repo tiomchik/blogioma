@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     my_path(
-        "article/<int:pk>/comments/", views.see_comments, name="comments"
+        "article/<int:pk>/comments/", views.get_comments, name="comments"
     ),
     my_path(
         "article/<int:pk>/add_comment/",
