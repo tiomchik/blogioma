@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 
 from authentication.models import User
 from articles.utils import get_article_by_pk
+from articles.models import Article
 from comments.models import Comment
 
 
@@ -14,15 +15,23 @@ def delete_comment(
     comment = Comment.objects.get(pk=comment_pk)
     article = get_article_by_pk(pk)
 
-    if not is_author_or_staff(request.user, article):
-        return redirect("home")
-    if comment.article != article:
-        return redirect("home")
-
-    comment.delete()
+    if is_comment_can_be_deleted(request.user, comment, article):
+        comment.delete()
 
     return redirect("comments", pk=pk)
 
 
-def is_author_or_staff(user: User, comment: Comment):
+def is_comment_can_be_deleted(
+    user: User, comment: Comment, article: Article
+) -> bool:
+    return is_author_or_staff(user, comment) and is_article_comment(
+        comment, article
+    )
+
+
+def is_author_or_staff(user: User, comment: Comment) -> bool:
     return user == comment.author or user.is_staff
+
+
+def is_article_comment(comment: Comment, article: Article) -> bool:
+    return comment.article == article
