@@ -20,7 +20,6 @@ class UpdateComment(DataMixin, LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         base = self.get_base_context("Update comment")
-
         return dict(list(context.items()) + list(base.items()))
 
     def form_valid(
@@ -30,9 +29,10 @@ class UpdateComment(DataMixin, LoginRequiredMixin, UpdateView):
             Comment, pk=self.kwargs["pk"],
             article_id=self.kwargs["article_pk"]
         )
+        self.update_and_save(comment, form)
+        return redirect("comments", pk=self.kwargs["article_pk"])
 
+    def update_and_save(self, comment: Comment, form: AddCommentForm) -> None:
         comment.update = timezone.now()
         comment.text = form.cleaned_data.get("text")
         comment.save()
-
-        return redirect("comments", pk=self.kwargs["article_pk"])
