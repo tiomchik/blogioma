@@ -26,15 +26,12 @@ class Feedback(DataMixin, FormView):
 
     def form_valid(self, form: FeedbackForm) -> HttpResponse:
         if form.is_valid():
-            # Getting data from a form
             heading = "Blogioma report: " + form.cleaned_data.get("problem")
             desc = form.cleaned_data.get("problem_desc")
             email = form.cleaned_data.get("email")
 
-            # Attachment user email to the mail
             desc += f"\n\n\nUser email: {email}"
 
-            # Sending mail
             send_feedback.delay(heading, desc)
 
             return render(
@@ -59,15 +56,12 @@ class ReportArticle(DataMixin, LoginRequiredMixin, CreateView):
     def form_valid(
         self, form: ReportForm
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-        # Getting data from a form
         reason = form.cleaned_data.get("reason")
         desc = form.cleaned_data.get("desc")
 
-        # Getting a reported article
         article_pk = self.kwargs.get("pk")
         article = Article.objects.get(pk=article_pk)
 
-        # Creating report
         report = Report.objects.create(
             reason=reason,
             desc=desc,

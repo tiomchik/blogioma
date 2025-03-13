@@ -46,13 +46,9 @@ class FeedbackTests(GenericTestCase):
             ).exists()
         )
 
-    # ========================
-    # ====== Test utils ======
-    # ========================
     def post_report(
         self, reason: str = "Scam", desc: str = "lorem ipsum dolor"
     ) -> HttpResponse:
-        """Creates a report using POST."""
         data = urlencode({"reason": reason, "desc": desc})
         url = reverse("report", kwargs={"pk": self.article.pk})
         r = self.client.post(
