@@ -3,24 +3,24 @@ from .generic import FeedbackGenericTestCase
 
 
 class ReportTests(FeedbackGenericTestCase):
+    desc = "lorem ipsum dolor"
+
     def test_report(self) -> None:
-        desc = "lorem ipsum dolor"
-        r = self.post_report(desc=desc)
+        r = self.post_report(desc=self.desc)
 
         self.assertEqual(r.status_code, 200)
         self.assertTrue(
             Report.objects.filter(
-                reported_article=self.article, desc=desc
+                reported_article=self.article, desc=self.desc
             ).exists()
         )
 
     def test_unauth_report(self) -> None:
         self.client.logout()
-        desc = "lorem ipsum dolor"
-        self.post_report(desc=desc)
+        self.post_report(desc=self.desc)
 
         self.assertFalse(
             Report.objects.filter(
-                reported_article=self.article, desc=desc
+                reported_article=self.article, desc=self.desc
             ).exists()
         )
