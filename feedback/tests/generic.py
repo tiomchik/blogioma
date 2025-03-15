@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from urllib.parse import urlencode
 
 from main.utils import GenericTestCase
+from feedback.models import Report
 
 
 class FeedbackGenericTestCase(GenericTestCase):
@@ -20,3 +21,9 @@ class FeedbackGenericTestCase(GenericTestCase):
         )
 
         return r
+
+    def assertReportExists(self, **filter_kwargs) -> None:
+        self.assertTrue(Report.objects.filter(**filter_kwargs).exists())
+
+    def assertReportDoesntExists(self, **filter_kwargs) -> None:
+        self.assertFalse(Report.objects.filter(**filter_kwargs).exists())
