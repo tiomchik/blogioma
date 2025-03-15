@@ -22,6 +22,15 @@ class FeedbackGenericTestCase(GenericTestCase):
 
         return r
 
+    def post_feedback(self, data: dict) -> HttpResponse:
+        url = reverse("feedback")
+        r = self.client.post(
+            url, urlencode(data),
+            content_type="application/x-www-form-urlencoded", follow=True
+        )
+
+        return r
+
     def assertReportExists(self, **filter_kwargs) -> None:
         self.assertTrue(Report.objects.filter(**filter_kwargs).exists())
 

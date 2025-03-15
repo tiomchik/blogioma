@@ -12,11 +12,6 @@ class FeedbackTests(FeedbackGenericTestCase):
     }
 
     def test_feedback(self) -> None:
-        url = reverse("feedback")
-        r = self.client.post(
-            url, urlencode(self.data),
-            content_type="application/x-www-form-urlencoded", follow=True
-        )
-
+        r = self.post_feedback(self.data)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, "Message have been sent. We contact you soon.")
