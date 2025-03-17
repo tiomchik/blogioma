@@ -3,15 +3,18 @@ from .generic import FeedbackGenericTestCase
 
 
 class ReportTests(FeedbackGenericTestCase):
-    desc = "lorem ipsum dolor"
+    data = {
+        "reason": "Scam",
+        "desc": "lorem ipsum dolor"
+    }
 
     def test_report(self) -> None:
-        r = self.post_report(desc=self.desc)
-        self.assertReportExists(reported_article=self.article, desc=self.desc)
+        self.post_report(self.data)
+        self.assertReportExists(reported_article=self.article, **self.data)
 
     def test_unauth_report(self) -> None:
         self.client.logout()
-        self.post_report(desc=self.desc)
+        self.post_report(self.data)
         self.assertReportDoesntExists(
-            reported_article=self.article, desc=self.desc
+            reported_article=self.article, **self.data
         )
