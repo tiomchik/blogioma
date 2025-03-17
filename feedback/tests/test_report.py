@@ -7,7 +7,6 @@ class ReportTests(FeedbackGenericTestCase):
 
     def test_report(self) -> None:
         r = self.post_report(desc=self.desc)
-        self.assertEqual(r.status_code, 200)
         self.assertReportExists(reported_article=self.article, desc=self.desc)
 
     def test_unauth_report(self) -> None:

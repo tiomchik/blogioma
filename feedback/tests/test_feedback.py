@@ -13,5 +13,4 @@ class FeedbackTests(FeedbackGenericTestCase):
 
     def test_feedback(self) -> None:
         r = self.post_feedback(self.data)
-        self.assertEqual(r.status_code, 200)
         self.assertContains(r, "Message have been sent. We contact you soon.")
