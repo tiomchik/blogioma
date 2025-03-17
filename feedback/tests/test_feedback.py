@@ -1,6 +1,3 @@
-from django.urls import reverse
-from urllib.parse import urlencode
-
 from .generic import FeedbackGenericTestCase
 
 

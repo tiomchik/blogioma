@@ -1,4 +1,3 @@
-from feedback.models import Report
 from .generic import FeedbackGenericTestCase
 
 
