@@ -1,14 +1,7 @@
-from django.urls import reverse
-from django.http import HttpResponse
-from urllib.parse import urlencode
-
-from main.utils import GenericTestCase
+from .generic import SearchGenericTestCase
 
 
-class SearchTests(GenericTestCase):
-    def setUp(self) -> None:
-        self.setUpSessionAuth()
-
+class SearchTests(SearchGenericTestCase):
     def test_search(self) -> None:
         article = self.create_article(heading="find_me")
 
@@ -34,12 +27,3 @@ class SearchTests(GenericTestCase):
         r = self.search_article(query)
 
         self.assertContains(r, heading)
-
-    def search_article(self, query: str) -> HttpResponse:
-        url = reverse("search")
-        r = self.client.post(
-            url, urlencode({"search_query": query}),
-            content_type="application/x-www-form-urlencoded", follow=True
-        )
-
-        return r
