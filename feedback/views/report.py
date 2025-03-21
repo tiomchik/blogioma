@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView
 
 from articles.models import Article
 from main.utils import DataMixin
-from feedback.forms import ReportForm
+from feedback.forms.report import ReportForm
 from feedback.models import Report
 
 

@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.generic.edit import FormView
 
 from main.utils import DataMixin
-from feedback.forms import FeedbackForm
+from feedback.forms.feedback import FeedbackForm
 from feedback.tasks import send_feedback
 
 
