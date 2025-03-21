@@ -1,7 +1,5 @@
 from django import forms
 
-from .models import Report
-
 
 class FeedbackForm(forms.Form):
     email = forms.EmailField(
@@ -23,16 +21,3 @@ class FeedbackForm(forms.Form):
             attrs={"class": "form-textarea"}
         )
     )
-
-
-class ReportForm(forms.ModelForm):
-    desc = forms.CharField(
-        max_length=200, label="Describe the infringement (optional)",
-        required=False, widget=forms.Textarea(
-            attrs={"class": "form-textarea"}
-        )
-    )
-
-    class Meta:
-        model = Report
-        fields = ["reason", "desc"]
