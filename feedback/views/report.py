@@ -26,9 +26,7 @@ class ReportArticle(DataMixin, LoginRequiredMixin, CreateView):
     ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
         reason = form.cleaned_data.get("reason")
         desc = form.cleaned_data.get("desc")
-
-        article_pk = self.kwargs.get("pk")
-        article = Article.objects.get(pk=article_pk)
+        article = self.get_reported_article()
 
         report = Report.objects.create(
             reason=reason,
@@ -39,3 +37,7 @@ class ReportArticle(DataMixin, LoginRequiredMixin, CreateView):
         article.reports.add(report)
 
         return redirect("home")
+
+    def get_reported_article(self) -> Article:
+        article_pk = self.kwargs.get("pk")
+        return Article.objects.get(pk=article_pk)
