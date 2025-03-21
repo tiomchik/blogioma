@@ -9,7 +9,7 @@ class SearchGenericTestCase(GenericTestCase):
     def setUp(self) -> None:
         self.setUpSessionAuth()
 
-    def search_article(self, query: str) -> HttpResponse:
+    def search(self, query: str) -> HttpResponse:
         url = reverse("search")
         r = self.client.post(
             url, urlencode({"search_query": query}),
