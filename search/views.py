@@ -31,7 +31,6 @@ class Search(DataMixin, FormView):
 
 
 def search_results(request: HttpRequest, query: str) -> HttpResponse:
-    # Searching articles
     articles = search_articles(query).values(
         "heading", "full_text", "update", "pub_date", "pk",
         "author", "author__pfp", "author__username"

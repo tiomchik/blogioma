@@ -35,11 +35,7 @@ class SearchTests(GenericTestCase):
 
         self.assertContains(r, heading)
 
-    # ========================
-    # ====== Test utils ======
-    # ========================
     def search_article(self, query: str) -> HttpResponse:
-        """Searches for an article by `query` using GET."""
         url = reverse("search")
         r = self.client.post(
             url, urlencode({"search_query": query}),
