@@ -15,8 +15,6 @@ class DataMixin():
     login_url = "log_in"
 
     def get_base_context(self, name: str, **kwargs) -> dict[str, Any]:
-        """Returns a base context dict with passed name and kwargs"""
-
         return get_base_context(self.request, name, **kwargs)
 
 
@@ -35,9 +33,6 @@ class GenericTestCase(APITestCase):
         )
 
     def setUpSessionAuth(self) -> None:
-        """This is another version of the `setUp()` method, created
-        for session authentication. To use it, call this method in
-        the `setUp()`."""
         user_data = {"username": "test_user", "password": "12341234"}
         self.user = User.objects.create_user(**user_data)
         self.client.login(**user_data)
@@ -45,7 +40,6 @@ class GenericTestCase(APITestCase):
         self.article = self.create_article()
 
     def _obtain_token(self, **user_data) -> str:
-        """Obtains token according to passed `user_data`."""
         token_url = reverse("obtain-token")
         token: str = self.client.post(
             token_url, user_data
@@ -54,7 +48,6 @@ class GenericTestCase(APITestCase):
         return token
 
     def register_user(self, **user_data) -> HttpResponse:
-        """Registers a user with `user_data`."""
         url = reverse("register")
         return self.client.post(url, user_data)
 
@@ -72,7 +65,6 @@ class GenericTestCase(APITestCase):
             )
 
     def assertUnauthResponse(self, r: HttpResponse) -> None:
-        """Checks that response is returned error of unauthorized user."""
         self.assertEqual(r.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(
             r.json().get("detail"),
@@ -118,8 +110,6 @@ class GenericTestCase(APITestCase):
     def auth_to_another_user(
         self, username: str = "test_user123", password: str = "12341234"
     ) -> None:
-        """Authenticates `self.client` using `self.client.login()`
-        and another user data."""
         self.client.logout()
         new_user_data = {"username": username, "password": password}
         User.objects.create(**new_user_data)
@@ -129,7 +119,6 @@ class GenericTestCase(APITestCase):
         self, heading: str = "test_article",
         full_text: str = "lorem ipsum dolor"
     ) -> Article:
-        """Creates article and returns it."""
         data = {
             "heading": heading, "full_text": full_text,
             "author": self.user
@@ -148,7 +137,6 @@ class GenericTestCase(APITestCase):
 def get_base_context(
     request: HttpRequest, name: str, **kwargs
 ) -> dict[str, Any]:
-    """Returns a base context dict with passed name and kwargs"""
     context = kwargs
     context["name"] = name
     if request.user.is_authenticated:
@@ -160,13 +148,10 @@ def get_base_context(
 def get_paginator_context(
     request: HttpRequest, object_list: Any, name: str, **kwargs
 ) -> dict[str, Any]:
-    """get_base_context with paginator"""
-    # Pagination
     paginator = Paginator(object_list, 12)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    # Context
     context = get_base_context(request, name, **kwargs)
     context["page_obj"] = page_obj
 
