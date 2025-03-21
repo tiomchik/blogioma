@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
 
-from main.utils import GenericTestCase
+from main.generic_test_cases import GenericTestCase
 
 
 class AuthenticationGenericTestCase(GenericTestCase):

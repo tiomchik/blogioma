@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 
 from articles.models import Article
 from authentication.models import User
-from main.utils import get_paginator_context
+from main.context import get_paginator_context
 
 
 @cache_page(30)

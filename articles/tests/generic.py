@@ -3,7 +3,7 @@ from django.urls import reverse
 from urllib.parse import urlencode
 
 from articles.models import Article
-from main.utils import GenericTestCase
+from main.generic_test_cases import GenericTestCase
 
 
 class ArticleGenericTestCase(GenericTestCase):

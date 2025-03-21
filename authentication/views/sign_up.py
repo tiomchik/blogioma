@@ -8,7 +8,7 @@ from django.views.generic.edit import CreateView
 
 from authentication.forms.sign_up import SignUpForm
 from authentication.models import User
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class SignUp(DataMixin, CreateView):

@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 
 from search.forms import SearchForm
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class Search(DataMixin, FormView):

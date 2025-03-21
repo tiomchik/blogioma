@@ -1,7 +1,5 @@
-from typing import Any
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.core.paginator import Paginator
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpResponse
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -9,13 +7,6 @@ from rest_framework.test import APITestCase
 from authentication.models import User
 from articles.models import Article
 from comments.models import Comment
-
-
-class DataMixin():
-    login_url = "log_in"
-
-    def get_base_context(self, name: str, **kwargs) -> dict[str, Any]:
-        return get_base_context(self.request, name, **kwargs)
 
 
 class GenericTestCase(APITestCase):
@@ -132,27 +123,3 @@ class GenericTestCase(APITestCase):
             articles.append(article)
 
         return articles
-
-
-def get_base_context(
-    request: HttpRequest, name: str, **kwargs
-) -> dict[str, Any]:
-    context = kwargs
-    context["name"] = name
-    if request.user.is_authenticated:
-        context["user_profile"] = request.user
-
-    return context
-
-
-def get_paginator_context(
-    request: HttpRequest, object_list: Any, name: str, **kwargs
-) -> dict[str, Any]:
-    paginator = Paginator(object_list, 12)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = get_base_context(request, name, **kwargs)
-    context["page_obj"] = page_obj
-
-    return context

@@ -6,7 +6,7 @@ from django.views.generic.edit import UpdateView
 
 from authentication.forms.social_media_links import SocialMediaLinksForm
 from authentication.models import User
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class SocialMediaLinks(DataMixin, LoginRequiredMixin, UpdateView):

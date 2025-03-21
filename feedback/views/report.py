@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic.edit import CreateView
 
 from articles.models import Article
-from main.utils import DataMixin
+from main.mixins import DataMixin
 from feedback.forms.report import ReportForm
 from feedback.models import Report
 

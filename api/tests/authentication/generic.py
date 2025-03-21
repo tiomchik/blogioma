@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.http import HttpResponse
 
-from main.utils import GenericTestCase
+from main.generic_test_cases import GenericTestCase
 
 
 class AuthenticationGenericTestCase(GenericTestCase):

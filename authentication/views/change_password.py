@@ -8,7 +8,7 @@ from django.views.generic.edit import FormView
 
 from authentication.forms.change_password import ChangePasswordForm
 from authentication.models import User
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class ChangePassword(DataMixin, LoginRequiredMixin, FormView):

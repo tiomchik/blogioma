@@ -3,7 +3,7 @@ from django.urls import reverse
 from urllib.parse import urlencode
 
 from comments.models import Comment
-from main.utils import GenericTestCase
+from main.generic_test_cases import GenericTestCase
 
 
 class CommentGenericTestCase(GenericTestCase):

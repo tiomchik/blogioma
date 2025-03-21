@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 
 from authentication.forms.login import LoginForm
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class Login(DataMixin, FormView):

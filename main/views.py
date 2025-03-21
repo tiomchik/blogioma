@@ -5,7 +5,8 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.list import ListView
 
 from articles.models import Article
-from .utils import get_base_context, DataMixin
+from .mixins import DataMixin
+from .context import get_base_context
 
 
 class Home(DataMixin, ListView):

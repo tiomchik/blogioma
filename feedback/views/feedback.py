@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 
-from main.utils import DataMixin
+from main.mixins import DataMixin
 from feedback.forms.feedback import FeedbackForm
 from feedback.tasks import send_feedback
 

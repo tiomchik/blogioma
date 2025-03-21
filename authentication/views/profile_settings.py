@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.cache import cache_page
 
 from authentication.models import User
-from main.utils import get_base_context
+from main.context import get_base_context
 
 
 @cache_page(60 * 30)

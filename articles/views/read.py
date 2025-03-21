@@ -1,7 +1,7 @@
 from typing import Any
 from django.views.generic.detail import DetailView
 
-from main.utils import DataMixin
+from main.mixins import DataMixin
 from articles.models import Article
 
 

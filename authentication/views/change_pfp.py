@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from authentication.forms.change_pfp import ChangePfpForm
 from authentication.models import User
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class ChangePfp(DataMixin, LoginRequiredMixin, FormView):

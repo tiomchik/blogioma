@@ -7,7 +7,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView
 
-from main.utils import DataMixin
+from main.mixins import DataMixin
 from comments.forms import AddCommentForm
 from comments.models import Comment
 

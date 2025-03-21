@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView
 
 from articles.models import Article
 from articles.forms import AddArticleForm
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class AddArticle(DataMixin, LoginRequiredMixin, CreateView):

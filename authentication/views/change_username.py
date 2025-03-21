@@ -9,7 +9,7 @@ from django.views.generic.edit import FormView
 
 from authentication.forms.change_username import ChangeUsernameForm
 from authentication.models import User
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
