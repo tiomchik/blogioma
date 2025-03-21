@@ -1,11 +1,8 @@
 from typing import Any
-from collections.abc import Awaitable, Callable, Sequence
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.paginator import Paginator
-from django.http import HttpRequest, HttpResponse, HttpResponseBase
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
-from django.urls.conf import _path
-from django.urls.resolvers import RoutePattern, URLPattern, URLResolver
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -174,66 +171,3 @@ def get_paginator_context(
     context["page_obj"] = page_obj
 
     return context
-
-
-class PrefixRoutePattern(RoutePattern):
-    """A more optimized custom router."""
-
-    def __init__(
-        self, route: str, name: str | None = None, is_endpoint: bool = False
-    ) -> None:
-        idx = route.find("<")
-
-        # If the whole pattern is a constant string and it can be
-        # compared with the entire URL.
-        if idx == -1:
-            self._prefix = route
-            self._is_static = True
-        else:
-            self._is_static = False
-            self._prefix = route[:idx]
-
-        self._is_endpoint = is_endpoint
-        super().__init__(route, name, is_endpoint)
-
-    def match(
-        self, path: str
-    ) -> tuple[str, tuple[Any, ...], dict[str, Any]] | None:
-        """Returns tuple of: 
-        
-        1. Rest of the URL
-        2. Unnamed variables
-        3. Named variables.
-        """
-        if self._is_static:
-            if self._is_endpoint and path == self._prefix:
-                return "", (), {}
-            elif not self._is_endpoint and path.startswith(self._prefix):
-                return path[len(self._prefix) :], (), {}
-        else:
-            if path.startswith(self._prefix):
-                return super().match(path)
-
-        return None
-
-
-def make_pattern(
-    route: str, name: str | None = None, is_endpoint: bool = False
-) -> PrefixRoutePattern | RoutePattern:
-    idx = route.find("<")
-    if idx == -1 or idx > 2:
-        return PrefixRoutePattern(route, name, is_endpoint)
-    else:
-        return RoutePattern(route, name, is_endpoint)
-
-
-def my_path(
-    route: str,
-    view: (
-        Callable[..., HttpResponseBase | Awaitable[HttpResponseBase]]
-        | tuple[Sequence[URLResolver | URLPattern], str | None, str | None]
-    ),
-    kwargs: dict[str, Any] | None = None,
-    name: str | None = None,
-) -> URLResolver | URLPattern:
-    return _path(route=route, view=view, kwargs=kwargs, name=name, Pattern=make_pattern)
