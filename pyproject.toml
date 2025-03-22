@@ -27,7 +27,7 @@ gevent = "24.2.1"
 django-debug-toolbar = "4.2.0"
 
 [tool.poetry.group.prod.dependencies]
-gunicorn = "22.0.0"
+gunicorn = "23.0.0"
 
 
 [build-system]
