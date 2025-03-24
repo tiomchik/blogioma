@@ -6,6 +6,7 @@ from rest_framework.test import APITestCase
 
 from authentication.models import User
 from articles.models import Article
+from comments.models import Comment
 
 
 class GenericTestCase(APITestCase):
@@ -115,3 +116,9 @@ class GenericTestCase(APITestCase):
             articles.append(article)
 
         return articles
+
+    def create_comment(
+        self, article: Article, text: str = "nice article"
+    ) -> Comment:
+        data = {"article": article, "author": self.user, "text": text}
+        return Comment.objects.create(**data)

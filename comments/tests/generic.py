@@ -10,9 +10,7 @@ class CommentGenericTestCase(GenericTestCase):
     def setUp(self) -> None:
         self.setUpSessionAuth()
         self.article = self.create_article()
-        self.comment = Comment.objects.create(
-            article=self.article, text="nice article", author=self.user
-        )
+        self.comment = self.create_comment(article=self.article)
 
     def post_comment(self, text: str) -> HttpResponse:
         data = urlencode({"text": text})

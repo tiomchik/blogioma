@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.urls import reverse
 
-from comments.models import Comment
 from main.generic_test_cases import GenericTestCase
 
 
@@ -9,9 +8,7 @@ class CommentsGenericTestCase(GenericTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.article = self.create_article()
-        self.comment = Comment.objects.create(
-            text="nice article", article=self.article, author=self.user
-        )
+        self.comment = self.create_comment(article=self.article)
 
     def post_comment(self, text: str) -> HttpResponse:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
