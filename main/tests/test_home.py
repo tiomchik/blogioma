@@ -1,9 +1,9 @@
 from django.urls import reverse
 
-from main.generic_test_cases import GenericTestCase
+from main.generic_test_cases import SessionAuthGenericTestCase
 
 
-class HomeTests(GenericTestCase):
+class HomeTests(SessionAuthGenericTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.article = self.create_article()

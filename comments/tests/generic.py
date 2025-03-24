@@ -3,12 +3,12 @@ from django.urls import reverse
 from urllib.parse import urlencode
 
 from comments.models import Comment
-from main.generic_test_cases import GenericTestCase
+from main.generic_test_cases import SessionAuthGenericTestCase
 
 
-class CommentGenericTestCase(GenericTestCase):
+class CommentGenericTestCase(SessionAuthGenericTestCase):
     def setUp(self) -> None:
-        self.setUpSessionAuth()
+        super().setUp()
         self.article = self.create_article()
         self.comment = self.create_comment(article=self.article)
 

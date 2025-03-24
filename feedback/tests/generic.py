@@ -2,13 +2,13 @@ from django.urls import reverse
 from django.http import HttpResponse
 from urllib.parse import urlencode
 
-from main.generic_test_cases import GenericTestCase
+from main.generic_test_cases import SessionAuthGenericTestCase
 from feedback.models import Report
 
 
-class FeedbackGenericTestCase(GenericTestCase):
+class FeedbackGenericTestCase(SessionAuthGenericTestCase):
     def setUp(self) -> None:
-        self.setUpSessionAuth()
+        super().setUp()
         self.article = self.create_article()
 
     def post_report(self, data: dict) -> HttpResponse:

@@ -1,9 +1,9 @@
 from django.urls import reverse
 
-from main.generic_test_cases import GenericTestCase
+from main.generic_test_cases import SessionAuthGenericTestCase
 
 
-class AboutTests(GenericTestCase):
+class AboutTests(SessionAuthGenericTestCase):
     url = reverse("about")
 
     def test_about(self) -> None:

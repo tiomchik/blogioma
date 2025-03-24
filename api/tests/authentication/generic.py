@@ -1,10 +1,10 @@
 from django.urls import reverse
 from django.http import HttpResponse
 
-from main.generic_test_cases import GenericTestCase
+from main.generic_test_cases import APIGenericTestCase
 
 
-class AuthenticationGenericTestCase(GenericTestCase):
+class AuthenticationGenericTestCase(APIGenericTestCase):
     def set_and_refresh_social_links(self, data: dict) -> HttpResponse:
         url = reverse("edit-me")
         r = self.client.put(url, data, headers=self.auth_header)
