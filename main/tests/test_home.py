@@ -4,6 +4,10 @@ from main.generic_test_cases import GenericTestCase
 
 
 class HomeTests(GenericTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.article = self.create_article()
+
     url = reverse("home")
 
     def test_home(self) -> None:

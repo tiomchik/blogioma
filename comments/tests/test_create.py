@@ -2,10 +2,7 @@ from .generic import CommentGenericTestCase
 
 
 class CreateCommentTests(CommentGenericTestCase):
-    text = "nice article"
-
-    def setUp(self) -> None:
-        self.setUpSessionAuth()
+    text = "test_create"
 
     def test_create(self) -> None:
         self.post_comment(text=self.text)

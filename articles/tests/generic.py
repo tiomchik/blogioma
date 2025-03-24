@@ -9,6 +9,7 @@ from main.generic_test_cases import GenericTestCase
 class ArticleGenericTestCase(GenericTestCase):
     def setUp(self) -> None:
         self.setUpSessionAuth()
+        self.article = self.create_article()
 
     def post_article(self, data: dict) -> HttpResponse:
         url = reverse("add_article")

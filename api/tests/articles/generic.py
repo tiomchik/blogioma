@@ -5,6 +5,10 @@ from main.generic_test_cases import GenericTestCase
 
 
 class ArticleGenericTestCase(GenericTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.article = self.create_article()
+
     def assertResponseContainsArticle(
         self, r: HttpResponse, article_data: dict
     ) -> None:

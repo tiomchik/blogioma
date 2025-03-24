@@ -9,6 +9,7 @@ from feedback.models import Report
 class FeedbackGenericTestCase(GenericTestCase):
     def setUp(self) -> None:
         self.setUpSessionAuth()
+        self.article = self.create_article()
 
     def post_report(self, data: dict) -> HttpResponse:
         url = reverse("report", kwargs={"pk": self.article.pk})

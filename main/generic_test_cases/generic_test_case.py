@@ -6,7 +6,6 @@ from rest_framework.test import APITestCase
 
 from authentication.models import User
 from articles.models import Article
-from comments.models import Comment
 
 
 class GenericTestCase(APITestCase):
@@ -18,17 +17,10 @@ class GenericTestCase(APITestCase):
         self.token = self._obtain_token(**data)
         self.auth_header = {"Authorization": f"Token {self.token}"}
 
-        self.article = self.create_article()
-        self.comment = Comment.objects.create(
-            text="nice article", article=self.article, author=self.user
-        )
-
     def setUpSessionAuth(self) -> None:
         user_data = {"username": "test_user", "password": "12341234"}
         self.user = User.objects.create_user(**user_data)
         self.client.login(**user_data)
-
-        self.article = self.create_article()
 
     def _obtain_token(self, **user_data) -> str:
         token_url = reverse("obtain-token")
