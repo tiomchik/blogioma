@@ -1,20 +1,16 @@
-from django.urls import reverse
-
-from main.generic_test_cases import SessionAuthGenericTestCase
+from .generic import MainGenericTestCase
 
 
-class HomeTests(SessionAuthGenericTestCase):
+class HomeTests(MainGenericTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.article = self.create_article()
 
-    url = reverse("home")
-
     def test_home(self) -> None:
-        r = self.client.get(self.url)
+        r = self.get_home_page()
         self.assertContains(r, self.article.heading)
 
     def test_home_with_list_of_articles(self) -> None:
         articles = self.create_list_of_articles(5)
-        r = self.client.get(self.url)
+        r = self.get_home_page()
         self.assertResponseContainsArticles(r, articles)

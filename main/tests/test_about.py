@@ -1,11 +1,7 @@
-from django.urls import reverse
-
-from main.generic_test_cases import SessionAuthGenericTestCase
+from .generic import MainGenericTestCase
 
 
-class AboutTests(SessionAuthGenericTestCase):
-    url = reverse("about")
-
+class AboutTests(MainGenericTestCase):
     def test_about(self) -> None:
-        r = self.client.get(self.url)
+        r = self.get_about_page()
         self.assertContains(r, "About")
