@@ -122,7 +122,7 @@
 </div>
 
 <!-- If user is author of article -->
-{% if article.author == user_profile or request.user.is_staff %}
+{% if article.author == request.user or request.user.is_staff %}
 <!-- Danger zone -->
 <fieldset class="danger-zone">
   <legend>Danger zone</legend>

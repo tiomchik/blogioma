@@ -10,7 +10,7 @@ from main.context import get_base_context
 def profile_settings(request: HttpRequest, username: str) -> HttpResponse:
     user = get_object_or_404(User, username=username)
     context = get_base_context(
-        request, name=f"{username}'s profile settings",
+        name=f"{username}'s profile settings",
         profile=user
     )
     return render(request, "profile/settings.html", context)

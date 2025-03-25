@@ -7,5 +7,5 @@ from main.context import get_base_context
 
 @cache_page(60 * 600)
 def about(request: HttpRequest) -> HttpResponse:
-    context = get_base_context(request, "About site")
+    context = get_base_context("About site")
     return render(request, "main/about.html", context)
