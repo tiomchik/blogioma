@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 
 from articles.utils import get_article_by_pk
 from articles.models import Article
-from main.context import get_page_obj
+from main.paginator import get_page_obj
 from comments.models import Comment
 
 

@@ -2,7 +2,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
 from articles.utils import search_articles
-from main.context import get_page_obj
+from main.paginator import get_page_obj
 
 
 def search_results(request: HttpRequest, query: str) -> HttpResponse:
