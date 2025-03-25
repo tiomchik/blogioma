@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework import status
 
 from authentication.models import User
-from .generic_test_case import GenericTestCase
+from .generic import GenericTestCase
 
 
 class APIGenericTestCase(GenericTestCase):

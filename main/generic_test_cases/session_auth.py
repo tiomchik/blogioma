@@ -1,5 +1,5 @@
 from authentication.models import User
-from .generic_test_case import GenericTestCase
+from .generic import GenericTestCase
 
 
 class SessionAuthGenericTestCase(GenericTestCase):
