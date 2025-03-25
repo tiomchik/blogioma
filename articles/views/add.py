@@ -16,8 +16,7 @@ class AddArticle(DataMixin, LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["name"] = "Add Article"
-        # on_add_article_page for illumination of add article button
-        context["on_add_article_page"] = True
+        context["illuminate_add_article_button"] = True
         return context
 
     def form_valid(

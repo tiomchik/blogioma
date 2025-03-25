@@ -14,8 +14,7 @@ class Search(DataMixin, FormView):
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["name"] = "Search"
-        # on_search_page for illumination of search button
-        context["on_search_page"] = 1
+        context["illuminate_search_button"] = True
         return context
 
     def form_valid(

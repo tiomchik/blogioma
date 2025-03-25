@@ -13,7 +13,7 @@ def search_results(request: HttpRequest, query: str) -> HttpResponse:
 
     context = get_paginator_context(
         request, articles, f"Search results by query: \"{query}\"",
-        on_search_page=1
+        illuminate_search_button=True
     )
 
     return render(request, "search/search_results.html", context)
