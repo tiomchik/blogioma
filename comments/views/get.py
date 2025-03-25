@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 
 from articles.utils import get_article_by_pk
 from articles.models import Article
-from main.context import get_paginator_context
+from main.context import get_page_obj
 from comments.models import Comment
 
 
@@ -12,11 +12,11 @@ from comments.models import Comment
 def get_comments(request: HttpRequest, pk: int) -> HttpResponse:
     article = get_article_by_pk(pk)
     comments = get_comments_by_article(article)
-    context = get_paginator_context(
-        request, object_list=comments,
-        name=f"Comments to article \"{article.heading}\".",
-        article=article
-    )
+    context = {
+        "name": f"Comments to article \"{article.heading}\".",
+        "page_obj": get_page_obj(request, comments),
+        "article": article
+    }
     return render(request, "comments/comments.html", context)
 
 

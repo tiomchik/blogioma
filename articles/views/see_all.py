@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 
 from articles.utils import get_articles_ordered_by_field
-from main.context import get_paginator_context
+from main.context import get_page_obj
 
 order_by_options = {
     "latest": {"field": "-pub_date", "name": "Latest articles"},
@@ -20,6 +20,9 @@ def see_all(request: HttpRequest, order_by: str) -> HttpResponse:
 
     articles = get_articles_ordered_by_field(field)
 
-    context = get_paginator_context(request, articles, name)
+    context = {
+        "name": name,
+        "page_obj": get_page_obj(request, articles)
+    }
 
     return render(request, "articles/see_all.html", context)
