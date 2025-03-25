@@ -1,4 +1,5 @@
 from django import template
+from django.core.paginator import Page
 
 from articles.utils import get_articles_ordered_by_field
 
@@ -6,19 +7,13 @@ register = template.Library()
 
 
 @register.inclusion_tag("main/tags/for_articles.html")
-def show_articles(order_by: str = "-pub_date", only_6=None, page_obj=None):
-    context = {}
-    if page_obj:
-        context["articles_for"] = page_obj
-    else:
-        if only_6:
-            context["articles_for"] = get_articles_ordered_by_field(
-                order_by
-            )[:6]
-        else:
-            context["articles_for"] = get_articles_ordered_by_field(order_by)
+def show_page_obj_articles(page_obj: Page):
+    return {"articles_for": page_obj}
 
-    return context
+
+@register.inclusion_tag("main/tags/for_articles.html")
+def show_6_articles(order_by: str):
+    return {"articles_for": get_articles_ordered_by_field(order_by)[:6]}
 
 
 @register.inclusion_tag("main/tags/form.html")

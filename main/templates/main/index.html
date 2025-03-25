@@ -25,7 +25,7 @@
   </a>
 </div>
 
-{% show_articles order_by="-viewings" only_6=1 %}
+{% show_6_articles order_by="-viewings" %}
 {% endcache %}
 
 {% cache 30 latest_articles %}
@@ -49,7 +49,7 @@
   </a>
 </div>
 
-{% show_articles order_by="-pub_date" only_6=1 %}
+{% show_6_articles order_by="-pub_date" %}
 {% endcache %}
 
 {% endblock %}
