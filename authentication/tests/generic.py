@@ -3,13 +3,10 @@ from django.http import HttpResponse
 from django.urls import reverse
 from urllib.parse import urlencode
 
-from main.utils import GenericTestCase
+from main.generic_test_cases import SessionAuthGenericTestCase
 
 
-class AuthenticationGenericTestCase(GenericTestCase):
-    def setUp(self) -> None:
-        self.setUpSessionAuth()
-
+class AuthenticationGenericTestCase(SessionAuthGenericTestCase):
     def sign_up_user(self, form_data: dict) -> HttpResponse:
         url = reverse("sign_up")
         return self.client.post(

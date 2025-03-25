@@ -38,7 +38,7 @@
           <!-- Add article -->
           {% if request.user.is_authenticated %}
           <!-- If user on add article page -->
-          {% if on_add_article_page %}
+          {% if illuminate_add_article_button %}
           <li class="selected">
             <a href="{% url 'add_article' %}">
               <div class="wrapper">
@@ -85,7 +85,7 @@
           {% endif %} {% endif %}
           <!-- Search -->
           <!-- If on search page -->
-          {% if on_search_page %}
+          {% if illuminate_search_button %}
           <li class="selected">
             <a href="{% url 'search' %}">
               <div class="wrapper">
@@ -162,9 +162,9 @@
               <a href="{% url 'logout' %}">Log out </a>||<a
                 href="{% url 'profile' request.user.username %}"
               >
-                {{ request.user.username }} {% if user_profile.pfp %}
+                {{ request.user.username }} {% if request.user.pfp %}
                 <img
-                  src="{{ user_profile.pfp.url }}"
+                  src="{{ request.user.pfp.url }}"
                   alt="profile picture"
                   width="32"
                   height="28"

@@ -6,7 +6,7 @@ from django.views.generic.edit import UpdateView
 
 from authentication.forms.social_media_links import SocialMediaLinksForm
 from authentication.models import User
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class SocialMediaLinks(DataMixin, LoginRequiredMixin, UpdateView):
@@ -16,9 +16,8 @@ class SocialMediaLinks(DataMixin, LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Social media links")
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Social media links"
+        return context
 
     def get_object(self, queryset: QuerySet[Any] | None = ...) -> User:
         return self.request.user

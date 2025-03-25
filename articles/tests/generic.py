@@ -3,12 +3,13 @@ from django.urls import reverse
 from urllib.parse import urlencode
 
 from articles.models import Article
-from main.utils import GenericTestCase
+from main.generic_test_cases import SessionAuthGenericTestCase
 
 
-class ArticleGenericTestCase(GenericTestCase):
+class ArticleGenericTestCase(SessionAuthGenericTestCase):
     def setUp(self) -> None:
-        self.setUpSessionAuth()
+        super().setUp()
+        self.article = self.create_article()
 
     def post_article(self, data: dict) -> HttpResponse:
         url = reverse("add_article")

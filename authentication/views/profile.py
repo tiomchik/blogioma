@@ -4,16 +4,17 @@ from django.views.decorators.cache import cache_page
 
 from articles.models import Article
 from authentication.models import User
-from main.utils import get_paginator_context
+from main.paginator import get_page_obj
 
 
 @cache_page(30)
 def profile(request: HttpRequest, username: str) -> HttpResponse:
     articles = get_articles_by_authors_name(username)
-    context = get_paginator_context(
-        request, articles, f"{username}'s profile",
-        profile=get_object_or_404(User, username=username)
-    )
+    context = {
+        "name": f"{username}'s profile",
+        "profile": get_object_or_404(User, username=username),
+        "page_obj": get_page_obj(request, articles)
+    }
     return render(request, "profile/profile.html", context)
 
 

@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from articles.models import Article
 from articles.forms import AddArticleForm
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
@@ -17,8 +17,8 @@ class UpdateArticle(DataMixin, LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Update article")
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Update Article"
+        return context
 
     def form_valid(
         self, form: AddArticleForm

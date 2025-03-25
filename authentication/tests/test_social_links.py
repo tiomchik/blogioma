@@ -10,7 +10,7 @@ class SocialLinksTests(AuthenticationGenericTestCase):
     }
 
     def setUp(self) -> None:
-        self.setUpSessionAuth()
+        super().setUp()
         self.set_and_refresh_social_links(self.social_links)
 
     def test_read_social_links(self) -> None:

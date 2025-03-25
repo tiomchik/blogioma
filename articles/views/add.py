@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView
 
 from articles.models import Article
 from articles.forms import AddArticleForm
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class AddArticle(DataMixin, LoginRequiredMixin, CreateView):
@@ -15,10 +15,9 @@ class AddArticle(DataMixin, LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        # on_add_article_page for illumination of add article button
-        base = self.get_base_context("Add article", on_add_article_page=1)
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Add Article"
+        context["illuminate_add_article_button"] = True
+        return context
 
     def form_valid(
         self, form: AddArticleForm

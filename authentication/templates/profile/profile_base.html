@@ -28,7 +28,7 @@
         </a>
       </li>
 
-      {% if user_profile == profile %}
+      {% if request.user == profile %}
       <li>
         <a href="{% url 'profile_settings' profile.username %}">
           <div class="wrapper">

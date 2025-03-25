@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from authentication.forms.change_pfp import ChangePfpForm
 from authentication.models import User
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
@@ -18,9 +18,8 @@ class ChangePfp(DataMixin, LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Change profile picture")
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Change profile picture"
+        return context
 
     def form_valid(
         self, form: ChangePfpForm

@@ -1,5 +1,5 @@
 <div class="articles">
-  {% for article in articles_for %}
+  {% for article in articles %}
   <article>
     <h1>{{ article.heading|truncatechars:60 }}</h1>
     <p>{{ article.full_text|truncatechars:110 }}</p>

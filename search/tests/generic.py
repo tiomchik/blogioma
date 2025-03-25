@@ -2,12 +2,13 @@ from django.urls import reverse
 from django.http import HttpResponse
 from urllib.parse import urlencode
 
-from main.utils import GenericTestCase
+from main.generic_test_cases import SessionAuthGenericTestCase
 
 
-class SearchGenericTestCase(GenericTestCase):
+class SearchGenericTestCase(SessionAuthGenericTestCase):
     def setUp(self) -> None:
-        self.setUpSessionAuth()
+        super().setUp()
+        self.article = self.create_article()
 
     def search(self, query: str) -> HttpResponse:
         url = reverse("search")

@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 
 from authentication.forms.login import LoginForm
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class Login(DataMixin, FormView):
@@ -17,9 +17,8 @@ class Login(DataMixin, FormView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Log in")
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Log in"
+        return context
 
     def form_valid(
         self, form: LoginForm

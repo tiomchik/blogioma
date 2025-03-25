@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 
 from search.forms import SearchForm
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class Search(DataMixin, FormView):
@@ -13,10 +13,9 @@ class Search(DataMixin, FormView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        # on_search_page for illumination of search button
-        base = self.get_base_context("Search", on_search_page=1)
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Search"
+        context["illuminate_search_button"] = True
+        return context
 
     def form_valid(
         self, form: SearchForm

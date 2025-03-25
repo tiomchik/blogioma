@@ -8,7 +8,7 @@ from django.views.generic.edit import CreateView
 
 from authentication.forms.sign_up import SignUpForm
 from authentication.models import User
-from main.utils import DataMixin
+from main.mixins import DataMixin
 
 
 class SignUp(DataMixin, CreateView):
@@ -17,9 +17,8 @@ class SignUp(DataMixin, CreateView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Sign up")
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Sign up"
+        return context
 
     def form_valid(
         self, form: SignUpForm

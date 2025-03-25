@@ -3,15 +3,14 @@ from django.urls import reverse
 from urllib.parse import urlencode
 
 from comments.models import Comment
-from main.utils import GenericTestCase
+from main.generic_test_cases import SessionAuthGenericTestCase
 
 
-class CommentGenericTestCase(GenericTestCase):
+class CommentGenericTestCase(SessionAuthGenericTestCase):
     def setUp(self) -> None:
-        self.setUpSessionAuth()
-        self.comment = Comment.objects.create(
-            article=self.article, text="nice article", author=self.user
-        )
+        super().setUp()
+        self.article = self.create_article()
+        self.comment = self.create_comment(article=self.article)
 
     def post_comment(self, text: str) -> HttpResponse:
         data = urlencode({"text": text})

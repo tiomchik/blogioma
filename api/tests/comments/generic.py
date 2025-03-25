@@ -1,10 +1,15 @@
 from django.http import HttpResponse
 from django.urls import reverse
 
-from main.utils import GenericTestCase
+from main.generic_test_cases import APIGenericTestCase
 
 
-class CommentsGenericTestCase(GenericTestCase):
+class CommentsGenericTestCase(APIGenericTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.article = self.create_article()
+        self.comment = self.create_comment(article=self.article)
+
     def post_comment(self, text: str) -> HttpResponse:
         url = reverse("comment-list", kwargs={"article_pk": self.article.pk})
         data = {"text": text}

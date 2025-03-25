@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic.edit import CreateView
 
 from articles.models import Article
-from main.utils import DataMixin
+from main.mixins import DataMixin
 from feedback.forms.report import ReportForm
 from feedback.models import Report
 
@@ -17,9 +17,8 @@ class ReportArticle(DataMixin, LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Report on article")
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Report on article"
+        return context
 
     def form_valid(
         self, form: ReportForm

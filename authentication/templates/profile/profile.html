@@ -98,7 +98,7 @@
 
 <h1>User's articles:</h1>
 {% if page_obj %}
-{% show_articles page_obj=page_obj %}
+{% show_page_obj_articles page_obj=page_obj %}
 {% else %}
 <h2>This user doesn't have any published articles yet</h2>
 {% endif %}

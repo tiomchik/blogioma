@@ -1,10 +1,14 @@
 from django.http import HttpResponse
 from django.urls import reverse
 
-from main.utils import GenericTestCase
+from main.generic_test_cases import APIGenericTestCase
 
 
-class ArticleGenericTestCase(GenericTestCase):
+class ArticleGenericTestCase(APIGenericTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.article = self.create_article()
+
     def assertResponseContainsArticle(
         self, r: HttpResponse, article_data: dict
     ) -> None:
