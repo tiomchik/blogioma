@@ -1,12 +1,8 @@
 from typing import Any
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
-from django.views.decorators.cache import cache_page
 from django.views.generic.list import ListView
 
 from articles.models import Article
-from .mixins import DataMixin
-from .context import get_base_context
+from main.mixins import DataMixin
 
 
 class Home(DataMixin, ListView):
@@ -19,10 +15,3 @@ class Home(DataMixin, ListView):
         base = self.get_base_context("Home")
 
         return dict(list(context.items()) + list(base.items()))
-
-
-@cache_page(60 * 600)
-def about(request: HttpRequest) -> HttpResponse:
-    context = get_base_context(request, "About site")
-
-    return render(request, "main/about.html", context)
