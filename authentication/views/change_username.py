@@ -19,9 +19,8 @@ class ChangeUsername(DataMixin, LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Change username")
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Change username"
+        return context
 
     def form_valid(
         self, form: ChangeUsernameForm

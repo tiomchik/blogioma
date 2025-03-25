@@ -15,11 +15,9 @@ class Feedback(DataMixin, FormView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context(
-            "Feedback", email=settings.EMAIL_HOST_USER
-        )
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Feedback"
+        context["email"] = settings.EMAIL_HOST_USER
+        return context
 
     def form_valid(self, form: FeedbackForm) -> HttpResponse:
         if form.is_valid():

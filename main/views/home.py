@@ -12,6 +12,5 @@ class Home(DataMixin, ListView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Home")
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Home"
+        return context

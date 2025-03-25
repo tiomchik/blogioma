@@ -16,9 +16,8 @@ class AddComment(DataMixin, LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Add comment")
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Add comment"
+        return context
 
     def form_valid(
         self, form: AddCommentForm

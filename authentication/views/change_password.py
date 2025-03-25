@@ -18,9 +18,8 @@ class ChangePassword(DataMixin, LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Change password")
-
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Change password"
+        return context
 
     def form_valid(
         self, form: ChangePasswordForm

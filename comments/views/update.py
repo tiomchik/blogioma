@@ -19,8 +19,8 @@ class UpdateComment(DataMixin, LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        base = self.get_base_context("Update comment")
-        return dict(list(context.items()) + list(base.items()))
+        context["name"] = "Update comment"
+        return context
 
     def form_valid(
         self, form: AddCommentForm
