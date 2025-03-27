@@ -4,6 +4,7 @@ from rest_framework.authtoken import views
 from .router import router
 from .swagger import schema_view
 from .views.report import ReportArticle
+from .views.feedback import Feedback
 from .views.authentication import RegisterView, Me, Edit
 
 urlpatterns = [
@@ -18,6 +19,7 @@ urlpatterns = [
         "articles/<int:pk>/report/", ReportArticle.as_view(),
         name="report-article"
     ),
+    path("feedback/", Feedback.as_view(), name="feedback"),
 
     path(
         "docs/", schema_view.with_ui("swagger", cache_timeout=0),
