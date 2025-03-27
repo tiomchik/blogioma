@@ -6,6 +6,7 @@ from authentication.models import User
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    email = serializers.EmailField(required=False)
     youtube = serializers.CharField(allow_blank=True, required=False)
     tiktok = serializers.CharField(allow_blank=True, required=False)
     twitch = serializers.CharField(allow_blank=True, required=False)
