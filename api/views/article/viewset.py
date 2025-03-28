@@ -11,13 +11,15 @@ from . import (
     ListArticleMixin,
     RetrieveArticleMixin,
     UpdateArticleMixin,
-    RandomArticleView
+    RandomArticleView,
+    SearchArticlesView
 )
 
 
 class ArticleViewSet(
     CreateArticleMixin,
     ListArticleMixin,
+    SearchArticlesView,
     RetrieveArticleMixin,
     UpdateArticleMixin,
     RandomArticleView,

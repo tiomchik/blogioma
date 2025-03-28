@@ -24,7 +24,10 @@ class ReadArticleTests(ArticleGenericTestCase):
         self.assertResponseContainsArticle(r, self.article_data)
 
     def test_search(self) -> None:
-        url = reverse("article-list") + f"?q={self.article_data["heading"]}"
+        url = (
+            reverse("article-search-articles") + 
+            f"?q={self.article_data["heading"]}"
+        )
         r = self.client.get(url)
         self.assertResponseContainsArticle(r, self.article_data)
 
