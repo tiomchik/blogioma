@@ -18,6 +18,11 @@ class ReadArticleTests(ArticleGenericTestCase):
         r = self.client.get(url)
         self.assertResponseContainsArticle(r, self.article_data)
 
+    def test_read_ordered_list(self) -> None:
+        url = reverse("article-list") + "?order_by=-viewings"
+        r = self.client.get(url)
+        self.assertResponseContainsArticle(r, self.article_data)
+
     def test_read_detail(self) -> None:
         url = reverse("article-detail", kwargs={"pk": self.article.pk})
         r = self.client.get(url)
