@@ -19,7 +19,7 @@ urlpatterns = [
         "articles/<int:pk>/report/", ReportArticle.as_view(),
         name="report-article"
     ),
-    path("feedback/", Feedback.as_view(), name="feedback"),
+    path("feedback/", Feedback.as_view(), name="feedback-api"),
 
     path(
         "docs/", schema_view.with_ui("swagger", cache_timeout=0),
