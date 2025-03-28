@@ -12,7 +12,7 @@ class SearchArticlesView(ListAPIView):
         url_name="search-articles"
     )
     def get(self, request: Request) -> Response:
-        query = request.query_params.get("q")
+        query = request.query_params.get("q", "")
         queryset = search_articles(query)
 
         page = self.paginate_queryset(queryset)
