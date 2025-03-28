@@ -11,6 +11,7 @@ python = "^3.9"
 bleach = "6.0.0"
 django = "4.2.20"
 djangorestframework = "3.15.2"
+django-cors-headers = "4.7.0"
 drf-yasg = "1.21.7"
 django-filter = "23.2"
 django-markup = {version = "1.7.2", extras = ["all_filter_dependencies"]}
