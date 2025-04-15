@@ -1,0 +1,40 @@
+/* Site with icons used here: https://iconer.app/iconoir/ */
+@import "variables";
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: $background;
+  font-family: "Inter", serif;
+  color: $white;
+}
+
+.container {
+  max-width: 1310px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  img,
+  svg {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+main {
+  box-sizing: border-box;
+  min-height: 79.2vh;
+}
