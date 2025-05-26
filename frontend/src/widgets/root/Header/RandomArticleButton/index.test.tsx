@@ -1,6 +1,6 @@
 import { click, createRouterWithRootComponent, renderWithRouting } from "@/tests/utils";
 import { screen } from "@testing-library/react";
-import { expect, it, beforeEach } from "vitest";
+import { expect, test, beforeEach } from "vitest";
 import RandomArticleButton from "./";
 
 const router = createRouterWithRootComponent(<RandomArticleButton />);
@@ -9,7 +9,7 @@ beforeEach(() => {
   renderWithRouting(router);
 });
 
-it("random article button redirects to random article page", () => {
+test("random article button redirects to random article page", () => {
   const randomArticleButton = screen.getByRole("link");
   click(randomArticleButton);
   expect(router.history.location.pathname).toBe("/article/random");

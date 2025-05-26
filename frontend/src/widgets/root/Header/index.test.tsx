@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, test } from "vitest";
 import { RenderResult, screen } from "@testing-library/react";
 import {
   createRouterWithRootComponent,
@@ -17,7 +17,7 @@ describe("not authorized user", () => {
     renderResult = await renderWithRoutingAndAuth(router, null);
   });
 
-  it("add article button does not render", async () => {
+  test("add article button does not render", async () => {
     const addArticleButton = screen.queryByText("Add article");
     expect(addArticleButton).toBeNull();
   });
@@ -28,7 +28,7 @@ describe("authorized user", () => {
     renderResult = await renderWithRoutingAndAuth(router, user);
   });
 
-  it("add article button renders", () => {
+  test("add article button renders", () => {
     const addArticleButton = screen.getByText("Add article");
     expect(addArticleButton).toBeDefined();
   });

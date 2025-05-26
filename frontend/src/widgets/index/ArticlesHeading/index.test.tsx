@@ -3,7 +3,7 @@ import {
   createRouterWithRootComponent,
   renderWithRouting,
 } from "@/tests/utils";
-import { beforeEach, expect, it } from "vitest";
+import { beforeEach, expect, test } from "vitest";
 import { screen } from "@testing-library/react";
 import ArticlesHeading from ".";
 
@@ -17,12 +17,12 @@ beforeEach(() => {
   renderWithRouting(router);
 });
 
-it("shows text", () => {
+test("shows text", () => {
   const articlesHeading = screen.getByText(text);
   expect(articlesHeading).toBeDefined();
 });
 
-it("arrow button redirects to list of ordered articles", () => {
+test("arrow button redirects to list of ordered articles", () => {
   const arrowButton = screen.getByRole("link");
   click(arrowButton);
   expect(router.history.location.pathname).toBe(`/article/${orderBy}`);
