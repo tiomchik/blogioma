@@ -1,0 +1,58 @@
+@use "@/app/styles/variables" as *;
+
+.header {
+  border-bottom: 2px solid $gray;
+  margin-bottom: 45px;
+  padding: 15px 0;
+}
+
+.nav {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  @media screen and (width <= 850px) {
+    & {
+      flex-wrap: wrap;
+    }
+  }
+
+  li {
+    > a {
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid transparent;
+      padding: 0px 20px;
+
+      .wrapper {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+    }
+
+    &:last-child {
+      margin-left: auto;
+      text-align: right;
+
+      @media screen and (width <= 850px) {
+        & {
+          margin-left: 0;
+          text-align: left;
+        }
+      }
+    }
+  }
+}
+
+.selected {
+  border-bottom: 2px solid $accent !important;
+  color: $accent;
+
+  .wrapper svg {
+    stroke: $accent;
+  }
+}
