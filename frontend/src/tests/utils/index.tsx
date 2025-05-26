@@ -22,6 +22,16 @@ const click = async (button: HTMLElement) => {
   });
 };
 
+const renderWithRouting = async (
+  router: AnyRouter
+): Promise<RenderResult> => {
+  let renderResult!: RenderResult;
+  await act(async () => {
+    renderResult = render(<RouterProvider router={router} />);
+  });
+  return renderResult;
+};
+
 const renderWithRoutingAndAuth = async (
   router: AnyRouter,
   user: User | null = null
@@ -37,4 +47,4 @@ const renderWithRoutingAndAuth = async (
   return renderResult;
 };
 
-export { createRouterWithRootComponent, click, renderWithRoutingAndAuth };
+export { createRouterWithRootComponent, click, renderWithRouting, renderWithRoutingAndAuth };

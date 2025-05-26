@@ -1,13 +1,12 @@
 import { it, expect, beforeEach } from "vitest";
-import { act, render, screen } from "@testing-library/react";
-import { RouterProvider } from "@tanstack/react-router";
-import { click, createRouterWithRootComponent } from "@/tests/utils";
+import { act, screen } from "@testing-library/react";
+import { click, createRouterWithRootComponent, renderWithRouting } from "@/tests/utils";
 import AddArticleButton from "./";
 
 const router = createRouterWithRootComponent(<AddArticleButton />);
 
 beforeEach(() => {
-  render(<RouterProvider router={router} />);
+  renderWithRouting(router);
 });
 
 it("add article button redirects to add article page", async () => {

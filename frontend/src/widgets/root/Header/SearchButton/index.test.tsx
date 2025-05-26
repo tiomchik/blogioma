@@ -1,13 +1,12 @@
 import { beforeEach, expect, it } from "vitest";
-import { click, createRouterWithRootComponent } from "@/tests/utils";
-import { act, render, screen } from "@testing-library/react";
-import { RouterProvider } from "@tanstack/react-router";
+import { click, createRouterWithRootComponent, renderWithRouting } from "@/tests/utils";
+import { act, screen } from "@testing-library/react";
 import SearchButton from "./";
 
 const router = createRouterWithRootComponent(<SearchButton />);
 
 beforeEach(() => {
-  render(<RouterProvider router={router} />);
+  renderWithRouting(router);
 });
 
 it("search button redirects to search page", () => {
