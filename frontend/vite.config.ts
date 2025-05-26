@@ -1,7 +1,9 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
 import path from "path";
 import react from "@vitejs/plugin-react";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   plugins: [
@@ -11,10 +13,15 @@ export default defineConfig({
       routesDirectory: "src/app/routes",
     }),
     react(),
+    svgr(),
   ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
   },
 });
