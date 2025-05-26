@@ -1,5 +1,6 @@
 /* Site with icons used here: https://iconer.app/iconoir/ */
-@import "variables";
+@use "variables" as *;
+@use "typography";
 
 * {
   padding: 0;
@@ -17,7 +18,7 @@ html {
 
 body {
   background-color: $background;
-  font-family: "Inter", serif;
+  font-family: "Inter", sans-serif;
   color: $white;
 }
 

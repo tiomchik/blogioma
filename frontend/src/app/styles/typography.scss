@@ -1,0 +1,22 @@
+@use "./variables" as *;
+
+a {
+  color: $white;
+  text-decoration: none;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-VariableFont_opsz\,wght.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-Italic-VariableFont_opsz\,wght.ttf") format("truetype");
+  font-style: italic;
+}
