@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@/app/styles/index.scss";
 
 import { routeTree } from "./routeTree.gen";
+import { AuthContext } from "./app/contexts";
 
 const router = createRouter({ routeTree });
 
@@ -21,9 +22,11 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <AuthContext value={{ user: null }}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </AuthContext>
     </StrictMode>
   );
 }
