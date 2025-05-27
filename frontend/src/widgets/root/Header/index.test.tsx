@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from "vitest";
-import { RenderResult, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import {
   createRouterWithRootComponent,
   renderWithRoutingAndAuth,
@@ -10,11 +10,9 @@ const router = createRouterWithRootComponent(<Header />);
 
 const user = { username: "test_user" };
 
-let renderResult: RenderResult;
-
 describe("not authorized user", () => {
-  beforeEach(async () => {
-    renderResult = await renderWithRoutingAndAuth(router, null);
+  beforeEach(() => {
+    renderWithRoutingAndAuth(router, null);
   });
 
   test("add article button does not render", async () => {
@@ -24,8 +22,8 @@ describe("not authorized user", () => {
 });
 
 describe("authorized user", () => {
-  beforeEach(async () => {
-    renderResult = await renderWithRoutingAndAuth(router, user);
+  beforeEach(() => {
+    renderWithRoutingAndAuth(router, user);
   });
 
   test("add article button renders", () => {
