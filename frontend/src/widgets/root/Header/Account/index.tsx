@@ -1,19 +1,19 @@
 import React, { useContext } from "react";
 import { Link } from "@tanstack/react-router";
 import { AuthContext } from "@/app/contexts";
-import Pfp from "./Pfp";
+import Pfp from "@/shared/components/Pfp";
 import "./index.scss";
 
 const Account: React.FC = () => {
   const { user } = useContext(AuthContext);
 
-  if (user?.username) {
+  if (user) {
     return (
       <div className="account">
         <Link to="/auth/logout">Log out </Link> ||{" "}
         <Link to="/profile/$username" params={{ username: user?.username }} className="account-link">
           {user?.username}
-          <Pfp />
+          <Pfp pfp={user.pfp} />
         </Link>
       </div>
     );

@@ -1,16 +1,18 @@
-import { AuthContext } from "@/app/contexts";
+import React from "react";
+import { User } from "@/app/types";
 import ProfileIcon from "./profile.svg?react";
-import React, { useContext } from "react";
 import "./index.scss";
 
-const Pfp: React.FC = () => {
-  const { user } = useContext(AuthContext);
+type Props = {
+  pfp?: User["pfp"];
+};
 
-  if (user?.pfp) {
+const Pfp: React.FC<Props> = ({ pfp }) => {
+  if (pfp) {
     return (
       <div className="pfp-wrapper">
         <img
-          src={user.pfp}
+          src={pfp}
           className="pfp"
           alt="profile picture"
           title="profile picture"
