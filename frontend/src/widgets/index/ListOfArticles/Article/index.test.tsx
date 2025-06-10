@@ -62,6 +62,14 @@ describe("standard data", () => {
     const date = screen.getByText("Updated: March 28, 2025, 8:44 a.m.");
     expect(date).toBeDefined();
   });
+
+  test("link to the author redirects to his profile", () => {
+    const user = screen.getByText(article.author.username);
+    click(user);
+    expect(router.history.location.pathname).toBe(
+      `/profile/${article.author.username}`
+    );
+  });
 });
 
 describe("long data", () => {

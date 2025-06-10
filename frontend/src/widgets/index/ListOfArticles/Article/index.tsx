@@ -1,8 +1,9 @@
 import { Article as ArticleType } from "@/app/types";
-import { Pfp } from "@/shared/components";
+import { Button, Pfp } from "@/shared/components";
 import { Link } from "@tanstack/react-router";
 import React from "react";
 import { formatDate, truncateWithEllipsis } from "./utils";
+import "./index.scss";
 
 type Props = Omit<ArticleType, "viewings">;
 
@@ -17,7 +18,7 @@ const Article: React.FC<Props> = ({
   const date = new Date(update ? update : pub_date);
 
   return (
-    <div className="article">
+    <article className="article">
       <h1>{truncateWithEllipsis(heading, 60)}</h1>
       <p>{truncateWithEllipsis(full_text, 110)}</p>
 
@@ -33,9 +34,8 @@ const Article: React.FC<Props> = ({
         <Link
           to="/article/$pk"
           params={{ pk: id.toString() }}
-          className="button"
         >
-          <button type="button">Read</button>
+          <Button>Read</Button>
         </Link>
       </div>
 
@@ -44,7 +44,7 @@ const Article: React.FC<Props> = ({
       ) : (
         <p className="date">{"Published: " + formatDate(date)}</p>
       )}
-    </div>
+    </article>
   );
 };
 
