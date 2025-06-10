@@ -1,4 +1,4 @@
-export const truncateWithEllipsis = (text: string, length: number) => {
+export const truncateWithEllipsis = (text: string, length: number): string => {
   if (text.length > length) {
     return text.slice(0, length) + "...";
   } else {

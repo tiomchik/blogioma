@@ -3,7 +3,7 @@ import {
   createRouterWithRootComponent,
   renderWithRouting,
 } from "@/tests/utils";
-import Article from "./";
+import ArticleCard from "./";
 import { beforeEach, describe, expect, test } from "vitest";
 import { screen } from "@testing-library/react";
 
@@ -20,7 +20,7 @@ const article = {
 };
 
 describe("standard data", () => {
-  const router = createRouterWithRootComponent(<Article {...article} />);
+  const router = createRouterWithRootComponent(<ArticleCard {...article} />);
 
   beforeEach(() => {
     renderWithRouting(router);
@@ -56,7 +56,7 @@ describe("standard data", () => {
 
   test("displays date of update", async () => {
     const router = createRouterWithRootComponent(
-      <Article {...article} update="2025-03-28T05:44:13.389735Z" />
+      <ArticleCard {...article} update="2025-03-28T05:44:13.389735Z" />
     );
     await renderWithRouting(router);
     const date = screen.getByText("Updated: March 28, 2025, 8:44 a.m.");
@@ -83,7 +83,7 @@ describe("long data", () => {
     },
   };
 
-  const router = createRouterWithRootComponent(<Article {...longArticle} />);
+  const router = createRouterWithRootComponent(<ArticleCard {...longArticle} />);
 
   beforeEach(() => {
     renderWithRouting(router);

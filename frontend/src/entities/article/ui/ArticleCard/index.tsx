@@ -1,13 +1,13 @@
-import { Article as ArticleType } from "@/app/types";
+import { Article } from "@/app/types";
 import { Button, Pfp } from "@/shared/components";
 import { Link } from "@tanstack/react-router";
 import React from "react";
 import { formatDate, truncateWithEllipsis } from "./utils";
 import "./index.scss";
 
-type Props = Omit<ArticleType, "viewings">;
+type Props = Omit<Article, "viewings">;
 
-const Article: React.FC<Props> = ({
+const ArticleCard: React.FC<Props> = ({
   id,
   heading,
   full_text,
@@ -31,10 +31,7 @@ const Article: React.FC<Props> = ({
           <Pfp pfp={author.pfp} />
           {truncateWithEllipsis(author.username, 20)}
         </Link>
-        <Link
-          to="/article/$pk"
-          params={{ pk: id.toString() }}
-        >
+        <Link to="/article/$pk" params={{ pk: id.toString() }}>
           <Button>Read</Button>
         </Link>
       </div>
@@ -48,4 +45,4 @@ const Article: React.FC<Props> = ({
   );
 };
 
-export default Article;
+export default ArticleCard;

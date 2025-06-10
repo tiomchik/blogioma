@@ -1,6 +1,7 @@
 import React from "react";
-import Article from "./Article";
-import { Article as ArticleType } from "@/app/types";
+import { ArticleCard } from "@/entities/article/ui";
+import { loadArticlesOrderedByField } from "@/entities/article/api";
+import { Article } from "@/app/types";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import "./index.scss";
 
@@ -10,7 +11,7 @@ type Props = {
 };
 
 type Response = {
-  results: ArticleType[];
+  results: Article[];
 };
 
 const ListOfArticles: React.FC<Props> = ({ orderByField, amount }) => {
@@ -26,20 +27,10 @@ const ListOfArticles: React.FC<Props> = ({ orderByField, amount }) => {
   return (
     <div className="articles">
       {data?.results.map((article) => (
-        <Article {...article} key={article.id} />
+        <ArticleCard {...article} key={article.id} />
       ))}
     </div>
   );
-};
-
-const loadArticlesOrderedByField = async (
-  field: string,
-  amount?: number
-): Promise<Response> => {
-  const response = await fetch(
-    `http://127.0.0.1:8000/api/v1/articles/?order_by=${field}&page_size=${amount ? amount : ""}`
-  );
-  return response.json();
 };
 
 const generateErrorMessage = (error: Error): string => {
