@@ -26,11 +26,9 @@ const ListOfArticles: React.FC<Props> = ({ orderByField, amount }) => {
 
   return (
     <div className="articles">
-      <div className="container">
-        {data?.results.map((article) => (
-          <ArticleCard {...article} key={article.id} />
-        ))}
-      </div>
+      {data?.results.map((article) => (
+        <ArticleCard {...article} key={article.id} />
+      ))}
     </div>
   );
 };
