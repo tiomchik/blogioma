@@ -10,7 +10,7 @@ import ArticlesHeading from ".";
 const text = "articles heading";
 const orderBy = "viewings";
 const router = createRouterWithRootComponent(
-  <ArticlesHeading orderBy={orderBy}>{text}</ArticlesHeading>
+  <ArticlesHeading urlParamOrderBy={orderBy}>{text}</ArticlesHeading>
 );
 
 beforeEach(() => {
