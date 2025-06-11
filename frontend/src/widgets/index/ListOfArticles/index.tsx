@@ -16,7 +16,7 @@ type Response = {
 
 const ListOfArticles: React.FC<Props> = ({ orderByField, amount }) => {
   const { isLoading, data, error }: UseQueryResult<Response> = useQuery({
-    queryKey: ["articles"],
+    queryKey: ["articles", orderByField],
     queryFn: () => loadArticlesOrderedByField(orderByField, amount),
   });
 
