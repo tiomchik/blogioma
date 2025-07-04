@@ -7,7 +7,7 @@ import { test, beforeEach } from "vitest";
 import PasswordConfirmationInput, {
   PASSWORD_CONFIRMATION_FIELD_LABEL,
 } from "./";
-import { PasswordInput, PASSWORD_FIELD_LABEL } from "../";
+import { PasswordInput, PASSWORD_FIELD_LABEL } from "@/shared/components";
 import userEvent from "@testing-library/user-event";
 
 beforeEach(() => {

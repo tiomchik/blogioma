@@ -8,7 +8,7 @@ import {
   UsernameInput,
   EmailInput,
   PfpInput,
-} from "./inputs";
+} from "@/shared/components";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { ErrorMessage } from "@hookform/error-message";

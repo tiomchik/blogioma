@@ -11,7 +11,7 @@ import {
   PASSWORD_CONFIRMATION_FIELD_LABEL,
   PASSWORD_FIELD_LABEL,
   USERNAME_FIELD_LABEL,
-} from "./inputs";
+} from "@/shared/components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthContext } from "@/app/contexts";
 import { createUser } from "@/entities/user/api";
