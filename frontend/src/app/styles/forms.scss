@@ -1,0 +1,54 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+
+  p {
+    display: flex;
+    align-items: center;
+  }
+}
+
+input,
+textarea {
+  transition: all 0.1s linear;
+
+  &:focus {
+    outline: #21c2f8 solid 1px;
+    box-shadow: 1px 1px 5px #21c2f8;
+  }
+}
+
+.form-label {
+  width: 100px;
+  display: inline-block;
+}
+
+@media screen and (width <= 600px) {
+  .form-label {
+    width: 80px;
+  }
+}
+
+.form-input,
+select {
+  width: 230px;
+  height: 20px;
+}
+
+.form-textarea {
+  width: 500px;
+  height: 150px;
+}
+
+@media screen and (width <= 650px) {
+  .form-textarea {
+    width: 75vw;
+    height: 250px;
+  }
+}
+
+.form-err {
+  color: red;
+}
