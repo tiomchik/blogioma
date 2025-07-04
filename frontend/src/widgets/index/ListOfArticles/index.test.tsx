@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/react";
-import { beforeEach, afterEach, expect, test, vi } from "vitest";
+import { beforeEach, expect, test, vi } from "vitest";
 import {
   createRouterWithRootComponent,
   renderWithRouting,
@@ -45,10 +45,6 @@ const router = createRouterWithRootComponent(
 
 beforeEach(() => {
   renderWithRouting(router);
-});
-
-afterEach(() => {
-  vi.clearAllMocks();
 });
 
 vi.mock("@tanstack/react-query", async () => {

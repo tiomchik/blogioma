@@ -30,7 +30,7 @@ describe("not authorized user", () => {
 const user = { username: "test_user" };
 
 describe("authorized user", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
     renderWithRoutingAndAuth(router, user);
   });
 
