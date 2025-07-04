@@ -18,7 +18,11 @@ import { createUser } from "@/entities/user/api";
 import axios from "axios";
 
 vi.mock("@/entities/user/api", async () => {
+  const actual = await vi.importActual<typeof import("@/entities/user/api")>(
+    "@/entities/user/api"
+  );
   return {
+    ...actual,
     createUser: vi.fn(),
     obtainToken: vi.fn(() => "token"),
   };

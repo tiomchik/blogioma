@@ -34,4 +34,9 @@ const obtainToken = async (username: string, password: string) => {
   return response.data.token;
 };
 
-export { createUser, obtainToken };
+const setAuthToken = (token: string) => {
+  localStorage.setItem("token", token);
+  axios.defaults.headers.common["Authorization"] = `Token ${token}`;
+};
+
+export { createUser, obtainToken, setAuthToken };

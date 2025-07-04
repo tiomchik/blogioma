@@ -1,8 +1,8 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { ErrorResponse, FormInputs } from "./types";
 import { UseNavigateResult } from "@tanstack/react-router";
 import { UseFormSetError } from "react-hook-form";
-import { obtainToken } from "@/entities/user/api";
+import { obtainToken, setAuthToken } from "@/entities/user/api";
 
 export const createAndPopulateFormData = (data: FormInputs) => {
   const formData = new FormData();
@@ -28,11 +28,6 @@ export const handleOnSuccess = async (
   });
 
   navigate({ to: "/" });
-};
-
-const setAuthToken = (token: string) => {
-  localStorage.setItem("token", token);
-  axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 };
 
 export const setErrorsFromResponse = (
