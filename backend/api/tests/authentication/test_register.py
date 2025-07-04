@@ -31,3 +31,16 @@ class RegisterTests(AuthenticationGenericTestCase):
 
         self.assertEqual(r.status_code, status.HTTP_201_CREATED)
         self.assertIsNotNone(self.user.pfp)
+
+    def test_register_with_busy_email(self) -> None:
+        another_user_data = {
+            "username": "another_user",
+            "password": "12341234",
+            "email": "test@example.com"
+        }
+        self.register_user(**another_user_data)
+        self.user_data["email"] = another_user_data["email"]
+
+        r = self.register_user(**self.user_data)
+
+        self.assertEqual(r.json()["email"], ["This email is already busy"])
