@@ -1,6 +1,11 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { User } from "@/app/types";
 
-const AuthContext = createContext<{ user: User | null }>({ user: null });
+const AuthContext = createContext<{
+  currentUser: User | null;
+  setCurrentUser: CallableFunction;
+}>({ currentUser: null, setCurrentUser: () => {} });
 
-export { AuthContext };
+const useAuth = () => useContext(AuthContext);
+
+export { AuthContext, useAuth };

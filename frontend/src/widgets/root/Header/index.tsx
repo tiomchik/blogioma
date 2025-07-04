@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { AuthContext } from "@/app/contexts";
+import React from "react";
+import { useAuth } from "@/app/contexts";
 import Logo from "./Logo";
 import AddArticleButton from "./AddArticleButton";
 import SearchButton from "./SearchButton";
@@ -8,7 +8,7 @@ import Account from "./Account";
 import "./index.scss";
 
 const Header: React.FC = () => {
-  const { user } = useContext(AuthContext);
+  const { currentUser } = useAuth();
 
   return (
     <header className="header">
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
           <li>
             <Logo />
           </li>
-          {user && (
+          {currentUser && (
             <li>
               <AddArticleButton />
             </li>
