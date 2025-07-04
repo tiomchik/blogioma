@@ -1,5 +1,5 @@
 import axios from "axios";
-import { describe, expect, MockedFunction, test, vi } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { createUser, obtainToken } from "./";
 import { createDummyFile } from "@/tests/utils";
 
@@ -11,9 +11,7 @@ vi.mock("axios", () => {
   };
 });
 
-const mockedAxiosPost = vi.mocked(axios.post) as MockedFunction<
-  typeof axios.post
->;
+const mockedAxiosPost = vi.mocked(axios.post);
 
 describe("createUser", () => {
   test("axios.post was called with the correct arguments", async () => {
