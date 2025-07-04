@@ -1,32 +1,63 @@
 import { AuthContext } from "@/app/contexts";
-import {
-  AnyRouter,
-  RouterProvider,
-} from "@tanstack/react-router";
-import { act, render, RenderResult } from "@testing-library/react";
+import { AnyRouter, RouterProvider } from "@tanstack/react-router";
+import { act, render } from "@testing-library/react";
 import { User } from "@/app/types";
+import React, { ComponentType, JSX, PropsWithChildren } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
-const renderWithRouting = async (router: AnyRouter): Promise<RenderResult> => {
-  let renderResult!: RenderResult;
+type ProvidersWithProps = {
+  provider: ComponentType<any>;
+  props?: { [key: string]: any };
+}[];
+
+const renderWithProviders = async (
+  providers: ProvidersWithProps,
+  component?: JSX.Element
+): Promise<void> => {
+  const AllProviders: React.FC<PropsWithChildren> = ({ children }) =>
+    providers.reduceRight(
+      (acc, { provider: Provider, props }) => (
+        <Provider {...props}>{acc}</Provider>
+      ),
+      children
+    );
+
   await act(async () => {
-    renderResult = render(<RouterProvider router={router} />);
+    render(<AllProviders>{component}</AllProviders>);
   });
-  return renderResult;
+};
+
+const renderWithRouting = async (router: AnyRouter): Promise<void> => {
+  await act(async () => {
+    return render(<RouterProvider router={router} />);
+  });
 };
 
 const renderWithRoutingAndAuth = async (
   router: AnyRouter,
-  user: User | null = null
-): Promise<RenderResult> => {
-  let renderResult!: RenderResult;
+  user: User | null
+) => {
   await act(async () => {
-    renderResult = render(
-      <AuthContext value={{ user }}>
+    render(
+      <AuthContext value={{ currentUser: user, setCurrentUser: () => {} }}>
         <RouterProvider router={router} />
       </AuthContext>
     );
   });
-  return renderResult;
 };
 
-export { renderWithRouting, renderWithRoutingAndAuth };
+const renderInputWithFormProvider = (input: JSX.Element) => {
+  render(<FormProviderWrapper>{input}</FormProviderWrapper>);
+};
+
+const FormProviderWrapper: React.FC<PropsWithChildren> = ({ children }) => {
+  const methods = useForm({ mode: "onBlur" });
+  return <FormProvider {...methods}>{children}</FormProvider>;
+};
+
+export {
+  renderWithRouting,
+  renderWithRoutingAndAuth,
+  renderInputWithFormProvider,
+  renderWithProviders,
+};
