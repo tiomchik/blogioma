@@ -46,5 +46,6 @@ export {
   clickSubmitButton,
   pasteIntoFieldByLabelText,
   uploadDummyPfp,
+  createDummyFile,
   expectErrorMessage,
 };
