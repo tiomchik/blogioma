@@ -27,6 +27,12 @@ class UserSerializer(serializers.ModelSerializer):
     def validate_password(self, value: str) -> str:
         return make_password(value)
 
+    def validate_email(self, value: str) -> str:
+        lower_email = value.lower()
+        if User.objects.filter(email__iexact=lower_email).exists():
+            raise serializers.ValidationError("This email is already busy")
+        return lower_email
+
     class Meta:
         model = User
         fields = (
