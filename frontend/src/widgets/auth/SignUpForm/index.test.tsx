@@ -35,9 +35,18 @@ vi.mock("./utils", async () => {
   };
 });
 
-const mockedSetCurrentUser = vi.fn();
+vi.mock("@tanstack/react-router", async () => {
+  const actual = await vi.importActual("@tanstack/react-router");
+  return {
+    ...actual,
+    useNavigate: vi.fn(() => mockedNavigate),
+  };
+});
+
 const mockedCreateUser = vi.mocked(createUser);
 const mockedHandleOnSuccess = vi.mocked(handleOnSuccess);
+const mockedNavigate = vi.fn();
+const mockedSetCurrentUser = vi.fn();
 
 const userData = {
   username: "username",
@@ -86,7 +95,7 @@ test("successful registration flow", async () => {
   expect(data.pfp instanceof FileList).toBe(true);
 
   expect(args[1]).toBe(mockedSetCurrentUser);
-  expect(typeof args[2]).toBe("function");
+  expect(args[2]).toBe(mockedNavigate);
 });
 
 test("error from the server was displayed", async () => {
