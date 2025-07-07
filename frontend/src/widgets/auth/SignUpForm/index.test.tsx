@@ -1,8 +1,9 @@
 import { beforeEach, expect, test, vi } from "vitest";
 import SignUpForm from "./";
-import { createAndPopulateFormData } from "./utils";
+import { createAndPopulateFormData, handleOnSuccess } from "./utils";
 import {
   clickSubmitButton,
+  createRouterWithRootComponent,
   expectErrorMessage,
   pasteIntoFieldByLabelText,
   renderWithProviders,
@@ -15,12 +16,10 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthContext } from "@/app/contexts";
 import { createUser } from "@/entities/user/api";
-import axios from "axios";
+import { RouterProvider } from "@tanstack/react-router";
 
 vi.mock("@/entities/user/api", async () => {
-  const actual = await vi.importActual<typeof import("@/entities/user/api")>(
-    "@/entities/user/api"
-  );
+  const actual = await vi.importActual("@/entities/user/api");
   return {
     ...actual,
     createUser: vi.fn(),
@@ -28,17 +27,17 @@ vi.mock("@/entities/user/api", async () => {
   };
 });
 
-vi.mock("@tanstack/react-router", async () => {
-  const actual = await vi.importActual("@tanstack/react-router");
+vi.mock("./utils", async () => {
+  const actual = await vi.importActual("./utils");
   return {
     ...actual,
-    useNavigate: vi.fn(() => mockedNavigate),
+    handleOnSuccess: vi.fn(),
   };
 });
 
-const mockedNavigate = vi.fn();
 const mockedSetCurrentUser = vi.fn();
 const mockedCreateUser = vi.mocked(createUser);
+const mockedHandleOnSuccess = vi.mocked(handleOnSuccess);
 
 const userData = {
   username: "username",
@@ -47,32 +46,47 @@ const userData = {
 };
 
 beforeEach(async () => {
-  await renderWithProviders(
-    [
-      {
-        provider: AuthContext,
-        props: { value: { setCurrentUser: mockedSetCurrentUser } },
-      },
-      {
-        provider: QueryClientProvider,
-        props: { client: new QueryClient() },
-      },
-    ],
-    <SignUpForm />
+  await renderWithProviders([
+    {
+      provider: AuthContext,
+      props: { value: { setCurrentUser: mockedSetCurrentUser } },
+    },
+    {
+      provider: QueryClientProvider,
+      props: { client: new QueryClient() },
+    },
+    {
+      provider: RouterProvider,
+      props: { router: createRouterWithRootComponent(<SignUpForm />) },
+    },
+  ]);
+
+  pasteIntoFieldByLabelText(USERNAME_FIELD_LABEL, userData.username);
+  pasteIntoFieldByLabelText(PASSWORD_FIELD_LABEL, userData.password);
+  pasteIntoFieldByLabelText(
+    PASSWORD_CONFIRMATION_FIELD_LABEL,
+    userData.password1
   );
-  pasteUserDataIntoForm(userData);
 });
 
 test("successful registration flow", async () => {
   await clickSubmitButton();
   const formData = createAndPopulateFormData(userData);
   expect(mockedCreateUser).toHaveBeenCalledWith(formData);
-  expect(axios.defaults.headers.common["Authorization"]).toEqual("Token token");
-  expect(mockedSetCurrentUser).toHaveBeenCalledWith({
-    username: userData.username,
-    pfp: null,
-  });
-  expect(mockedNavigate).toHaveBeenCalledWith({ to: "/" });
+
+  // We are not using expect.toHaveBeenCalledWith here, because we need to
+  // check that the pfp in the `data` argument is any instance of FileList,
+  // which is not achievable by calling this function.
+  const args = mockedHandleOnSuccess.mock.calls[0];
+
+  const data = args[0];
+  expect(data.email).toBe("");
+  expect(data.password).toBe(userData.password);
+  expect(data.username).toBe(userData.username);
+  expect(data.pfp instanceof FileList).toBe(true);
+
+  expect(args[1]).toBe(mockedSetCurrentUser);
+  expect(typeof args[2]).toBe("function");
 });
 
 test("error from the server was displayed", async () => {
@@ -85,16 +99,3 @@ test("error from the server was displayed", async () => {
   expectErrorMessage(/error from the server/);
   expect(mockedSetCurrentUser).not.toHaveBeenCalled();
 });
-
-const pasteUserDataIntoForm = (userData: {
-  username: string;
-  password: string;
-  password1: string;
-}) => {
-  pasteIntoFieldByLabelText(USERNAME_FIELD_LABEL, userData.username);
-  pasteIntoFieldByLabelText(PASSWORD_FIELD_LABEL, userData.password);
-  pasteIntoFieldByLabelText(
-    PASSWORD_CONFIRMATION_FIELD_LABEL,
-    userData.password1
-  );
-};
