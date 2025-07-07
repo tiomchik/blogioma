@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import {
   createAndPopulateFormData,
-  handleOnSuccess,
+  authenticateAndRedirectToHome,
   setErrorsFromResponse,
 } from "./utils";
 import { setAuthToken } from "@/entities/user/api";
@@ -53,7 +53,7 @@ describe("handleOnSuccess", () => {
   test("all functions were called correctly", async () => {
     const mockedSetCurrentUser = vi.fn();
     const mockedNavigate = vi.fn();
-    await handleOnSuccess(data, mockedSetCurrentUser, mockedNavigate);
+    await authenticateAndRedirectToHome(data, mockedSetCurrentUser, mockedNavigate);
     expect(mockedSetAuthToken).toHaveBeenCalledWith("token");
     expect(mockedSetCurrentUser).toHaveBeenCalledWith({
       username: data.username,

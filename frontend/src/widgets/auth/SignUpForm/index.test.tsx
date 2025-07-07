@@ -1,6 +1,9 @@
 import { beforeEach, expect, test, vi } from "vitest";
 import SignUpForm from "./";
-import { createAndPopulateFormData, handleOnSuccess } from "./utils";
+import {
+  createAndPopulateFormData,
+  authenticateAndRedirectToHome,
+} from "./utils";
 import {
   clickSubmitButton,
   createRouterWithRootComponent,
@@ -31,7 +34,7 @@ vi.mock("./utils", async () => {
   const actual = await vi.importActual("./utils");
   return {
     ...actual,
-    handleOnSuccess: vi.fn(),
+    authenticateAndRedirectToHome: vi.fn(),
   };
 });
 
@@ -44,7 +47,9 @@ vi.mock("@tanstack/react-router", async () => {
 });
 
 const mockedCreateUser = vi.mocked(createUser);
-const mockedHandleOnSuccess = vi.mocked(handleOnSuccess);
+const mockedAuthenticateAndRedirectToHome = vi.mocked(
+  authenticateAndRedirectToHome
+);
 const mockedNavigate = vi.fn();
 const mockedSetCurrentUser = vi.fn();
 
@@ -86,7 +91,7 @@ test("successful registration flow", async () => {
   // We are not using expect.toHaveBeenCalledWith here, because we need to
   // check that the pfp in the `data` argument is any instance of FileList,
   // which is not achievable by calling this function.
-  const args = mockedHandleOnSuccess.mock.calls[0];
+  const args = mockedAuthenticateAndRedirectToHome.mock.calls[0];
 
   const data = args[0];
   expect(data.email).toBe("");

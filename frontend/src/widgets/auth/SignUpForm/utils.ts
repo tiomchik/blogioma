@@ -14,17 +14,24 @@ export const createAndPopulateFormData = (data: FormInputs) => {
   return formData;
 };
 
-export const handleOnSuccess = async (
-  data: FormInputs,
+type UserData = {
+  username: string;
+  password: string;
+  pfp?: FileList | null;
+  email?: string | null;
+};
+
+export const authenticateAndRedirectToHome = async (
+  userData: UserData,
   setCurrentUser: CallableFunction,
   navigate: UseNavigateResult<string>
 ) => {
-  const token = await obtainToken(data.username, data.password);
+  const token = await obtainToken(userData.username, userData.password);
   setAuthToken(token);
 
   setCurrentUser({
-    username: data.username,
-    pfp: data.pfp?.item(0),
+    username: userData.username,
+    pfp: userData.pfp?.item(0),
   });
 
   navigate({ to: "/" });

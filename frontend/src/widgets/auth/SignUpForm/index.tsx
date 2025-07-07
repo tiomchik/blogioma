@@ -17,7 +17,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { FormInputs } from "./types";
 import {
   createAndPopulateFormData,
-  handleOnSuccess,
+  authenticateAndRedirectToHome,
   setErrorsFromResponse,
 } from "./utils";
 
@@ -33,7 +33,7 @@ const SignUpForm: React.FC = () => {
     const formData = createAndPopulateFormData(data);
 
     mutation.mutate(formData, {
-      onSuccess: () => handleOnSuccess(data, setCurrentUser, navigate),
+      onSuccess: () => authenticateAndRedirectToHome(data, setCurrentUser, navigate),
       onError: (error) => setErrorsFromResponse(error, methods.setError),
     });
   };
