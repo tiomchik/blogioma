@@ -33,13 +33,24 @@ const renderWithRouting = async (router: AnyRouter): Promise<void> => {
   });
 };
 
+type AuthContextProps = {
+  currentUser?: User | null;
+  setCurrentUser?: CallableFunction;
+};
+
 const renderWithRoutingAndAuth = async (
   router: AnyRouter,
-  user: User | null
+  authContextProps: AuthContextProps
 ) => {
+  const { currentUser, setCurrentUser } = authContextProps;
   await act(async () => {
     render(
-      <AuthContext value={{ currentUser: user, setCurrentUser: () => {} }}>
+      <AuthContext
+        value={{
+          currentUser: currentUser || null,
+          setCurrentUser: setCurrentUser || (() => {}),
+        }}
+      >
         <RouterProvider router={router} />
       </AuthContext>
     );

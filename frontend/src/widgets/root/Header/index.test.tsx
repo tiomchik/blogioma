@@ -12,7 +12,7 @@ const user = { username: "test_user" };
 
 describe("not authorized user", () => {
   beforeEach(() => {
-    renderWithRoutingAndAuth(router, null);
+    renderWithRoutingAndAuth(router, { currentUser: null });
   });
 
   test("add article button does not render", async () => {
@@ -23,7 +23,7 @@ describe("not authorized user", () => {
 
 describe("authorized user", () => {
   beforeEach(() => {
-    renderWithRoutingAndAuth(router, user);
+    renderWithRoutingAndAuth(router, { currentUser: user });
   });
 
   test("add article button renders", () => {

@@ -11,7 +11,7 @@ const router = createRouterWithRootComponent(<Account />);
 
 describe("not authorized user", () => {
   beforeEach(() => {
-    renderWithRoutingAndAuth(router, null);
+    renderWithRoutingAndAuth(router, { currentUser: null });
   });
 
   test("sign up button redirects to sign up page", async () => {
@@ -31,7 +31,7 @@ const user = { username: "test_user" };
 
 describe("authorized user", () => {
   beforeEach(() => {
-    renderWithRoutingAndAuth(router, user);
+    renderWithRoutingAndAuth(router, { currentUser: user });
   });
 
   test("displays user data", () => {
