@@ -1,12 +1,17 @@
 import axios from "axios";
 import { describe, expect, test, vi } from "vitest";
-import { createUser, obtainToken } from "./";
+import { createUser, obtainToken, setAuthToken } from "./";
 import { createDummyFile } from "@/tests/utils";
 
 vi.mock("axios", () => {
   return {
     default: {
       post: vi.fn(),
+      defaults: {
+        headers: {
+          common: {},
+        },
+      }
     },
   };
 });
@@ -35,6 +40,17 @@ describe("obtainToken", () => {
     expect(mockedAxiosPost).toHaveBeenCalledWith(
       `${import.meta.env.VITE_API_URL}/auth/obtain-token/`,
       { username: "username", password: "password" }
+    );
+  });
+});
+
+describe("setAuthToken", () => {
+  test("auth token has been set", () => {
+    const token = "token";
+    setAuthToken(token);
+    expect(localStorage.getItem("token")).toBe(token);
+    expect(axios.defaults.headers.common["Authorization"]).toBe(
+      `Token ${token}`
     );
   });
 });
