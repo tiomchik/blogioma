@@ -1,4 +1,4 @@
-import { FormInputs } from "./types";
+import { FormInputs } from "./";
 
 export const createAndPopulateFormData = (data: FormInputs) => {
   const formData = new FormData();

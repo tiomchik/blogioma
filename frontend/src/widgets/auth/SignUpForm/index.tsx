@@ -15,9 +15,16 @@ import { AxiosError, AxiosResponse } from "axios";
 import { ErrorMessage } from "@hookform/error-message";
 import { createUser } from "@/entities/user/api";
 import { useNavigate } from "@tanstack/react-router";
-import { FormInputs } from "./types";
 import { createAndPopulateFormData } from "./utils";
 import { authenticateAndRedirectToHome } from "@/entities/user/api";
+
+export type FormInputs = {
+  username: string;
+  password: string;
+  password1: string;
+  pfp?: FileList;
+  email?: string;
+};
 
 const SignUpForm: React.FC = () => {
   const mutation = useMutation<AxiosResponse, AxiosError, FormData>({
