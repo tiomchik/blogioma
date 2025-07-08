@@ -1,6 +1,5 @@
 import { beforeEach, expect, test, vi } from "vitest";
-import SignUpForm from "./";
-import { createAndPopulateFormData } from "./utils";
+import SignUpForm, { createAndPopulateFormData } from "./";
 import { authenticateAndRedirectToHome } from "@/entities/user/api";
 import {
   clickSubmitButton,

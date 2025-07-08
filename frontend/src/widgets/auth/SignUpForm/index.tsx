@@ -15,10 +15,9 @@ import { AxiosError, AxiosResponse } from "axios";
 import { ErrorMessage } from "@hookform/error-message";
 import { createUser } from "@/entities/user/api";
 import { useNavigate } from "@tanstack/react-router";
-import { createAndPopulateFormData } from "./utils";
 import { authenticateAndRedirectToHome } from "@/entities/user/api";
 
-export type FormInputs = {
+type FormInputs = {
   username: string;
   password: string;
   password1: string;
@@ -66,6 +65,16 @@ const SignUpForm: React.FC = () => {
       </form>
     </FormProvider>
   );
+};
+
+export const createAndPopulateFormData = (data: FormInputs) => {
+  const formData = new FormData();
+  formData.append("username", data.username);
+  formData.append("password", data.password);
+  formData.append("password1", data.password1);
+  if (data.pfp?.item(0)) formData.append("pfp", data.pfp[0]);
+  if (data.email) formData.append("email", data.email);
+  return formData;
 };
 
 export default SignUpForm;
