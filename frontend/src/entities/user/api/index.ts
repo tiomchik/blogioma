@@ -1,5 +1,8 @@
 import { UseNavigateResult } from "@tanstack/react-router";
 import axios from "axios";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 type CreateUserResponse = {
   id: number;
@@ -57,7 +60,7 @@ const obtainToken = async (username: string, password: string) => {
 };
 
 const setAuthToken = (token: string) => {
-  localStorage.setItem("token", token);
+  cookies.set("token", token, { path: "/" });
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 };
 

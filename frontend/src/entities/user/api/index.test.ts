@@ -7,6 +7,9 @@ import {
   setAuthToken,
 } from "./";
 import { createDummyFile } from "@/tests/utils";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 vi.mock("axios", () => {
   return {
@@ -48,7 +51,7 @@ describe("setAuthToken", () => {
   test("auth token has been set", () => {
     const token = "token";
     setAuthToken(token);
-    expect(localStorage.getItem("token")).toBe(token);
+    expect(cookies.get("token")).toBe(token);
     expect(axios.defaults.headers.common["Authorization"]).toBe(
       `Token ${token}`
     );
