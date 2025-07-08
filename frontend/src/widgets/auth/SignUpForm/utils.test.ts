@@ -53,7 +53,11 @@ describe("handleOnSuccess", () => {
   test("all functions were called correctly", async () => {
     const mockedSetCurrentUser = vi.fn();
     const mockedNavigate = vi.fn();
-    await authenticateAndRedirectToHome(data, mockedSetCurrentUser, mockedNavigate);
+    await authenticateAndRedirectToHome(
+      data,
+      mockedSetCurrentUser,
+      mockedNavigate
+    );
     expect(mockedSetAuthToken).toHaveBeenCalledWith("token");
     expect(mockedSetCurrentUser).toHaveBeenCalledWith({
       username: data.username,
@@ -68,11 +72,11 @@ describe("setErrorsFromResponse", () => {
 
   test("sets field errors correctly", () => {
     const error = {
-      request: {
-        response: JSON.stringify({
+      response: {
+        data: {
           username: ["This field is required."],
           password: ["This field is required."],
-        }),
+        },
       },
     } as AxiosError;
 
@@ -88,9 +92,7 @@ describe("setErrorsFromResponse", () => {
 
   test("sets server error correctly", () => {
     const error = {
-      request: {
-        response: JSON.stringify({ detail: "error from the server" }),
-      },
+      response: { data: { detail: "error from the server" } },
     } as AxiosError;
     setErrorsFromResponse(error, mockedSetError);
     expect(mockedSetError).toHaveBeenCalledWith("root", {

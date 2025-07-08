@@ -105,9 +105,7 @@ test("successful registration flow", async () => {
 
 test("error from the server was displayed", async () => {
   mockedCreateUser.mockRejectedValueOnce({
-    request: {
-      response: JSON.stringify({ detail: "error from the server" }),
-    },
+    response: { data: { detail: "error from the server" } },
   });
   await clickSubmitButton();
   expectErrorMessage(/error from the server/);

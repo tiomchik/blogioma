@@ -41,7 +41,7 @@ export const setErrorsFromResponse = (
   error: AxiosError,
   setError: UseFormSetError<FormInputs>
 ) => {
-  const response: ErrorResponse = JSON.parse(error.request.response);
+  const response = error.response?.data as ErrorResponse;
   const fields = Object.keys(response);
 
   for (let i = 0; i < fields.length; i++) {
