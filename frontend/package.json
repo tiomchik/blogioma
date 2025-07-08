@@ -41,6 +41,7 @@
     "playwright": "^1.53.2",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
+    "universal-cookie": "^8.0.1",
     "vite": "^6.2.0",
     "vite-plugin-svgr": "^4.3.0",
     "vitest": "^3.2.4"
