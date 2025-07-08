@@ -99,4 +99,13 @@ describe("setErrorsFromResponse", () => {
       message: "error from the server",
     });
   });
+
+  test("sets array of server errors correctly", () => {
+    const error = {
+      response: { data: { detail: ["error1", "error2"] } },
+    } as AxiosError;
+    setErrorsFromResponse(error, mockedSetError);
+    expect(mockedSetError).toHaveBeenCalledWith("root", { message: "error1" });
+    expect(mockedSetError).toHaveBeenCalledWith("root", { message: "error2" });
+  });
 });

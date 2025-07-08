@@ -7,7 +7,11 @@ export type FormInputs = {
 };
 
 export type ErrorResponse = {
-  [field in "username" | "password" | "password1" | "pfp" | "email"]:
-    | string[]
-    | string;
+  [field in
+    | "username"
+    | "password"
+    | "password1"
+    | "pfp"
+    | "email"
+    | "detail"]: string[] | string;
 };

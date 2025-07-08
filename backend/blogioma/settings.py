@@ -186,6 +186,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ],
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
+    "NON_FIELD_ERRORS_KEY": "detail",
 }
 
 if "test" in sys.argv:

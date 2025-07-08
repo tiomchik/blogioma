@@ -45,16 +45,30 @@ export const setErrorsFromResponse = (
   const fields = Object.keys(response);
 
   for (let i = 0; i < fields.length; i++) {
-    const field = fields[i] as keyof FormInputs;
+    const field = fields[i] as keyof ErrorResponse;
     const errors = response[field];
 
-    // If the errors is a string,
-    // then this is one general error message from the server.
-    // E.g. {"detail": "Method 'GET' not allowed."}
-    if (typeof errors === "string") {
+    if (isGeneralServerError(errors)) {
       setError("root", { message: errors });
-    } else {
+    } else if (isArrayOfServerErrors(field, errors)) {
+      errors.forEach((errorMsg) => setError("root", { message: errorMsg }));
+    } else if (isFieldErrors(field)) {
       errors.forEach((errorMsg) => setError(field, { message: errorMsg }));
     }
   }
+};
+
+const isGeneralServerError = (errors: string | string[]) => {
+  return typeof errors === "string";
+};
+
+const isArrayOfServerErrors = (
+  field: keyof ErrorResponse,
+  errors: string | string[]
+) => {
+  return field === "detail" && Array.isArray(errors);
+};
+
+const isFieldErrors = (field: keyof ErrorResponse) => {
+  return field !== "detail";
 };
