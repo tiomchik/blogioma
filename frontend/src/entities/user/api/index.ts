@@ -1,3 +1,4 @@
+import { UseNavigateResult } from "@tanstack/react-router";
 import axios from "axios";
 
 type CreateUserResponse = {
@@ -22,9 +23,30 @@ const createUser = async (userData: FormData) => {
   return response;
 };
 
-type ObtainTokenResponse = {
-  token: string;
+type UserData = {
+  username: string;
+  password: string;
+  pfp?: FileList | null;
+  email?: string | null;
 };
+
+const authenticateAndRedirectToHome = async (
+  userData: UserData,
+  setCurrentUser: CallableFunction,
+  navigate: UseNavigateResult<string>
+) => {
+  const token = await obtainToken(userData.username, userData.password);
+  setAuthToken(token);
+
+  setCurrentUser({
+    username: userData.username,
+    pfp: userData.pfp?.item(0),
+  });
+
+  navigate({ to: "/" });
+};
+
+type ObtainTokenResponse = { token: string };
 
 const obtainToken = async (username: string, password: string) => {
   const response = await axios.post<ObtainTokenResponse>(
@@ -39,4 +61,4 @@ const setAuthToken = (token: string) => {
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 };
 
-export { createUser, obtainToken, setAuthToken };
+export { createUser, obtainToken, setAuthToken, authenticateAndRedirectToHome };

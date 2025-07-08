@@ -1,8 +1,6 @@
 import { AxiosError } from "axios";
 import { ErrorResponse, FormInputs } from "./types";
-import { UseNavigateResult } from "@tanstack/react-router";
 import { UseFormSetError } from "react-hook-form";
-import { obtainToken, setAuthToken } from "@/entities/user/api";
 
 export const createAndPopulateFormData = (data: FormInputs) => {
   const formData = new FormData();
@@ -12,29 +10,6 @@ export const createAndPopulateFormData = (data: FormInputs) => {
   if (data.pfp?.item(0)) formData.append("pfp", data.pfp[0]);
   if (data.email) formData.append("email", data.email);
   return formData;
-};
-
-type UserData = {
-  username: string;
-  password: string;
-  pfp?: FileList | null;
-  email?: string | null;
-};
-
-export const authenticateAndRedirectToHome = async (
-  userData: UserData,
-  setCurrentUser: CallableFunction,
-  navigate: UseNavigateResult<string>
-) => {
-  const token = await obtainToken(userData.username, userData.password);
-  setAuthToken(token);
-
-  setCurrentUser({
-    username: userData.username,
-    pfp: userData.pfp?.item(0),
-  });
-
-  navigate({ to: "/" });
 };
 
 export const setErrorsFromResponse = (

@@ -17,9 +17,9 @@ import { useNavigate } from "@tanstack/react-router";
 import { FormInputs } from "./types";
 import {
   createAndPopulateFormData,
-  authenticateAndRedirectToHome,
   setErrorsFromResponse,
 } from "./utils";
+import { authenticateAndRedirectToHome } from "@/entities/user/api";
 
 const SignUpForm: React.FC = () => {
   const mutation = useMutation<AxiosResponse, AxiosError, FormData>({

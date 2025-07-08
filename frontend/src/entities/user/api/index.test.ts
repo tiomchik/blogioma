@@ -1,17 +1,18 @@
 import axios from "axios";
 import { describe, expect, test, vi } from "vitest";
-import { createUser, obtainToken, setAuthToken } from "./";
+import {
+  authenticateAndRedirectToHome,
+  createUser,
+  obtainToken,
+  setAuthToken,
+} from "./";
 import { createDummyFile } from "@/tests/utils";
 
 vi.mock("axios", () => {
   return {
     default: {
-      post: vi.fn(),
-      defaults: {
-        headers: {
-          common: {},
-        },
-      }
+      post: vi.fn(() => ({ data: { token: "token" } })),
+      defaults: { headers: { common: {} } },
     },
   };
 });
@@ -35,7 +36,6 @@ describe("createUser", () => {
 
 describe("obtainToken", () => {
   test("axios.post was called with the correct arguments", async () => {
-    mockedAxiosPost.mockResolvedValueOnce({ data: { token: "token" } });
     await obtainToken("username", "password");
     expect(mockedAxiosPost).toHaveBeenCalledWith(
       `${import.meta.env.VITE_API_URL}/auth/obtain-token/`,
@@ -52,5 +52,31 @@ describe("setAuthToken", () => {
     expect(axios.defaults.headers.common["Authorization"]).toBe(
       `Token ${token}`
     );
+  });
+});
+
+describe("authenticateAndRedirectToHome", () => {
+  const data = {
+    username: "username",
+    password: "password",
+    password1: "password",
+  };
+
+  test("all functions were called correctly", async () => {
+    const mockedSetCurrentUser = vi.fn();
+    const mockedNavigate = vi.fn();
+
+    await authenticateAndRedirectToHome(
+      data,
+      mockedSetCurrentUser,
+      mockedNavigate
+    );
+
+    expect(axios.defaults.headers.common["Authorization"]).toBe("Token token");
+    expect(mockedSetCurrentUser).toHaveBeenCalledWith({
+      username: data.username,
+      pfp: undefined,
+    });
+    expect(mockedNavigate).toHaveBeenCalledWith({ to: "/" });
   });
 });

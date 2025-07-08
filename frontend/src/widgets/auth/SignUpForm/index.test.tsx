@@ -1,9 +1,7 @@
 import { beforeEach, expect, test, vi } from "vitest";
 import SignUpForm from "./";
-import {
-  createAndPopulateFormData,
-  authenticateAndRedirectToHome,
-} from "./utils";
+import { createAndPopulateFormData } from "./utils";
+import { authenticateAndRedirectToHome } from "@/entities/user/api";
 import {
   clickSubmitButton,
   createRouterWithRootComponent,
@@ -27,23 +25,13 @@ vi.mock("@/entities/user/api", async () => {
     ...actual,
     createUser: vi.fn(),
     obtainToken: vi.fn(() => "token"),
-  };
-});
-
-vi.mock("./utils", async () => {
-  const actual = await vi.importActual("./utils");
-  return {
-    ...actual,
     authenticateAndRedirectToHome: vi.fn(),
   };
 });
 
 vi.mock("@tanstack/react-router", async () => {
   const actual = await vi.importActual("@tanstack/react-router");
-  return {
-    ...actual,
-    useNavigate: vi.fn(() => mockedNavigate),
-  };
+  return { ...actual, useNavigate: vi.fn(() => mockedNavigate) };
 });
 
 const mockedCreateUser = vi.mocked(createUser);
