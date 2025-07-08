@@ -1,5 +1,4 @@
 import { useAuth } from "@/app/contexts";
-import { Button } from "@/shared/components";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
@@ -8,17 +7,16 @@ import {
   UsernameInput,
   EmailInput,
   PfpInput,
+  Button,
 } from "@/shared/components";
+import { setErrorsFromResponse } from "@/shared/utils";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { ErrorMessage } from "@hookform/error-message";
 import { createUser } from "@/entities/user/api";
 import { useNavigate } from "@tanstack/react-router";
 import { FormInputs } from "./types";
-import {
-  createAndPopulateFormData,
-  setErrorsFromResponse,
-} from "./utils";
+import { createAndPopulateFormData } from "./utils";
 import { authenticateAndRedirectToHome } from "@/entities/user/api";
 
 const SignUpForm: React.FC = () => {
@@ -33,7 +31,8 @@ const SignUpForm: React.FC = () => {
     const formData = createAndPopulateFormData(data);
 
     mutation.mutate(formData, {
-      onSuccess: () => authenticateAndRedirectToHome(data, setCurrentUser, navigate),
+      onSuccess: () =>
+        authenticateAndRedirectToHome(data, setCurrentUser, navigate),
       onError: (error) => setErrorsFromResponse(error, methods.setError),
     });
   };

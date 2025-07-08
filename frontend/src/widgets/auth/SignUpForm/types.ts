@@ -5,13 +5,3 @@ export type FormInputs = {
   pfp?: FileList;
   email?: string;
 };
-
-export type ErrorResponse = {
-  [field in
-    | "username"
-    | "password"
-    | "password1"
-    | "pfp"
-    | "email"
-    | "detail"]: string[] | string;
-};
