@@ -1,21 +1,13 @@
 import React from "react";
 import { ArticleCard } from "@/entities/article/ui";
 import { loadArticlesOrderedByField } from "@/entities/article/api";
-import { ServerArticleResponse } from "@/entities/article/types";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import "./index.scss";
 
-type Props = {
-  orderByField: string;
-  amount?: number;
-};
-
-type Response = {
-  results: ServerArticleResponse[];
-};
+type Props = { orderByField: string; amount?: number };
 
 const ListOfArticles: React.FC<Props> = ({ orderByField, amount }) => {
-  const { isLoading, data, error }: UseQueryResult<Response> = useQuery({
+  const { isLoading, data, error } = useQuery({
     queryKey: ["articles", orderByField],
     queryFn: () => loadArticlesOrderedByField(orderByField, amount),
   });

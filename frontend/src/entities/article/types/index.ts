@@ -9,3 +9,10 @@ export type ServerArticleResponse = {
   viewings: number;
   update?: string | null;
 };
+
+export type ServerPaginatedArticlesResponse = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: ServerArticleResponse[];
+};
