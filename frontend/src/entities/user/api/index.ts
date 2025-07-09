@@ -72,14 +72,16 @@ const setAuthTokenInAxiosHeaders = (token: string) => {
 const getUserFromCookies = async (): Promise<User | null> => {
   const token: string | undefined = cookies.get("token");
   if (!token) return null;
+  const { username, pfp } = await getUserByToken(token);
+  return { username, pfp };
+};
 
+const getUserByToken = async (token: string) => {
   const response = await axios.get<ServerUserResponse>(
     `${import.meta.env.VITE_API_URL}/auth/me`,
     { headers: { Authorization: `Token ${token}` } }
   );
-  const { username, pfp } = response.data;
-
-  return { username, pfp };
+  return response.data;
 };
 
 export {
