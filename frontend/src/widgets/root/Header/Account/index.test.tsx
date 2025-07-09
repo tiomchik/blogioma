@@ -23,7 +23,7 @@ describe("not authorized user", () => {
   test("log in button redirects to log in page", async () => {
     const logInButton = screen.getByText("Log in");
     click(logInButton);
-    expect(router.history.location.pathname).toBe("/auth/login");
+    expect(router.history.location.pathname).toBe("/auth/log_in");
   });
 });
 

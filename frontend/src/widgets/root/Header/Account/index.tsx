@@ -26,7 +26,7 @@ const Account: React.FC = () => {
   return (
     <p>
       <Link to="/auth/sign_up">Sign up</Link> ||{" "}
-      <Link to="/auth/login">Log in</Link>
+      <Link to="/auth/log_in">Log in</Link>
     </p>
   );
 };

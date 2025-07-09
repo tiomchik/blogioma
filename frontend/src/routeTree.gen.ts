@@ -19,7 +19,7 @@ import { Route as SearchQueryImport } from './app/routes/search/$query'
 import { Route as ProfileSettingsImport } from './app/routes/profile/settings'
 import { Route as AuthSignupImport } from './app/routes/auth/sign_up'
 import { Route as AuthLogoutImport } from './app/routes/auth/logout'
-import { Route as AuthLoginImport } from './app/routes/auth/login'
+import { Route as AuthLoginImport } from './app/routes/auth/log_in'
 import { Route as ArticleUpdateImport } from './app/routes/article/update'
 import { Route as ArticleRandomImport } from './app/routes/article/random'
 import { Route as ArticleDeleteImport } from './app/routes/article/delete'
@@ -84,8 +84,8 @@ const AuthLogoutRoute = AuthLogoutImport.update({
 } as any)
 
 const AuthLoginRoute = AuthLoginImport.update({
-  id: '/auth/login',
-  path: '/auth/login',
+  id: '/auth/log_in',
+  path: '/auth/log_in',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -221,10 +221,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticleUpdateImport
       parentRoute: typeof rootRoute
     }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/auth/login'
-      fullPath: '/auth/login'
+    '/auth/log_in': {
+      id: '/auth/log_in'
+      path: '/auth/log_in'
+      fullPath: '/auth/log_in'
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof rootRoute
     }
@@ -326,7 +326,7 @@ export interface FileRoutesByFullPath {
   '/article/delete': typeof ArticleDeleteRoute
   '/article/random': typeof ArticleRandomRoute
   '/article/update': typeof ArticleUpdateRoute
-  '/auth/login': typeof AuthLoginRoute
+  '/auth/log_in': typeof AuthLoginRoute
   '/auth/logout': typeof AuthLogoutRoute
   '/auth/sign_up': typeof AuthSignupRoute
   '/profile/settings': typeof ProfileSettingsRoute
@@ -350,7 +350,7 @@ export interface FileRoutesByTo {
   '/article/delete': typeof ArticleDeleteRoute
   '/article/random': typeof ArticleRandomRoute
   '/article/update': typeof ArticleUpdateRoute
-  '/auth/login': typeof AuthLoginRoute
+  '/auth/log_in': typeof AuthLoginRoute
   '/auth/logout': typeof AuthLogoutRoute
   '/auth/sign_up': typeof AuthSignupRoute
   '/profile/settings': typeof ProfileSettingsRoute
@@ -375,7 +375,7 @@ export interface FileRoutesById {
   '/article/delete': typeof ArticleDeleteRoute
   '/article/random': typeof ArticleRandomRoute
   '/article/update': typeof ArticleUpdateRoute
-  '/auth/login': typeof AuthLoginRoute
+  '/auth/log_in': typeof AuthLoginRoute
   '/auth/logout': typeof AuthLogoutRoute
   '/auth/sign_up': typeof AuthSignupRoute
   '/profile/settings': typeof ProfileSettingsRoute
@@ -401,7 +401,7 @@ export interface FileRouteTypes {
     | '/article/delete'
     | '/article/random'
     | '/article/update'
-    | '/auth/login'
+    | '/auth/log_in'
     | '/auth/logout'
     | '/auth/sign_up'
     | '/profile/settings'
@@ -424,7 +424,7 @@ export interface FileRouteTypes {
     | '/article/delete'
     | '/article/random'
     | '/article/update'
-    | '/auth/login'
+    | '/auth/log_in'
     | '/auth/logout'
     | '/auth/sign_up'
     | '/profile/settings'
@@ -447,7 +447,7 @@ export interface FileRouteTypes {
     | '/article/delete'
     | '/article/random'
     | '/article/update'
-    | '/auth/login'
+    | '/auth/log_in'
     | '/auth/logout'
     | '/auth/sign_up'
     | '/profile/settings'
@@ -529,7 +529,7 @@ export const routeTree = rootRoute
         "/article/delete",
         "/article/random",
         "/article/update",
-        "/auth/login",
+        "/auth/log_in",
         "/auth/logout",
         "/auth/sign_up",
         "/profile/settings",
@@ -568,8 +568,8 @@ export const routeTree = rootRoute
     "/article/update": {
       "filePath": "article/update.tsx"
     },
-    "/auth/login": {
-      "filePath": "auth/login.tsx"
+    "/auth/log_in": {
+      "filePath": "auth/log_in.tsx"
     },
     "/auth/logout": {
       "filePath": "auth/logout.tsx"
