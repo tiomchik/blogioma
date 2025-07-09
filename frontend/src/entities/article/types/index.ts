@@ -1,4 +1,4 @@
-import { ContextUser } from "@/app/contexts/auth";
+import { ContextUser } from "@/app/contexts";
 
 export type Article = {
   id: number;

@@ -5,7 +5,7 @@ import {
   renderWithRouting,
 } from "@/tests/utils";
 import ListOfArticles from "./";
-import { Article } from "@/app/types";
+import { Article } from "@/entities/article/types";
 import {
   QueryClient,
   QueryClientProvider,

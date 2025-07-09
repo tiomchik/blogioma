@@ -1,7 +1,7 @@
 import React from "react";
 import { ArticleCard } from "@/entities/article/ui";
 import { loadArticlesOrderedByField } from "@/entities/article/api";
-import { Article } from "@/app/types";
+import { Article } from "@/entities/article/types";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import "./index.scss";
 

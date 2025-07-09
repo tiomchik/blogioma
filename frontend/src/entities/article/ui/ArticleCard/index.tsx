@@ -1,4 +1,4 @@
-import { Article } from "@/app/types";
+import { Article } from "@/entities/article/types";
 import { Button, Pfp } from "@/shared/components";
 import { Link } from "@tanstack/react-router";
 import React from "react";
