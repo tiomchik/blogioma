@@ -3,6 +3,7 @@ import { describe, expect, test, vi } from "vitest";
 import {
   authenticateAndRedirectToHome,
   obtainToken,
+  obtainTokenFromCookies,
   setAuthToken,
   setAuthTokenInAxiosHeaders,
 } from "./";
@@ -56,6 +57,13 @@ describe("obtainToken", () => {
       `${import.meta.env.VITE_API_URL}/auth/obtain-token/`,
       { username: "username", password: "password" }
     );
+  });
+});
+
+describe("obtainTokenFromCookies", () => {
+  test("auth token has been got from cookies", () => {
+    cookies.set("token", expectedToken);
+    expect(obtainTokenFromCookies()).toBe(expectedToken);
   });
 });
 

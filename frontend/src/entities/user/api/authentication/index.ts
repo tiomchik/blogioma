@@ -29,6 +29,8 @@ const obtainToken = async (username: string, password: string) => {
   return response.data.token;
 };
 
+const obtainTokenFromCookies = () => cookies.get("token");
+
 const setAuthToken = (token: string) => {
   cookies.set("token", token, { path: "/" });
   setAuthTokenInAxiosHeaders(token);
@@ -41,6 +43,7 @@ const setAuthTokenInAxiosHeaders = (token: string) => {
 export {
   authenticateAndRedirectToHome,
   obtainToken,
+  obtainTokenFromCookies,
   setAuthToken,
   setAuthTokenInAxiosHeaders,
 };
