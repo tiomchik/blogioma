@@ -1,3 +1,4 @@
+import { User } from "@/app/types";
 import { UseNavigateResult } from "@tanstack/react-router";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -68,10 +69,23 @@ const setAuthTokenInAxiosHeaders = (token: string) => {
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 };
 
+const getUserFromCookies = async (): Promise<User | null> => {
+  const token: string | undefined = cookies.get("token");
+  if (!token) return null;
+
+  const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/me`, {
+    headers: { Authorization: `Token ${token}` },
+  });
+  const user: User = response.data;
+
+  return { username: user.username, pfp: user.pfp };
+};
+
 export {
   createUser,
   obtainToken,
   setAuthToken,
   authenticateAndRedirectToHome,
   setAuthTokenInAxiosHeaders,
+  getUserFromCookies,
 };
