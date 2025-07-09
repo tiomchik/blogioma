@@ -1,6 +1,7 @@
 import axios from "axios";
 import { describe, expect, test, vi } from "vitest";
 import {
+  AUTH_TOKEN_COOKIE_KEY,
   authenticateAndRedirectToHome,
   obtainToken,
   obtainTokenFromCookies,
@@ -62,7 +63,7 @@ describe("obtainToken", () => {
 
 describe("obtainTokenFromCookies", () => {
   test("auth token has been got from cookies", () => {
-    cookies.set("token", expectedToken);
+    cookies.set(AUTH_TOKEN_COOKIE_KEY, expectedToken);
     expect(obtainTokenFromCookies()).toBe(expectedToken);
   });
 });
@@ -70,7 +71,7 @@ describe("obtainTokenFromCookies", () => {
 describe("setAuthToken", () => {
   test("auth token has been set", () => {
     setAuthToken(expectedToken);
-    expect(cookies.get("token")).toBe(expectedToken);
+    expect(cookies.get(AUTH_TOKEN_COOKIE_KEY)).toBe(expectedToken);
     checkAuthTokenInHeader(expectedToken);
   });
 });

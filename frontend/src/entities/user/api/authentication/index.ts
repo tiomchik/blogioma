@@ -5,6 +5,8 @@ import axios from "axios";
 
 const cookies = new Cookies();
 
+const AUTH_TOKEN_COOKIE_KEY = "token";
+
 const authenticateAndRedirectToHome = async (
   userData: UserData,
   setCurrentUser: CallableFunction,
@@ -29,10 +31,10 @@ const obtainToken = async (username: string, password: string) => {
   return response.data.token;
 };
 
-const obtainTokenFromCookies = () => cookies.get("token");
+const obtainTokenFromCookies = () => cookies.get(AUTH_TOKEN_COOKIE_KEY);
 
 const setAuthToken = (token: string) => {
-  cookies.set("token", token, { path: "/" });
+  cookies.set(AUTH_TOKEN_COOKIE_KEY, token, { path: "/" });
   setAuthTokenInAxiosHeaders(token);
 };
 
@@ -41,6 +43,7 @@ const setAuthTokenInAxiosHeaders = (token: string) => {
 };
 
 export {
+  AUTH_TOKEN_COOKIE_KEY,
   authenticateAndRedirectToHome,
   obtainToken,
   obtainTokenFromCookies,
