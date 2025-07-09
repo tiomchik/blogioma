@@ -5,7 +5,7 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-type CreateUserResponse = {
+type ServerUserResponse = {
   id: number;
   username: string;
   last_login: string;
@@ -20,7 +20,7 @@ type CreateUserResponse = {
 };
 
 const createUser = async (userData: FormData) => {
-  const response = await axios.post<CreateUserResponse>(
+  const response = await axios.post<ServerUserResponse>(
     `${import.meta.env.VITE_API_URL}/auth/register/`,
     userData
   );
@@ -73,12 +73,13 @@ const getUserFromCookies = async (): Promise<User | null> => {
   const token: string | undefined = cookies.get("token");
   if (!token) return null;
 
-  const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/me`, {
-    headers: { Authorization: `Token ${token}` },
-  });
-  const user: User = response.data;
+  const response = await axios.get<ServerUserResponse>(
+    `${import.meta.env.VITE_API_URL}/auth/me`,
+    { headers: { Authorization: `Token ${token}` } }
+  );
+  const { username, pfp } = response.data;
 
-  return { username: user.username, pfp: user.pfp };
+  return { username, pfp };
 };
 
 export {
