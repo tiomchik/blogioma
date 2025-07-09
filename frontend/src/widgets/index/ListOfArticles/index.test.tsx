@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import { beforeEach, expect, test, vi } from "vitest";
 import {
   createRouterWithRootComponent,
+  expectErrorMessage,
   renderWithRouting,
 } from "@/tests/utils";
 import ListOfArticles from "./";
@@ -11,6 +12,21 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import { ServerUserResponse } from "@/entities/user/types";
+
+const author: ServerUserResponse = {
+  id: 0,
+  username: "testUser",
+  pfp: "url/to/pfp",
+  last_login: "",
+  is_staff: false,
+  date_joined: "",
+  email: null,
+  youtube: "",
+  tiktok: "",
+  twitch: "",
+  linkedin: "",
+};
 
 const article: ServerArticleResponse = {
   id: 1,
@@ -18,10 +34,7 @@ const article: ServerArticleResponse = {
   full_text: "full text",
   pub_date: "2023-09-01T00:00:00.000Z",
   update: "2023-09-01T00:00:00.000Z",
-  author: {
-    username: "testUser",
-    pfp: "url/to/pfp",
-  },
+  author,
   viewings: 100000,
 };
 
@@ -54,20 +67,14 @@ vi.mock("@tanstack/react-query", async () => {
 
 const mockedUseQuery = vi.mocked(useQuery, { partial: true });
 
-mockedUseQuery.mockReturnValueOnce({
-  isLoading: true,
-});
+mockedUseQuery.mockReturnValueOnce({ isLoading: true });
 
 test("displays loading state", () => {
   const loading = screen.getByText("Loading...");
   expect(loading).toBeTruthy();
 });
 
-mockedUseQuery.mockReturnValueOnce({
-  data: {
-    results: articles,
-  },
-});
+mockedUseQuery.mockReturnValueOnce({ data: { results: articles } });
 
 test("displays articles ordered by id", () => {
   for (let i = 0; i < 3; i++) {
@@ -76,11 +83,8 @@ test("displays articles ordered by id", () => {
   }
 });
 
-mockedUseQuery.mockReturnValueOnce({
-  error: new Error("error"),
-});
+mockedUseQuery.mockReturnValueOnce({ error: new Error("error") });
 
 test("displays error", () => {
-  const error = screen.getByText(/error/);
-  expect(error).toBeDefined();
+  expectErrorMessage(/error/);
 });
