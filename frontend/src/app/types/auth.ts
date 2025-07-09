@@ -1,4 +1,4 @@
-export type User = {
+export type ContextUser = {
   username: string;
   pfp?: string | null;
 };

@@ -1,10 +1,10 @@
 import React from "react";
-import { User } from "@/app/types";
+import { ContextUser } from "@/app/types";
 import ProfileIcon from "./profile.svg?react";
 import "./index.scss";
 
 type Props = {
-  pfp?: User["pfp"];
+  pfp?: ContextUser["pfp"];
 };
 
 const Pfp: React.FC<Props> = ({ pfp }) => {

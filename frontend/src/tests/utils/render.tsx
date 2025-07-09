@@ -1,7 +1,7 @@
 import { AuthContext } from "@/app/contexts";
 import { AnyRouter, RouterProvider } from "@tanstack/react-router";
 import { act, render } from "@testing-library/react";
-import { User } from "@/app/types";
+import { ContextUser } from "@/app/types";
 import React, { ComponentType, JSX, PropsWithChildren } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -34,7 +34,7 @@ const renderWithRouting = async (router: AnyRouter): Promise<void> => {
 };
 
 type AuthContextProps = {
-  currentUser?: User | null;
+  currentUser?: ContextUser | null;
   setCurrentUser?: CallableFunction;
 };
 

@@ -1,8 +1,8 @@
 import { createContext, useContext } from "react";
-import { User } from "@/app/types";
+import { ContextUser } from "@/app/types";
 
 const AuthContext = createContext<{
-  currentUser: User | null;
+  currentUser: ContextUser | null;
   setCurrentUser: CallableFunction;
 }>({ currentUser: null, setCurrentUser: () => {} });
 
