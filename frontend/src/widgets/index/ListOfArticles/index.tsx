@@ -1,7 +1,7 @@
 import React from "react";
 import { ArticleCard } from "@/entities/article/ui";
 import { loadArticlesOrderedByField } from "@/entities/article/api";
-import { Article } from "@/entities/article/types";
+import { ServerArticleResponse } from "@/entities/article/types";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import "./index.scss";
 
@@ -11,7 +11,7 @@ type Props = {
 };
 
 type Response = {
-  results: Article[];
+  results: ServerArticleResponse[];
 };
 
 const ListOfArticles: React.FC<Props> = ({ orderByField, amount }) => {

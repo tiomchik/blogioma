@@ -1,11 +1,11 @@
-import { Article } from "@/entities/article/types";
+import { ServerArticleResponse } from "@/entities/article/types";
 import { Button, Pfp } from "@/shared/components";
 import { Link } from "@tanstack/react-router";
 import React from "react";
 import { formatDate, truncateWithEllipsis } from "./utils";
 import "./index.scss";
 
-type Props = Omit<Article, "viewings">;
+type Props = Omit<ServerArticleResponse, "viewings">;
 
 const ArticleCard: React.FC<Props> = ({
   id,

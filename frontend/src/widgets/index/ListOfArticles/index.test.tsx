@@ -5,14 +5,14 @@ import {
   renderWithRouting,
 } from "@/tests/utils";
 import ListOfArticles from "./";
-import { Article } from "@/entities/article/types";
+import { ServerArticleResponse } from "@/entities/article/types";
 import {
   QueryClient,
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
 
-const article: Article = {
+const article: ServerArticleResponse = {
   id: 1,
   heading: "article 1",
   full_text: "full text",
@@ -25,7 +25,7 @@ const article: Article = {
   viewings: 100000,
 };
 
-const articles: Article[] = [];
+const articles: ServerArticleResponse[] = [];
 
 for (let i = 0; i <= 3; i++) {
   articles.push({

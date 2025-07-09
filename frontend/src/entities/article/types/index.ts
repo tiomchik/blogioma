@@ -1,6 +1,6 @@
 import { ContextUser } from "@/app/contexts";
 
-export type Article = {
+export type ServerArticleResponse = {
   id: number;
   heading: string;
   full_text: string;
