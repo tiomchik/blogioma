@@ -61,7 +61,17 @@ const obtainToken = async (username: string, password: string) => {
 
 const setAuthToken = (token: string) => {
   cookies.set("token", token, { path: "/" });
+  setAuthTokenInAxiosHeaders(token);
+};
+
+const setAuthTokenInAxiosHeaders = (token: string) => {
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 };
 
-export { createUser, obtainToken, setAuthToken, authenticateAndRedirectToHome };
+export {
+  createUser,
+  obtainToken,
+  setAuthToken,
+  authenticateAndRedirectToHome,
+  setAuthTokenInAxiosHeaders,
+};

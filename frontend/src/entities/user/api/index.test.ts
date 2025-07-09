@@ -5,6 +5,7 @@ import {
   createUser,
   obtainToken,
   setAuthToken,
+  setAuthTokenInAxiosHeaders,
 } from "./";
 import { createDummyFile } from "@/tests/utils";
 import Cookies from "universal-cookie";
@@ -19,6 +20,8 @@ vi.mock("axios", () => {
     },
   };
 });
+
+const expectedToken = "token";
 
 const mockedAxiosPost = vi.mocked(axios.post);
 
@@ -49,12 +52,16 @@ describe("obtainToken", () => {
 
 describe("setAuthToken", () => {
   test("auth token has been set", () => {
-    const token = "token";
-    setAuthToken(token);
-    expect(cookies.get("token")).toBe(token);
-    expect(axios.defaults.headers.common["Authorization"]).toBe(
-      `Token ${token}`
-    );
+    setAuthToken(expectedToken);
+    expect(cookies.get("token")).toBe(expectedToken);
+    checkAuthTokenInHeader(expectedToken);
+  });
+});
+
+describe("setAuthTokenInAxiosHeaders", () => {
+  test("auth token has been set", () => {
+    setAuthTokenInAxiosHeaders(expectedToken);
+    checkAuthTokenInHeader(expectedToken);
   });
 });
 
@@ -75,7 +82,7 @@ describe("authenticateAndRedirectToHome", () => {
       mockedNavigate
     );
 
-    expect(axios.defaults.headers.common["Authorization"]).toBe("Token token");
+    checkAuthTokenInHeader(expectedToken);
     expect(mockedSetCurrentUser).toHaveBeenCalledWith({
       username: data.username,
       pfp: undefined,
@@ -83,3 +90,7 @@ describe("authenticateAndRedirectToHome", () => {
     expect(mockedNavigate).toHaveBeenCalledWith({ to: "/" });
   });
 });
+
+const checkAuthTokenInHeader = (token: string) => {
+  expect(axios.defaults.headers.common["Authorization"]).toBe(`Token ${token}`);
+};
