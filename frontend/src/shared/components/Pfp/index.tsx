@@ -1,5 +1,5 @@
 import React from "react";
-import { ContextUser } from "@/app/types";
+import { ContextUser } from "@/app/contexts/auth";
 import ProfileIcon from "./profile.svg?react";
 import "./index.scss";
 

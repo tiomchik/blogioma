@@ -1,7 +1,7 @@
 import { AuthContext } from "@/app/contexts";
 import { AnyRouter, RouterProvider } from "@tanstack/react-router";
 import { act, render } from "@testing-library/react";
-import { ContextUser } from "@/app/types";
+import { ContextUser } from "@/app/contexts/auth";
 import React, { ComponentType, JSX, PropsWithChildren } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 

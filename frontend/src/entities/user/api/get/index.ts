@@ -1,5 +1,5 @@
 import { ServerUserResponse } from "@/entities/user/types";
-import { ContextUser } from "@/app/types";
+import { ContextUser } from "@/app/contexts/auth";
 import axios from "axios";
 import Cookies from "universal-cookie";
 

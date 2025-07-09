@@ -1,5 +1,9 @@
 import { createContext, useContext } from "react";
-import { ContextUser } from "@/app/types";
+
+export type ContextUser = {
+  username: string;
+  pfp?: string | null;
+};
 
 const AuthContext = createContext<{
   currentUser: ContextUser | null;
