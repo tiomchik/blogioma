@@ -18,12 +18,9 @@ import { AuthContext } from "@/app/contexts";
 import { createUser } from "@/entities/user/api";
 import { RouterProvider } from "@tanstack/react-router";
 
-vi.mock("@/entities/user/api", async () => {
-  const actual = await vi.importActual("@/entities/user/api");
+vi.mock("@/entities/user/api", () => {
   return {
-    ...actual,
     createUser: vi.fn(),
-    obtainToken: vi.fn(() => "token"),
     authenticateAndRedirectToHome: vi.fn(),
   };
 });

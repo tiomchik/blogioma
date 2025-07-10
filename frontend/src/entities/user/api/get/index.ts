@@ -20,4 +20,4 @@ const getUserByToken = async (token: string) => {
   return response.data;
 };
 
-export { getUserFromCookies };
+export { getUserFromCookies, getUserByToken };

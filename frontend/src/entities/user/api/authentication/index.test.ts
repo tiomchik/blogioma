@@ -15,11 +15,14 @@ const cookies = new Cookies();
 vi.mock("axios", () => {
   return {
     default: {
+      get: vi.fn(() => ({ data: expectedUser })),
       post: vi.fn(() => ({ data: { token: expectedToken } })),
       defaults: { headers: { common: {} } },
     },
   };
 });
+
+const expectedUser = { username: "username", pfp: "pfp" };
 
 const expectedToken = "token";
 
@@ -43,10 +46,7 @@ describe("authenticateAndRedirectToHome", () => {
     );
 
     checkAuthTokenInHeader(expectedToken);
-    expect(mockedSetCurrentUser).toHaveBeenCalledWith({
-      username: data.username,
-      pfp: undefined,
-    });
+    expect(mockedSetCurrentUser).toHaveBeenCalledWith(expectedUser);
     expect(mockedNavigate).toHaveBeenCalledWith({ to: "/" });
   });
 });

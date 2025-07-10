@@ -12,10 +12,8 @@ import {
   authenticateAndRedirectToHome,
 } from "@/entities/user/api";
 
-vi.mock("@/entities/user/api", async () => {
-  const actual = await vi.importActual("@/entities/user/api");
+vi.mock("@/entities/user/api", () => {
   return {
-    ...actual,
     setAuthToken: vi.fn(),
     authenticateAndRedirectToHome: vi.fn(),
     obtainToken: vi.fn(() => "token"),

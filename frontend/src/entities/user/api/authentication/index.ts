@@ -1,5 +1,6 @@
 import { UserData, ObtainTokenResponse } from "@/entities/user/types";
 import { UseNavigateResult } from "@tanstack/react-router";
+import { getUserByToken } from "@/entities/user/api";
 import Cookies from "universal-cookie";
 import axios from "axios";
 
@@ -15,10 +16,8 @@ const authenticateAndRedirectToHome = async (
   const token = await obtainToken(userData.username, userData.password);
   setAuthToken(token);
 
-  setCurrentUser({
-    username: userData.username,
-    pfp: userData.pfp?.item(0),
-  });
+  const user = await getUserByToken(token);
+  setCurrentUser(user);
 
   navigate({ to: "/" });
 };
