@@ -1,21 +1,20 @@
 import axios from "axios";
 import { describe, expect, test, vi } from "vitest";
-import { getUserFromCookies } from "./";
+import { getUserByToken, getUserFromCookies } from "./";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
 vi.mock("axios", () => {
-  return { default: { get: vi.fn() } };
+  return { default: { get: vi.fn(() => ({ data: expectedUser })) } };
 });
+
+const expectedUser = { username: "username", pfp: "/pfp.png" };
 
 const mockedAxiosGet = vi.mocked(axios.get);
 
 describe("getUserFromCookies", () => {
-  const expectedUser = { username: "username", pfp: "/pfp.png" };
-
   test("user data has been loaded", async () => {
-    mockedAxiosGet.mockResolvedValue({ data: expectedUser });
     cookies.set("token", "token");
     const user = await getUserFromCookies();
     expect(user).toEqual(expectedUser);
@@ -25,5 +24,17 @@ describe("getUserFromCookies", () => {
     cookies.remove("token");
     const user = await getUserFromCookies();
     expect(user).toEqual(null);
+  });
+});
+
+describe("getUserByToken", () => {
+  test("user has been received", async () => {
+    const token = "token";
+    const user = await getUserByToken(token);
+    expect(mockedAxiosGet).toBeCalledWith(
+      `${import.meta.env.VITE_API_URL}/auth/me`,
+      { headers: { Authorization: `Token ${token}` } }
+    );
+    expect(user).toEqual(expectedUser);
   });
 });
