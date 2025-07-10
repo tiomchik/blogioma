@@ -18,7 +18,6 @@ import { Route as SearchIndexImport } from './app/routes/search/index'
 import { Route as SearchQueryImport } from './app/routes/search/$query'
 import { Route as ProfileSettingsImport } from './app/routes/profile/settings'
 import { Route as AuthSignupImport } from './app/routes/auth/sign_up'
-import { Route as AuthLogoutImport } from './app/routes/auth/logout'
 import { Route as AuthLoginImport } from './app/routes/auth/log_in'
 import { Route as ArticleUpdateImport } from './app/routes/article/update'
 import { Route as ArticleRandomImport } from './app/routes/article/random'
@@ -74,12 +73,6 @@ const ProfileSettingsRoute = ProfileSettingsImport.update({
 const AuthSignupRoute = AuthSignupImport.update({
   id: '/auth/sign_up',
   path: '/auth/sign_up',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthLogoutRoute = AuthLogoutImport.update({
-  id: '/auth/logout',
-  path: '/auth/logout',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -228,13 +221,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof rootRoute
     }
-    '/auth/logout': {
-      id: '/auth/logout'
-      path: '/auth/logout'
-      fullPath: '/auth/logout'
-      preLoaderRoute: typeof AuthLogoutImport
-      parentRoute: typeof rootRoute
-    }
     '/auth/sign_up': {
       id: '/auth/sign_up'
       path: '/auth/sign_up'
@@ -327,7 +313,6 @@ export interface FileRoutesByFullPath {
   '/article/random': typeof ArticleRandomRoute
   '/article/update': typeof ArticleUpdateRoute
   '/auth/log_in': typeof AuthLoginRoute
-  '/auth/logout': typeof AuthLogoutRoute
   '/auth/sign_up': typeof AuthSignupRoute
   '/profile/settings': typeof ProfileSettingsRoute
   '/search/$query': typeof SearchQueryRoute
@@ -351,7 +336,6 @@ export interface FileRoutesByTo {
   '/article/random': typeof ArticleRandomRoute
   '/article/update': typeof ArticleUpdateRoute
   '/auth/log_in': typeof AuthLoginRoute
-  '/auth/logout': typeof AuthLogoutRoute
   '/auth/sign_up': typeof AuthSignupRoute
   '/profile/settings': typeof ProfileSettingsRoute
   '/search/$query': typeof SearchQueryRoute
@@ -376,7 +360,6 @@ export interface FileRoutesById {
   '/article/random': typeof ArticleRandomRoute
   '/article/update': typeof ArticleUpdateRoute
   '/auth/log_in': typeof AuthLoginRoute
-  '/auth/logout': typeof AuthLogoutRoute
   '/auth/sign_up': typeof AuthSignupRoute
   '/profile/settings': typeof ProfileSettingsRoute
   '/search/$query': typeof SearchQueryRoute
@@ -402,7 +385,6 @@ export interface FileRouteTypes {
     | '/article/random'
     | '/article/update'
     | '/auth/log_in'
-    | '/auth/logout'
     | '/auth/sign_up'
     | '/profile/settings'
     | '/search/$query'
@@ -425,7 +407,6 @@ export interface FileRouteTypes {
     | '/article/random'
     | '/article/update'
     | '/auth/log_in'
-    | '/auth/logout'
     | '/auth/sign_up'
     | '/profile/settings'
     | '/search/$query'
@@ -448,7 +429,6 @@ export interface FileRouteTypes {
     | '/article/random'
     | '/article/update'
     | '/auth/log_in'
-    | '/auth/logout'
     | '/auth/sign_up'
     | '/profile/settings'
     | '/search/$query'
@@ -473,7 +453,6 @@ export interface RootRouteChildren {
   ArticleRandomRoute: typeof ArticleRandomRoute
   ArticleUpdateRoute: typeof ArticleUpdateRoute
   AuthLoginRoute: typeof AuthLoginRoute
-  AuthLogoutRoute: typeof AuthLogoutRoute
   AuthSignupRoute: typeof AuthSignupRoute
   ProfileSettingsRoute: typeof ProfileSettingsRoute
   SearchQueryRoute: typeof SearchQueryRoute
@@ -497,7 +476,6 @@ const rootRouteChildren: RootRouteChildren = {
   ArticleRandomRoute: ArticleRandomRoute,
   ArticleUpdateRoute: ArticleUpdateRoute,
   AuthLoginRoute: AuthLoginRoute,
-  AuthLogoutRoute: AuthLogoutRoute,
   AuthSignupRoute: AuthSignupRoute,
   ProfileSettingsRoute: ProfileSettingsRoute,
   SearchQueryRoute: SearchQueryRoute,
@@ -530,7 +508,6 @@ export const routeTree = rootRoute
         "/article/random",
         "/article/update",
         "/auth/log_in",
-        "/auth/logout",
         "/auth/sign_up",
         "/profile/settings",
         "/search/$query",
@@ -570,9 +547,6 @@ export const routeTree = rootRoute
     },
     "/auth/log_in": {
       "filePath": "auth/log_in.tsx"
-    },
-    "/auth/logout": {
-      "filePath": "auth/logout.tsx"
     },
     "/auth/sign_up": {
       "filePath": "auth/sign_up.tsx"
