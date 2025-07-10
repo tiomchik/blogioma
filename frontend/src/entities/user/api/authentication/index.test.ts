@@ -3,6 +3,7 @@ import { describe, expect, test, vi } from "vitest";
 import {
   AUTH_TOKEN_COOKIE_KEY,
   authenticateAndRedirectToHome,
+  logOut,
   obtainToken,
   obtainTokenFromCookies,
   setAuthToken,
@@ -80,6 +81,15 @@ describe("setAuthTokenInAxiosHeaders", () => {
   test("auth token has been set", () => {
     setAuthTokenInAxiosHeaders(expectedToken);
     checkAuthTokenInHeader(expectedToken);
+  });
+});
+
+describe("logOut", () => {
+  test("auth token has been removed", () => {
+    setAuthToken(expectedToken);
+    logOut();
+    expect(cookies.get(AUTH_TOKEN_COOKIE_KEY)).toBeUndefined();
+    expect(axios.defaults.headers.common["Authorization"]).toBeUndefined();
   });
 });
 

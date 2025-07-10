@@ -41,6 +41,11 @@ const setAuthTokenInAxiosHeaders = (token: string) => {
   axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 };
 
+const logOut = () => {
+  cookies.remove(AUTH_TOKEN_COOKIE_KEY);
+  delete axios.defaults.headers.common["Authorization"];
+};
+
 export {
   AUTH_TOKEN_COOKIE_KEY,
   authenticateAndRedirectToHome,
@@ -48,4 +53,5 @@ export {
   obtainTokenFromCookies,
   setAuthToken,
   setAuthTokenInAxiosHeaders,
+  logOut,
 };
