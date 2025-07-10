@@ -1,16 +1,32 @@
-import { StrictMode, useState } from "react";
+import React, { StrictMode, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnyRouter, RouterProvider } from "@tanstack/react-router";
-import { AuthContext } from "./contexts";
-import { User } from "./types";
+import { AuthContext, ContextUser } from "./contexts";
+import {
+  getUserFromCookies,
+  obtainTokenFromCookies,
+  setAuthTokenInAxiosHeaders,
+} from "@/entities/user/api";
 
 type Props = {
   queryClient: QueryClient;
   router: AnyRouter;
 };
 
-const App = ({ queryClient, router }: Props) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+const App: React.FC<Props> = ({ queryClient, router }) => {
+  const [currentUser, setCurrentUser] = useState<ContextUser | null>(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const user = await getUserFromCookies();
+      if (!user) return;
+      const token = obtainTokenFromCookies();
+      setAuthTokenInAxiosHeaders(token);
+      setCurrentUser(user);
+    };
+
+    loadUser();
+  }, []);
 
   return (
     <StrictMode>
