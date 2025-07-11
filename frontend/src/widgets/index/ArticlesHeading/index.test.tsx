@@ -8,7 +8,7 @@ import { screen } from "@testing-library/react";
 import ArticlesHeading from ".";
 
 const text = "articles heading";
-const orderBy = "viewings";
+const orderBy = "-viewings";
 const router = createRouterWithRootComponent(
   <ArticlesHeading urlParamOrderBy={orderBy}>{text}</ArticlesHeading>
 );
@@ -25,5 +25,5 @@ test("shows text", () => {
 test("arrow button redirects to list of ordered articles", () => {
   const arrowButton = screen.getByRole("link");
   click(arrowButton);
-  expect(router.history.location.pathname).toBe(`/article/${orderBy}`);
+  expect(router.history.location.search).toBe(`?sort=${orderBy}`);
 });
