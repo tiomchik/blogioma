@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
-import { ArticleSortOptions } from "@/app/routes/articles";
+import { ArticleSortingCriterias } from "@/app/routes/articles";
 import { ARTICLES_BASE_URL } from "./constants";
 
 const criteriaToSortingFieldMap = {
@@ -9,7 +9,7 @@ const criteriaToSortingFieldMap = {
 };
 
 const loadArticlesSortedByCriteria = async (
-  criteria: ArticleSortOptions,
+  criteria: ArticleSortingCriterias,
   amount?: number
 ) => {
   const sortingField = getSortingFieldByCriteria(criteria);
@@ -19,7 +19,7 @@ const loadArticlesSortedByCriteria = async (
   return response.data;
 };
 
-const getSortingFieldByCriteria = (criteria: ArticleSortOptions) => {
+const getSortingFieldByCriteria = (criteria: ArticleSortingCriterias) => {
   const sortingField = criteriaToSortingFieldMap[criteria];
   if (!sortingField) throw new Error("Invalid sorting criteria");
   return sortingField;

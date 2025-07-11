@@ -1,7 +1,7 @@
-import { ArticleSortOptions } from "@/app/routes/articles";
+import { ArticleSortingCriterias } from "@/app/routes/articles";
 import { PageHeading } from "@/shared/components";
 
-type Props = { sortingCriteria: ArticleSortOptions };
+type Props = { sortingCriteria: ArticleSortingCriterias };
 
 const criteriaToHeadingMap = {
   popular: "Popular articles 🔥",

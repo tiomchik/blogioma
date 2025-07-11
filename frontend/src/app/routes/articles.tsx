@@ -1,15 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-export type ArticleSortOptions = "popular" | "latest";
+export type ArticleSortingCriterias = "popular" | "latest";
 
 type ArticleSearch = {
-  sort: ArticleSortOptions;
+  sortingCriteria: ArticleSortingCriterias;
 };
 
 export const Route = createFileRoute("/articles")({
   component: RouteComponent,
   validateSearch: (search): ArticleSearch => {
-    return { sort: search.sort as ArticleSortOptions };
+    return {
+      sortingCriteria: search.sortingCriteria as ArticleSortingCriterias,
+    };
   },
 });
 

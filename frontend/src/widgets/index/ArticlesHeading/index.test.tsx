@@ -25,5 +25,5 @@ test("shows text", () => {
 test("arrow button redirects to list of ordered articles", () => {
   const arrowButton = screen.getByRole("link");
   click(arrowButton);
-  expect(router.history.location.search).toBe(`?sort=${sortingCriteria}`);
+  expect(router.history.location.search).toBe(`?sortingCriteria=${sortingCriteria}`);
 });
