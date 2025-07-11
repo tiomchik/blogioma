@@ -1,5 +1,6 @@
 import { PageHeading } from "@/shared/components";
-import { ArticlesHeading, ListOfArticles } from "@/widgets/index";
+import { ArticlesHeading } from "@/widgets/index";
+import { ListOfArticles } from "@/entities/article/ui";
 import React from "react";
 
 const IndexPage: React.FC = () => {
