@@ -10,11 +10,11 @@ const IndexPage: React.FC = () => {
         <ArticlesHeading urlSortParam="popular">
           Popular articles 🔥
         </ArticlesHeading>
-        <ListOfArticles orderByField="-viewings" amount={12} />
+        <ListOfArticles sortingCriteria="popular" amount={12} />
         <ArticlesHeading urlSortParam="latest">
           Latest articles 🕒
         </ArticlesHeading>
-        <ListOfArticles orderByField="-pub_date" amount={12} />
+        <ListOfArticles sortingCriteria="popular" amount={12} />
       </div>
     </main>
   );

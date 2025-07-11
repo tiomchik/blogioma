@@ -52,7 +52,7 @@ const queryClient = new QueryClient();
 
 const router = createRouterWithRootComponent(
   <QueryClientProvider client={queryClient}>
-    <ListOfArticles orderByField="id" />
+    <ListOfArticles sortingCriteria="popular" />
   </QueryClientProvider>
 );
 

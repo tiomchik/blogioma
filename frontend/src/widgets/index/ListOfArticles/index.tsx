@@ -3,13 +3,14 @@ import { ArticleCard } from "@/entities/article/ui";
 import { loadArticlesOrderedByField } from "@/entities/article/api";
 import { useQuery } from "@tanstack/react-query";
 import "./index.scss";
+import { ArticleSortOptions } from "@/app/routes/articles";
 
-type Props = { orderByField: string; amount?: number };
+type Props = { sortingCriteria: ArticleSortOptions; amount?: number };
 
-const ListOfArticles: React.FC<Props> = ({ orderByField, amount }) => {
+const ListOfArticles: React.FC<Props> = ({ sortingCriteria, amount }) => {
   const { isLoading, data, error } = useQuery({
-    queryKey: ["articles", orderByField],
-    queryFn: () => loadArticlesOrderedByField(orderByField, amount),
+    queryKey: ["articles", sortingCriteria],
+    queryFn: () => loadArticlesOrderedByField(sortingCriteria, amount),
   });
 
   if (isLoading) return "Loading...";
