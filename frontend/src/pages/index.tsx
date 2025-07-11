@@ -7,11 +7,11 @@ const IndexPage: React.FC = () => {
     <main>
       <div className="container">
         <PageHeading>Home</PageHeading>
-        <ArticlesHeading urlParamOrderBy="-viewings">
+        <ArticlesHeading urlSortParam="-viewings">
           Popular articles 🔥
         </ArticlesHeading>
         <ListOfArticles orderByField="-viewings" amount={12} />
-        <ArticlesHeading urlParamOrderBy="-pub_date">
+        <ArticlesHeading urlSortParam="-pub_date">
           Latest articles 🕒
         </ArticlesHeading>
         <ListOfArticles orderByField="-pub_date" amount={12} />
