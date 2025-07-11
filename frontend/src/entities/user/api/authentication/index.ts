@@ -30,7 +30,7 @@ const obtainToken = async (username: string, password: string) => {
   return response.data.token;
 };
 
-const obtainTokenFromCookies = () => cookies.get(AUTH_TOKEN_COOKIE_KEY);
+const obtainTokenFromCookies = (): string | null => cookies.get(AUTH_TOKEN_COOKIE_KEY);
 
 const setAuthToken = (token: string) => {
   cookies.set(AUTH_TOKEN_COOKIE_KEY, token, { path: "/" });
