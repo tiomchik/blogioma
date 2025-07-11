@@ -26,4 +26,8 @@ const getSortingFieldByCriteria = (criteria: ArticleSortOptions) => {
   return sortingField;
 };
 
-export { loadArticlesSortedByCriteria, ARTICLES_BASE_URL };
+export {
+  loadArticlesSortedByCriteria,
+  ARTICLES_BASE_URL,
+  getSortingFieldByCriteria,
+};

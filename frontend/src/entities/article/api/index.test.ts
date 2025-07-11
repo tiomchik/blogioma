@@ -1,5 +1,9 @@
 import { describe, expect, test, vi } from "vitest";
-import { ARTICLES_BASE_URL, loadArticlesSortedByCriteria } from ".";
+import {
+  ARTICLES_BASE_URL,
+  getSortingFieldByCriteria,
+  loadArticlesSortedByCriteria,
+} from ".";
 import axios from "axios";
 
 vi.mock("axios", () => {
@@ -13,15 +17,10 @@ vi.mock("axios", () => {
 const mockedAxiosGet = vi.mocked(axios.get);
 
 describe("loadArticlesSortedByCriteria", () => {
-  test("axios.get was called with correct URL", async () => {
+  test("axios.get was called with correct URL without page size", async () => {
     await loadArticlesSortedByCriteria("popular");
     expect(mockedAxiosGet).toBeCalledWith(
       `${ARTICLES_BASE_URL}/?order_by=-viewings&page_size=`
-    );
-
-    await loadArticlesSortedByCriteria("latest");
-    expect(mockedAxiosGet).toBeCalledWith(
-      `${ARTICLES_BASE_URL}/?order_by=-pub_date&page_size=`
     );
   });
 
@@ -31,10 +30,17 @@ describe("loadArticlesSortedByCriteria", () => {
       `${ARTICLES_BASE_URL}/?order_by=-viewings&page_size=3`
     );
   });
+});
 
-  test("error was thrown if invalid criteria is passed", async () => {
+describe("getSortingFieldByCriteria", () => {
+  test("returns correct sorting field", () => {
+    expect(getSortingFieldByCriteria("popular")).toBe("-viewings");
+    expect(getSortingFieldByCriteria("latest")).toBe("-pub_date");
+  });
+
+  test("error was thrown if invalid criteria is passed", () => {
     const invalidCriteria = "invalid" as any;
-    expect(loadArticlesSortedByCriteria(invalidCriteria)).rejects.toThrow(
+    expect(() => getSortingFieldByCriteria(invalidCriteria)).toThrow(
       "Invalid sorting criteria"
     );
   });
