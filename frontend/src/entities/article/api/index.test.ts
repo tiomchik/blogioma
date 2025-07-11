@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from "vitest";
-import { loadArticlesOrderedByField } from ".";
+import { ARTICLES_BASE_URL, loadArticlesSortedByCriteria } from ".";
 import axios from "axios";
 
 vi.mock("axios", () => {
@@ -12,18 +12,30 @@ vi.mock("axios", () => {
 
 const mockedAxiosGet = vi.mocked(axios.get);
 
-describe("loadArticlesOrderedByField", () => {
-  test("axios.get was called with correct URL without page size", async () => {
-    await loadArticlesOrderedByField("heading");
+describe("loadArticlesSortedByCriteria", () => {
+  test("axios.get was called with correct URL", async () => {
+    await loadArticlesSortedByCriteria("popular");
     expect(mockedAxiosGet).toBeCalledWith(
-      `${import.meta.env.VITE_API_URL}/articles/?order_by=heading&page_size=`
+      `${ARTICLES_BASE_URL}/?order_by=-viewings&page_size=`
+    );
+
+    await loadArticlesSortedByCriteria("latest");
+    expect(mockedAxiosGet).toBeCalledWith(
+      `${ARTICLES_BASE_URL}/?order_by=-pub_date&page_size=`
     );
   });
 
   test("axios.get was called with correct URL with page size", async () => {
-    await loadArticlesOrderedByField("heading", 3);
+    await loadArticlesSortedByCriteria("popular", 3);
     expect(mockedAxiosGet).toBeCalledWith(
-      `${import.meta.env.VITE_API_URL}/articles/?order_by=heading&page_size=3`
+      `${ARTICLES_BASE_URL}/?order_by=-viewings&page_size=3`
+    );
+  });
+
+  test("error was thrown if invalid criteria is passed", async () => {
+    const invalidCriteria = "invalid" as any;
+    expect(loadArticlesSortedByCriteria(invalidCriteria)).rejects.toThrow(
+      "Invalid sorting criteria"
     );
   });
 });

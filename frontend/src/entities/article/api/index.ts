@@ -1,11 +1,29 @@
 import axios from "axios";
 import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
+import { ArticleSortOptions } from "@/app/routes/articles";
 
-const loadArticlesOrderedByField = async (field: string, amount?: number) => {
+const ARTICLES_BASE_URL = `${import.meta.env.VITE_API_URL}/articles`;
+
+const criteriaToSortingFieldMap = {
+  popular: "-viewings",
+  latest: "-pub_date",
+};
+
+const loadArticlesSortedByCriteria = async (
+  criteria: ArticleSortOptions,
+  amount?: number
+) => {
+  const sortingField = getSortingFieldByCriteria(criteria);
   const response = await axios.get<ServerPaginatedArticlesResponse>(
-    `${import.meta.env.VITE_API_URL}/articles/?order_by=${field}&page_size=${amount ? amount : ""}`
+    `${ARTICLES_BASE_URL}/?order_by=${sortingField}&page_size=${amount || ""}`
   );
   return response.data;
 };
 
-export { loadArticlesOrderedByField };
+const getSortingFieldByCriteria = (criteria: ArticleSortOptions) => {
+  const sortingField = criteriaToSortingFieldMap[criteria];
+  if (!sortingField) throw new Error("Invalid sorting criteria");
+  return sortingField;
+};
+
+export { loadArticlesSortedByCriteria, ARTICLES_BASE_URL };
