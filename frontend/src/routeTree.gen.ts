@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './app/routes/__root'
 import { Route as FeedbackImport } from './app/routes/feedback'
+import { Route as ArticlesImport } from './app/routes/articles'
 import { Route as AboutImport } from './app/routes/about'
 import { Route as IndexImport } from './app/routes/index'
 import { Route as SearchIndexImport } from './app/routes/search/index'
@@ -23,7 +24,6 @@ import { Route as ArticleUpdateImport } from './app/routes/article/update'
 import { Route as ArticleRandomImport } from './app/routes/article/random'
 import { Route as ArticleDeleteImport } from './app/routes/article/delete'
 import { Route as ArticleAddImport } from './app/routes/article/add'
-import { Route as ArticleOrderByImport } from './app/routes/article/$orderBy'
 import { Route as ProfileUsernameIndexImport } from './app/routes/profile/$username/index'
 import { Route as ArticlePkIndexImport } from './app/routes/article/$pk/index'
 import { Route as ArticlePkReportImport } from './app/routes/article/$pk/report'
@@ -37,6 +37,12 @@ import { Route as ArticlePkCommentsAddImport } from './app/routes/article/$pk/co
 const FeedbackRoute = FeedbackImport.update({
   id: '/feedback',
   path: '/feedback',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ArticlesRoute = ArticlesImport.update({
+  id: '/articles',
+  path: '/articles',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -106,12 +112,6 @@ const ArticleAddRoute = ArticleAddImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ArticleOrderByRoute = ArticleOrderByImport.update({
-  id: '/article/$orderBy',
-  path: '/article/$orderBy',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const ProfileUsernameIndexRoute = ProfileUsernameIndexImport.update({
   id: '/profile/$username/',
   path: '/profile/$username/',
@@ -172,18 +172,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/articles': {
+      id: '/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof ArticlesImport
+      parentRoute: typeof rootRoute
+    }
     '/feedback': {
       id: '/feedback'
       path: '/feedback'
       fullPath: '/feedback'
       preLoaderRoute: typeof FeedbackImport
-      parentRoute: typeof rootRoute
-    }
-    '/article/$orderBy': {
-      id: '/article/$orderBy'
-      path: '/article/$orderBy'
-      fullPath: '/article/$orderBy'
-      preLoaderRoute: typeof ArticleOrderByImport
       parentRoute: typeof rootRoute
     }
     '/article/add': {
@@ -306,8 +306,8 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/articles': typeof ArticlesRoute
   '/feedback': typeof FeedbackRoute
-  '/article/$orderBy': typeof ArticleOrderByRoute
   '/article/add': typeof ArticleAddRoute
   '/article/delete': typeof ArticleDeleteRoute
   '/article/random': typeof ArticleRandomRoute
@@ -329,8 +329,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/articles': typeof ArticlesRoute
   '/feedback': typeof FeedbackRoute
-  '/article/$orderBy': typeof ArticleOrderByRoute
   '/article/add': typeof ArticleAddRoute
   '/article/delete': typeof ArticleDeleteRoute
   '/article/random': typeof ArticleRandomRoute
@@ -353,8 +353,8 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/articles': typeof ArticlesRoute
   '/feedback': typeof FeedbackRoute
-  '/article/$orderBy': typeof ArticleOrderByRoute
   '/article/add': typeof ArticleAddRoute
   '/article/delete': typeof ArticleDeleteRoute
   '/article/random': typeof ArticleRandomRoute
@@ -378,8 +378,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/articles'
     | '/feedback'
-    | '/article/$orderBy'
     | '/article/add'
     | '/article/delete'
     | '/article/random'
@@ -400,8 +400,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/articles'
     | '/feedback'
-    | '/article/$orderBy'
     | '/article/add'
     | '/article/delete'
     | '/article/random'
@@ -422,8 +422,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/articles'
     | '/feedback'
-    | '/article/$orderBy'
     | '/article/add'
     | '/article/delete'
     | '/article/random'
@@ -446,8 +446,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ArticlesRoute: typeof ArticlesRoute
   FeedbackRoute: typeof FeedbackRoute
-  ArticleOrderByRoute: typeof ArticleOrderByRoute
   ArticleAddRoute: typeof ArticleAddRoute
   ArticleDeleteRoute: typeof ArticleDeleteRoute
   ArticleRandomRoute: typeof ArticleRandomRoute
@@ -469,8 +469,8 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ArticlesRoute: ArticlesRoute,
   FeedbackRoute: FeedbackRoute,
-  ArticleOrderByRoute: ArticleOrderByRoute,
   ArticleAddRoute: ArticleAddRoute,
   ArticleDeleteRoute: ArticleDeleteRoute,
   ArticleRandomRoute: ArticleRandomRoute,
@@ -501,8 +501,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/articles",
         "/feedback",
-        "/article/$orderBy",
         "/article/add",
         "/article/delete",
         "/article/random",
@@ -527,11 +527,11 @@ export const routeTree = rootRoute
     "/about": {
       "filePath": "about.tsx"
     },
+    "/articles": {
+      "filePath": "articles.tsx"
+    },
     "/feedback": {
       "filePath": "feedback.tsx"
-    },
-    "/article/$orderBy": {
-      "filePath": "article/$orderBy.tsx"
     },
     "/article/add": {
       "filePath": "article/add.tsx"
