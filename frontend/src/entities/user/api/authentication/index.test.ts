@@ -54,11 +54,12 @@ describe("authenticateAndRedirectToHome", () => {
 
 describe("obtainToken", () => {
   test("axios.post was called with the correct arguments", async () => {
-    await obtainToken("username", "password");
+    const token = await obtainToken("username", "password");
     expect(mockedAxiosPost).toHaveBeenCalledWith(
       `${import.meta.env.VITE_API_URL}/auth/obtain-token/`,
       { username: "username", password: "password" }
     );
+    expect(token).toBe(expectedToken);
   });
 });
 
