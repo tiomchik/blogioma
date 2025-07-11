@@ -8,9 +8,9 @@ import { screen } from "@testing-library/react";
 import ArticlesHeading from ".";
 
 const text = "articles heading";
-const sortingField = "popular";
+const sortingCriteria = "popular";
 const router = createRouterWithRootComponent(
-  <ArticlesHeading urlSortParam={sortingField}>{text}</ArticlesHeading>
+  <ArticlesHeading urlSortParam={sortingCriteria}>{text}</ArticlesHeading>
 );
 
 beforeEach(() => {
@@ -25,5 +25,5 @@ test("shows text", () => {
 test("arrow button redirects to list of ordered articles", () => {
   const arrowButton = screen.getByRole("link");
   click(arrowButton);
-  expect(router.history.location.search).toBe(`?sort=${sortingField}`);
+  expect(router.history.location.search).toBe(`?sort=${sortingCriteria}`);
 });
