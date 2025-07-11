@@ -1,6 +1,7 @@
 import axios from "axios";
 import { describe, expect, test, vi } from "vitest";
 import { getUserByToken, getUserFromCookies } from "./";
+import { ME_URL } from "./constants";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
@@ -31,10 +32,9 @@ describe("getUserByToken", () => {
   test("user has been received", async () => {
     const token = "token";
     const user = await getUserByToken(token);
-    expect(mockedAxiosGet).toBeCalledWith(
-      `${import.meta.env.VITE_API_URL}/auth/me`,
-      { headers: { Authorization: `Token ${token}` } }
-    );
+    expect(mockedAxiosGet).toBeCalledWith(ME_URL, {
+      headers: { Authorization: `Token ${token}` },
+    });
     expect(user).toEqual(expectedUser);
   });
 });

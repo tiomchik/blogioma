@@ -1,6 +1,7 @@
 import { UserData, ObtainTokenResponse } from "@/entities/user/types";
 import { UseNavigateResult } from "@tanstack/react-router";
 import { getUserByToken } from "@/entities/user/api";
+import { OBTAIN_TOKEN_URL } from "./constants";
 import Cookies from "universal-cookie";
 import axios from "axios";
 
@@ -23,14 +24,16 @@ const authenticateAndRedirectToHome = async (
 };
 
 const obtainToken = async (username: string, password: string) => {
-  const response = await axios.post<ObtainTokenResponse>(
-    `${import.meta.env.VITE_API_URL}/auth/obtain-token/`,
-    { username, password }
-  );
+  const response = await axios.post<ObtainTokenResponse>(OBTAIN_TOKEN_URL, {
+    username,
+    password,
+  });
   return response.data.token;
 };
 
-const obtainTokenFromCookies = (): string | null => cookies.get(AUTH_TOKEN_COOKIE_KEY);
+const obtainTokenFromCookies = (): string | null => {
+  return cookies.get(AUTH_TOKEN_COOKIE_KEY);
+};
 
 const setAuthToken = (token: string) => {
   cookies.set(AUTH_TOKEN_COOKIE_KEY, token, { path: "/" });

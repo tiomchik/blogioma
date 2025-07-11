@@ -9,6 +9,7 @@ import {
   setAuthToken,
   setAuthTokenInAxiosHeaders,
 } from "./";
+import { OBTAIN_TOKEN_URL } from "./constants";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
@@ -55,10 +56,10 @@ describe("authenticateAndRedirectToHome", () => {
 describe("obtainToken", () => {
   test("axios.post was called with the correct arguments", async () => {
     const token = await obtainToken("username", "password");
-    expect(mockedAxiosPost).toHaveBeenCalledWith(
-      `${import.meta.env.VITE_API_URL}/auth/obtain-token/`,
-      { username: "username", password: "password" }
-    );
+    expect(mockedAxiosPost).toHaveBeenCalledWith(OBTAIN_TOKEN_URL, {
+      username: "username",
+      password: "password",
+    });
     expect(token).toBe(expectedToken);
   });
 });

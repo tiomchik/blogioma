@@ -1,9 +1,6 @@
 import { describe, expect, test, vi } from "vitest";
-import {
-  ARTICLES_BASE_URL,
-  getSortingFieldByCriteria,
-  loadArticlesSortedByCriteria,
-} from ".";
+import { getSortingFieldByCriteria, loadArticlesSortedByCriteria } from ".";
+import { ARTICLES_BASE_URL } from "./constants";
 import axios from "axios";
 
 vi.mock("axios", () => {

@@ -2,6 +2,7 @@ import { expect, test, vi } from "vitest";
 import { createDummyFile } from "@/tests/utils";
 import axios from "axios";
 import { createUser } from "./";
+import { REGISTER_URL } from "./constants";
 
 vi.mock("axios", () => {
   return { default: { post: vi.fn(() => ({ data: userData })) } };
@@ -25,9 +26,6 @@ test("axios.post was called with the correct arguments", async () => {
 
   const response = await createUser(formData);
 
-  expect(mockedAxiosPost).toHaveBeenCalledWith(
-    `${import.meta.env.VITE_API_URL}/auth/register/`,
-    formData
-  );
+  expect(mockedAxiosPost).toHaveBeenCalledWith(REGISTER_URL, formData);
   expect(response.data).toEqual(userData);
 });

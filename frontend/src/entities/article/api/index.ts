@@ -1,8 +1,7 @@
 import axios from "axios";
 import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
 import { ArticleSortOptions } from "@/app/routes/articles";
-
-const ARTICLES_BASE_URL = `${import.meta.env.VITE_API_URL}/articles`;
+import { ARTICLES_BASE_URL } from "./constants";
 
 const criteriaToSortingFieldMap = {
   popular: "-viewings",
@@ -26,8 +25,4 @@ const getSortingFieldByCriteria = (criteria: ArticleSortOptions) => {
   return sortingField;
 };
 
-export {
-  loadArticlesSortedByCriteria,
-  ARTICLES_BASE_URL,
-  getSortingFieldByCriteria,
-};
+export { loadArticlesSortedByCriteria, getSortingFieldByCriteria };

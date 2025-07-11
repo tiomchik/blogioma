@@ -1,5 +1,6 @@
 import { ServerUserResponse } from "@/entities/user/types";
 import { ContextUser } from "@/app/contexts/auth";
+import { ME_URL } from "./constants";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
@@ -13,10 +14,9 @@ const getUserFromCookies = async (): Promise<ContextUser | null> => {
 };
 
 const getUserByToken = async (token: string) => {
-  const response = await axios.get<ServerUserResponse>(
-    `${import.meta.env.VITE_API_URL}/auth/me`,
-    { headers: { Authorization: `Token ${token}` } }
-  );
+  const response = await axios.get<ServerUserResponse>(ME_URL, {
+    headers: { Authorization: `Token ${token}` },
+  });
   return response.data;
 };
 
