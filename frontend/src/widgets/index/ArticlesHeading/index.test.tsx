@@ -8,7 +8,7 @@ import { screen } from "@testing-library/react";
 import ArticlesHeading from ".";
 
 const text = "articles heading";
-const sortingField = "-viewings";
+const sortingField = "popular";
 const router = createRouterWithRootComponent(
   <ArticlesHeading urlSortParam={sortingField}>{text}</ArticlesHeading>
 );

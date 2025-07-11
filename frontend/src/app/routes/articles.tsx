@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-export type ArticleSortOptions = "-viewings" | "-pub_date";
+export type ArticleSortOptions = "popular" | "latest";
 
 type ArticleSearch = {
   sort: ArticleSortOptions;
