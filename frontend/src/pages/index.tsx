@@ -14,7 +14,7 @@ const IndexPage: React.FC = () => {
         <ArticlesHeading urlSortParam="latest">
           Latest articles 🕒
         </ArticlesHeading>
-        <ListOfArticles sortingCriteria="popular" amount={12} />
+        <ListOfArticles sortingCriteria="latest" amount={12} />
       </div>
     </main>
   );
