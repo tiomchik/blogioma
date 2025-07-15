@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from "vitest";
 import { getSortingFieldByCriteria, loadArticlesSortedByCriteria } from ".";
-import { ARTICLES_BASE_URL } from "./constants";
+import { ARTICLES_URL } from "./constants";
 import axios from "axios";
 
 vi.mock("axios", () => {
@@ -18,7 +18,7 @@ const mockedAxiosGet = vi.mocked(axios.get);
 describe("loadArticlesSortedByCriteria", () => {
   test("axios.get was called with correct URL and sorting field", async () => {
     const data = await loadArticlesSortedByCriteria("popular");
-    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_BASE_URL, {
+    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_URL, {
       params: { order_by: "-viewings" },
     });
     expect(data).toEqual(expectedData);
@@ -26,7 +26,7 @@ describe("loadArticlesSortedByCriteria", () => {
 
   test("axios.get was called with page size", async () => {
     const data = await loadArticlesSortedByCriteria("popular", { amount: 3 });
-    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_BASE_URL, {
+    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_URL, {
       params: { order_by: "-viewings", page_size: 3 },
     });
     expect(data).toEqual(expectedData);
@@ -37,7 +37,7 @@ describe("loadArticlesSortedByCriteria", () => {
       amount: 3,
       page: 2,
     });
-    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_BASE_URL, {
+    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_URL, {
       params: { order_by: "-viewings", page_size: 3, page: 2 },
     });
     expect(data).toEqual(expectedData);

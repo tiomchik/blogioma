@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
 import { ArticleSortingCriterias } from "@/app/routes/articles";
-import { ARTICLES_BASE_URL } from "./constants";
+import { ARTICLES_URL } from "./constants";
 
 const criteriaToSortingFieldMap = {
   popular: "-viewings",
@@ -14,7 +14,7 @@ const loadArticlesSortedByCriteria = async (
 ) => {
   const sortingField = getSortingFieldByCriteria(criteria);
   const response = await axios.get<ServerPaginatedArticlesResponse>(
-    ARTICLES_BASE_URL,
+    ARTICLES_URL,
     {
       params: {
         order_by: sortingField,
