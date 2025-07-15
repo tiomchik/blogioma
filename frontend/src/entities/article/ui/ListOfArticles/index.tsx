@@ -20,10 +20,9 @@ const ListOfArticles: React.FC<Props> = ({
   const { isLoading, data, error } = useQuery({
     queryKey: ["articles", sortingCriteria],
     queryFn: () =>
-      loadArticlesSortedByCriteria(
-        sortingCriteria as ArticleSortingCriterias,
-        amount
-      ),
+      loadArticlesSortedByCriteria(sortingCriteria as ArticleSortingCriterias, {
+        amount,
+      }),
     enabled: !articles,
   });
 

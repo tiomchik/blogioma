@@ -10,11 +10,18 @@ const criteriaToSortingFieldMap = {
 
 const loadArticlesSortedByCriteria = async (
   criteria: ArticleSortingCriterias,
-  amount?: number
+  options?: { amount?: number; page?: number }
 ) => {
   const sortingField = getSortingFieldByCriteria(criteria);
   const response = await axios.get<ServerPaginatedArticlesResponse>(
-    `${ARTICLES_BASE_URL}/?order_by=${sortingField}&page_size=${amount || ""}`
+    ARTICLES_BASE_URL,
+    {
+      params: {
+        order_by: sortingField,
+        page_size: options?.amount,
+        page: options?.page,
+      },
+    }
   );
   return response.data;
 };

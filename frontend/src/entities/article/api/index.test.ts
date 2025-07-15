@@ -16,19 +16,30 @@ const expectedData = "data";
 const mockedAxiosGet = vi.mocked(axios.get);
 
 describe("loadArticlesSortedByCriteria", () => {
-  test("axios.get was called with correct URL without page size", async () => {
+  test("axios.get was called with correct URL and sorting field", async () => {
     const data = await loadArticlesSortedByCriteria("popular");
-    expect(mockedAxiosGet).toBeCalledWith(
-      `${ARTICLES_BASE_URL}/?order_by=-viewings&page_size=`
-    );
+    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_BASE_URL, {
+      params: { order_by: "-viewings" },
+    });
     expect(data).toEqual(expectedData);
   });
 
-  test("axios.get was called with correct URL with page size", async () => {
-    const data = await loadArticlesSortedByCriteria("popular", 3);
-    expect(mockedAxiosGet).toBeCalledWith(
-      `${ARTICLES_BASE_URL}/?order_by=-viewings&page_size=3`
-    );
+  test("axios.get was called with page size", async () => {
+    const data = await loadArticlesSortedByCriteria("popular", { amount: 3 });
+    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_BASE_URL, {
+      params: { order_by: "-viewings", page_size: 3 },
+    });
+    expect(data).toEqual(expectedData);
+  });
+
+  test("axios.get was called with page size and page", async () => {
+    const data = await loadArticlesSortedByCriteria("popular", {
+      amount: 3,
+      page: 2,
+    });
+    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_BASE_URL, {
+      params: { order_by: "-viewings", page_size: 3, page: 2 },
+    });
     expect(data).toEqual(expectedData);
   });
 });
