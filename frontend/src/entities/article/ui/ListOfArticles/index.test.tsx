@@ -1,11 +1,11 @@
 import { screen } from "@testing-library/react";
-import { beforeEach, expect, test, vi } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import {
   createRouterWithRootComponent,
   expectErrorMessage,
   renderWithRouting,
 } from "@/tests/utils";
-import ListOfArticles from "./";
+import ListOfArticles, { Props } from "./";
 import { ServerArticleResponse } from "@/entities/article/types";
 import {
   QueryClient,
@@ -48,18 +48,6 @@ for (let i = 0; i <= 3; i++) {
   });
 }
 
-const queryClient = new QueryClient();
-
-const router = createRouterWithRootComponent(
-  <QueryClientProvider client={queryClient}>
-    <ListOfArticles sortingCriteria="popular" />
-  </QueryClientProvider>
-);
-
-beforeEach(() => {
-  renderWithRouting(router);
-});
-
 vi.mock("@tanstack/react-query", async () => {
   const actual = await vi.importActual("@tanstack/react-query");
   return { ...actual, useQuery: vi.fn() };
@@ -67,24 +55,61 @@ vi.mock("@tanstack/react-query", async () => {
 
 const mockedUseQuery = vi.mocked(useQuery, { partial: true });
 
-mockedUseQuery.mockReturnValueOnce({ isLoading: true });
+describe("using useQuery", () => {
+  const router = createRouterForListOfArticles({ sortingCriteria: "popular" });
 
-test("displays loading state", () => {
-  const loading = screen.getByText("Loading...");
-  expect(loading).toBeTruthy();
+  beforeEach(() => {
+    renderWithRouting(router);
+  });
+
+  mockedUseQuery.mockReturnValueOnce({ isLoading: true });
+
+  test("displays loading state", () => {
+    const loading = screen.getByText("Loading...");
+    expect(loading).toBeTruthy();
+  });
+
+  mockedUseQuery.mockReturnValueOnce({ data: { results: articles } });
+
+  test("displays articles", () => {
+    checkArticles(articles);
+  });
+
+  mockedUseQuery.mockReturnValueOnce({ error: new Error("error") });
+
+  test("displays error", () => {
+    expectErrorMessage(/error/);
+  });
 });
 
-mockedUseQuery.mockReturnValueOnce({ data: { results: articles } });
+describe("using articles prop", () => {
+  const router = createRouterForListOfArticles({ articles });
 
-test("displays articles ordered by id", () => {
+  beforeEach(() => {
+    renderWithRouting(router);
+  });
+
+  mockedUseQuery.mockReturnValueOnce({ data: undefined });
+
+  test("displays articles", () => {
+    checkArticles(articles);
+  });
+});
+
+const queryClient = new QueryClient();
+
+const createRouterForListOfArticles = (props: Props) => {
+  const router = createRouterWithRootComponent(
+    <QueryClientProvider client={queryClient}>
+      <ListOfArticles {...props} />
+    </QueryClientProvider>
+  );
+  return router;
+};
+
+const checkArticles = (articles: ServerArticleResponse[]) => {
   for (let i = 0; i < 3; i++) {
     const article = screen.getByText(articles[i].heading);
     expect(article).toBeDefined();
   }
-});
-
-mockedUseQuery.mockReturnValueOnce({ error: new Error("error") });
-
-test("displays error", () => {
-  expectErrorMessage(/error/);
-});
+};
