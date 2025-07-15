@@ -1,3 +1,4 @@
+import ArticlesPage from "@/pages/articles";
 import { createFileRoute } from "@tanstack/react-router";
 
 export type ArticleSortingCriterias = "popular" | "latest";
@@ -8,7 +9,7 @@ type ArticleSearch = {
 };
 
 export const Route = createFileRoute("/articles")({
-  component: RouteComponent,
+  component: ArticlesPage,
   validateSearch: (search): ArticleSearch => {
     return {
       sortingCriteria: search.sortingCriteria as ArticleSortingCriterias,
@@ -16,7 +17,3 @@ export const Route = createFileRoute("/articles")({
     };
   },
 });
-
-function RouteComponent() {
-  return <div>Hello "/articles"!</div>;
-}
