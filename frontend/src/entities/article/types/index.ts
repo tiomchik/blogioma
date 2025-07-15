@@ -12,6 +12,7 @@ export type ServerArticleResponse = {
 
 export type ServerPaginatedArticlesResponse = {
   count: number;
+  page_amount: number;
   next: string | null;
   previous: string | null;
   results: ServerArticleResponse[];
