@@ -1,6 +1,6 @@
 import { ServerUserResponse } from "@/entities/user/types";
 import { ContextUser } from "@/app/contexts/auth";
-import { ME_URL } from "./constants";
+import { ME_URL, USERS_URL } from "./constants";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
@@ -20,4 +20,9 @@ const getUserByToken = async (token: string) => {
   return response.data;
 };
 
-export { getUserFromCookies, getUserByToken };
+const getUserById = async (id: number) => {
+  const response = await axios.get<ServerUserResponse>(`${USERS_URL}/${id}/`);
+  return response.data;
+};
+
+export { getUserFromCookies, getUserByToken, getUserById };
