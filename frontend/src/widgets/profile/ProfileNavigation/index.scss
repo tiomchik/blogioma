@@ -1,0 +1,54 @@
+@use "@/app/styles/variables" as *;
+
+.profile-nav {
+  border-right: 2px solid $white;
+  width: 275px;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    list-style-type: none;
+
+    li a {
+      display: flex;
+      align-items: end;
+      gap: 7px;
+
+      .wrapper {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}
+
+@media screen and (width <= 600px) {
+  .profile-nav ul {
+    align-items: center;
+
+    li a {
+      font-size: 0;
+
+      .wrapper {
+        height: 45px;
+        width: 45px;
+      }
+    }
+  }
+}
+
+@media screen and (width <= 540px) {
+  .profile-nav {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid $white;
+    margin-bottom: 25px;
+
+    ul {
+      flex-direction: row;
+      justify-content: space-around;
+      padding-bottom: 10px;
+    }
+  }
+}

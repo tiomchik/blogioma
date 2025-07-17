@@ -1,3 +1,4 @@
 import ProfilePageHeading from "./ProfilePageHeading";
+import ProfileNavigation from "./ProfileNavigation";
 
-export { ProfilePageHeading };
+export { ProfilePageHeading, ProfileNavigation };
