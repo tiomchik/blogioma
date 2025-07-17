@@ -10,7 +10,7 @@ type Props = {
 const Pfp: React.FC<Props> = ({ pfp }) => {
   if (pfp) {
     return (
-      <div className="pfp-wrapper">
+      <div className="wrapper">
         <img
           src={pfp}
           className="pfp"
@@ -22,7 +22,7 @@ const Pfp: React.FC<Props> = ({ pfp }) => {
   }
 
   return (
-    <div className="pfp-wrapper">
+    <div className="wrapper">
       <ProfileIcon title="profile icon" />
     </div>
   );
