@@ -16,8 +16,6 @@ const Pfp: React.FC<Props> = ({ pfp }) => {
           className="pfp"
           alt="profile picture"
           title="profile picture"
-          width="32"
-          height="28"
         />
       </div>
     );
