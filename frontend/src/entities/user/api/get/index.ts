@@ -20,9 +20,9 @@ const getUserByToken = async (token: string) => {
   return response.data;
 };
 
-const getUserById = async (id: number) => {
-  const response = await axios.get<ServerUserResponse>(`${USERS_URL}/${id}/`);
+const getUserByName = async (username: string) => {
+  const response = await axios.get<ServerUserResponse>(`${USERS_URL}/${username}/`);
   return response.data;
 };
 
-export { getUserFromCookies, getUserByToken, getUserById };
+export { getUserFromCookies, getUserByToken, getUserByName };
