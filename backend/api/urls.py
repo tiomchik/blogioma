@@ -16,7 +16,7 @@ urlpatterns = [
     path("auth/me/", Me.as_view(), name="me"),
     path("auth/me/edit/", Edit.as_view(), name="edit-me"),
 
-    path("users/<int:pk>/", RetrieveUserView.as_view(), name="user-detail"),
+    path("users/<str:username>/", RetrieveUserView.as_view(), name="user-detail"),
 
     path(
         "articles/<int:pk>/report/", ReportArticle.as_view(),

@@ -7,3 +7,4 @@ from authentication.models import User
 class RetrieveUserView(RetrieveAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    lookup_field = "username"
