@@ -6,15 +6,13 @@ import {
 import ArticleCard from "./";
 import { beforeEach, describe, expect, test } from "vitest";
 import { screen } from "@testing-library/react";
+import { mockUser } from "@/tests/mocks";
 
 const article = {
   id: 7,
   heading: "test heading",
   full_text: "test full text",
-  author: {
-    username: "user6",
-    pfp: "url/to/pfp",
-  },
+  author: mockUser,
   pub_date: "2025-03-28T05:44:13.389735Z",
   update: null,
 };

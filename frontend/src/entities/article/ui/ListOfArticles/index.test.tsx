@@ -12,21 +12,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
-import { ServerUserResponse } from "@/entities/user/types";
-
-const author: ServerUserResponse = {
-  id: 0,
-  username: "testUser",
-  pfp: "url/to/pfp",
-  last_login: "",
-  is_staff: false,
-  date_joined: "",
-  email: null,
-  youtube: "",
-  tiktok: "",
-  twitch: "",
-  linkedin: "",
-};
+import { mockUser } from "@/tests/mocks";
 
 const article: ServerArticleResponse = {
   id: 1,
@@ -34,7 +20,7 @@ const article: ServerArticleResponse = {
   full_text: "full text",
   pub_date: "2023-09-01T00:00:00.000Z",
   update: "2023-09-01T00:00:00.000Z",
-  author,
+  author: mockUser,
   viewings: 100000,
 };
 
