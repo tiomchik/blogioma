@@ -6,7 +6,7 @@ from .swagger import schema_view
 from .views.report import ReportArticle
 from .views.feedback import Feedback
 from .views.authentication import RegisterView, Me, Edit
-from .views.user.retrieve import RetrieveUserView
+from .views.user import RetrieveUserView, GetUserArticles
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -17,6 +17,7 @@ urlpatterns = [
     path("auth/me/edit/", Edit.as_view(), name="edit-me"),
 
     path("users/<str:username>/", RetrieveUserView.as_view(), name="user-detail"),
+    path("users/<str:username>/articles/", GetUserArticles.as_view(), name="user-articles"),
 
     path(
         "articles/<int:pk>/report/", ReportArticle.as_view(),
