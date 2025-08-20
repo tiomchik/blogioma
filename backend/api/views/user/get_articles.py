@@ -1,3 +1,5 @@
+
+from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView
 from rest_framework.exceptions import NotFound
 
@@ -9,6 +11,7 @@ from articles.models import Article
 
 class GetUserArticles(ListAPIView):
     serializer_class = ArticleSerializer
+    filter_backends = [OrderingFilter]
     pagination_class = Pagination
 
     def get_queryset(self) -> list[Article]:

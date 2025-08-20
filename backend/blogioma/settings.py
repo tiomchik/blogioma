@@ -187,6 +187,7 @@ REST_FRAMEWORK = {
     ],
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
     "NON_FIELD_ERRORS_KEY": "detail",
+    "ORDERING_PARAM": "order_by",
 }
 
 if "test" in sys.argv:

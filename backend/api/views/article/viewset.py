@@ -1,3 +1,4 @@
+from rest_framework.filters import OrderingFilter
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.mixins import DestroyModelMixin
@@ -28,5 +29,6 @@ class ArticleViewSet(
 ):
     queryset = Article.objects.order_by("-pub_date")
     serializer_class = ArticleSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrStaffOrReadOnly, )
+    filter_backends = [OrderingFilter]
+    permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrStaffOrReadOnly)
     pagination_class = Pagination
