@@ -32,8 +32,9 @@ const ListOfArticles: React.FC<Props> = ({
 
   return (
     <div className="articles">
-      {data && data.results.map(renderArticleCard)}
-      {articles && articles.map(renderArticleCard)}
+      {data
+        ? data.results.map(renderArticleCard)
+        : articles && articles.map(renderArticleCard)}
     </div>
   );
 };
