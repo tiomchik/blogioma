@@ -15,10 +15,10 @@ const ArticleCard: React.FC<Props> = ({
   pub_date,
   update,
 }) => {
-  const date = new Date(update ? update : pub_date);
+  const date = new Date(update || pub_date);
 
   return (
-    <article className="article">
+    <article className="article" data-testid="article-card">
       <h1>{truncateWithEllipsis(heading, 60)}</h1>
       <p>{truncateWithEllipsis(full_text, 110)}</p>
 

@@ -31,7 +31,7 @@ const ListOfArticles: React.FC<Props> = ({
   if (error) return generateErrorMessage(error);
 
   return (
-    <div className="articles">
+    <div className="articles" data-testid="list-of-articles">
       {data
         ? data.results.map(renderArticleCard)
         : articles?.map(renderArticleCard)}

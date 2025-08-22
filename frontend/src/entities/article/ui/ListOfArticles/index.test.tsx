@@ -58,7 +58,7 @@ describe("using useQuery", () => {
   mockedUseQuery.mockReturnValueOnce({ data: { results: articles } });
 
   test("displays articles", () => {
-    checkArticles(articles);
+    checkArticles();
   });
 
   mockedUseQuery.mockReturnValueOnce({ error: new Error("error") });
@@ -70,15 +70,11 @@ describe("using useQuery", () => {
 
 describe("using articles prop", () => {
   const router = createRouterForListOfArticles({ articles });
-
-  beforeEach(() => {
-    renderWithRouting(router);
-  });
-
   mockedUseQuery.mockReturnValueOnce({ data: undefined });
 
-  test("displays articles", () => {
-    checkArticles(articles);
+  test("displays articles", async () => {
+    await renderWithRouting(router);
+    checkArticles();
   });
 });
 
@@ -93,9 +89,7 @@ const createRouterForListOfArticles = (props: Props) => {
   return router;
 };
 
-const checkArticles = (articles: ServerArticleResponse[]) => {
-  for (let i = 0; i < 3; i++) {
-    const article = screen.getByText(articles[i].heading);
-    expect(article).toBeDefined();
-  }
+const checkArticles = () => {
+  const articleCards = screen.getAllByTestId("article-card");
+  expect(articleCards.length).toBe(articles.length);
 };
