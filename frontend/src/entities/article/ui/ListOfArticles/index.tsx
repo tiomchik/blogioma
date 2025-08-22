@@ -18,7 +18,7 @@ const ListOfArticles: React.FC<Props> = ({
   articles,
 }) => {
   const { isLoading, data, error } = useQuery({
-    queryKey: ["articles", sortingCriteria],
+    queryKey: ["articles", sortingCriteria, amount],
     queryFn: () =>
       loadArticlesSortedByCriteria(sortingCriteria as ArticleSortingCriterias, {
         amount,
@@ -34,7 +34,7 @@ const ListOfArticles: React.FC<Props> = ({
     <div className="articles">
       {data
         ? data.results.map(renderArticleCard)
-        : articles && articles.map(renderArticleCard)}
+        : articles?.map(renderArticleCard)}
     </div>
   );
 };
