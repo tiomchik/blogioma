@@ -8,6 +8,7 @@ import PasswordConfirmationInput, {
 } from "./inputs/PasswordConfirmation";
 import EmailInput, { EMAIL_FIELD_LABEL } from "./inputs/Email";
 import PfpInput from "./inputs/Pfp";
+import Paginator from "./Paginator";
 
 export {
   Pfp,
@@ -22,4 +23,5 @@ export {
   EmailInput,
   EMAIL_FIELD_LABEL,
   PfpInput,
+  Paginator,
 };
