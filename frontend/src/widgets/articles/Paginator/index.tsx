@@ -13,7 +13,7 @@ export type Props = { page: number; pageAmount: number };
 const Paginator: React.FC<Props> = ({ page, pageAmount }) => {
   return (
     <PaginatorContext value={{ currentPage: page, pageAmount }}>
-      <ul className="paginator">
+      <ul className="paginator" data-testid="paginator">
         {page > 1 && <PreviousPageLink />}
         <FirstPageLink />
         {hasManyPagesBeforeCurrent(page) && <li>...</li>}
