@@ -1,11 +1,13 @@
-import axios from "axios";
 import { generateUserArticlesUrl } from "./urls";
-import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
+import { getArticles } from "@/entities/article/api";
 
-const getUserArticles = async (username: string) => {
+const getUserArticles = async (
+  username: string,
+  options?: { amount?: number; page?: number }
+) => {
   const url = generateUserArticlesUrl(username);
-  const response = await axios.get<ServerPaginatedArticlesResponse>(url);
-  return response.data;
+  const userArticles = await getArticles(url, options);
+  return userArticles;
 };
 
 export { getUserArticles };

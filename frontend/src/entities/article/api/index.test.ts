@@ -1,5 +1,9 @@
 import { describe, expect, test, vi } from "vitest";
-import { getSortingFieldByCriteria, loadArticlesSortedByCriteria } from ".";
+import {
+  getSortingFieldByCriteria,
+  loadArticlesSortedByCriteria,
+  getArticles,
+} from ".";
 import { ARTICLES_URL } from "./constants";
 import axios from "axios";
 
@@ -13,32 +17,40 @@ vi.mock("axios", () => {
 
 const expectedData = "data";
 
+const sortingCriteria = "popular";
+const sortingField = getSortingFieldByCriteria(sortingCriteria);
+const amount = 3;
+const page = 2;
+const expectedAxiosParams = { order_by: sortingField, page_size: amount, page };
+
 const mockedAxiosGet = vi.mocked(axios.get);
 
 describe("loadArticlesSortedByCriteria", () => {
   test("axios.get was called with correct URL and sorting field", async () => {
-    const data = await loadArticlesSortedByCriteria("popular");
+    const data = await loadArticlesSortedByCriteria(sortingCriteria);
     expect(mockedAxiosGet).toBeCalledWith(ARTICLES_URL, {
-      params: { order_by: "-viewings" },
+      params: { order_by: sortingField },
     });
     expect(data).toEqual(expectedData);
   });
 
   test("axios.get was called with page size", async () => {
-    const data = await loadArticlesSortedByCriteria("popular", { amount: 3 });
+    const data = await loadArticlesSortedByCriteria(sortingCriteria, {
+      amount,
+    });
     expect(mockedAxiosGet).toBeCalledWith(ARTICLES_URL, {
-      params: { order_by: "-viewings", page_size: 3 },
+      params: { order_by: sortingField, page_size: amount },
     });
     expect(data).toEqual(expectedData);
   });
 
   test("axios.get was called with page size and page", async () => {
-    const data = await loadArticlesSortedByCriteria("popular", {
-      amount: 3,
-      page: 2,
+    const data = await loadArticlesSortedByCriteria(sortingCriteria, {
+      amount,
+      page,
     });
     expect(mockedAxiosGet).toBeCalledWith(ARTICLES_URL, {
-      params: { order_by: "-viewings", page_size: 3, page: 2 },
+      params: expectedAxiosParams,
     });
     expect(data).toEqual(expectedData);
   });
@@ -55,5 +67,22 @@ describe("getSortingFieldByCriteria", () => {
     expect(() => getSortingFieldByCriteria(invalidCriteria)).toThrow(
       "Invalid sorting criteria"
     );
+  });
+});
+
+describe("getArticles", () => {
+  test("axios.get was called with valid url and default params", async () => {
+    const data = await getArticles(ARTICLES_URL);
+    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_URL, {
+      params: { order_by: getSortingFieldByCriteria("latest") },
+    });
+    expect(data).toBe(expectedData);
+  });
+
+  test("axios.get was called with correct params", async () => {
+    await getArticles(ARTICLES_URL, { sortingCriteria, amount, page });
+    expect(mockedAxiosGet).toBeCalledWith(ARTICLES_URL, {
+      params: expectedAxiosParams,
+    });
   });
 });
