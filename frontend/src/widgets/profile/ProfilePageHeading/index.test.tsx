@@ -3,7 +3,7 @@ import ProfilePageHeading from "./";
 import { render, screen } from "@testing-library/react";
 
 vi.mock("@tanstack/react-router", () => ({
-  useParams: vi.fn(() => ({ username })),
+  useParams: vi.fn(() => ({ username })), Link: vi.fn()
 }));
 
 const username = "test";
