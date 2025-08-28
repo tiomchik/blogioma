@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileInfo from "./ProfileInfo";
-import ProfileArticles from "../ProfileArticles";
+import ProfileArticles from "./ProfileArticles";
 import "./index.scss";
 
 const ProfileContent: React.FC = () => {

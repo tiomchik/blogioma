@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, useSearch } from "@tanstack/react-router";
 import React from "react";
 
-const MAX_AMOUNT_OF_ARTICLES_PER_PAGE = 15;
+const MAX_AMOUNT_OF_ARTICLES_PER_PAGE = 10;
 
 const ProfileArticles: React.FC = () => {
   const { page } = useSearch({ from: "/profile/$username/" });
