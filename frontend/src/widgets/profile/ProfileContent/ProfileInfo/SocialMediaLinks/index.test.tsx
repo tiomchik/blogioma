@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, test } from "vitest";
 import SocialMediaLinks from ".";
-import { ProfileDataContext } from "../../context";
+import { ProfileDataContext } from "../context";
 import { mockUser } from "@/tests/mocks";
 
 const links = {

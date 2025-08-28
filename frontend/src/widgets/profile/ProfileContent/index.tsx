@@ -1,17 +1,13 @@
-import { ServerUserResponse } from "@/entities/user/types";
 import React from "react";
 import ProfileInfo from "./ProfileInfo";
-import { ProfileDataContext } from "./context";
-import "./index.scss";
 import ProfileArticles from "../ProfileArticles";
+import "./index.scss";
 
-const ProfileContent: React.FC<ServerUserResponse> = (profileData) => {
+const ProfileContent: React.FC = () => {
   return (
     <div className="profile-content">
-      <ProfileDataContext value={profileData}>
-        <ProfileInfo />
-        <ProfileArticles />
-      </ProfileDataContext>
+      <ProfileInfo />
+      <ProfileArticles />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import TwitchIcon from "./twitch.svg?react";
 import LinkedInIcon from "./linkedin.svg?react";
 import React, { useMemo } from "react";
 import SocialMediaLink, { SocialMediaLinkType } from "./SocialMediaLink";
-import { useProfileData } from "../../context";
+import { useProfileData } from "../context";
 import "./index.scss";
 
 const SocialMediaLinks: React.FC = () => {
@@ -21,7 +21,7 @@ const SocialMediaLinks: React.FC = () => {
   );
 
   return (
-    <ul className="social-media-links">
+    <ul className="social-media-links" data-testid="social-media-links">
       {linksWithTitles.map(renderSocialMediaLink)}
     </ul>
   );
