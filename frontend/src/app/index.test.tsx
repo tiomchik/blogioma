@@ -4,14 +4,14 @@ import { expect, test, vi } from "vitest";
 import App from ".";
 import { act, render, screen } from "@testing-library/react";
 import {
-  getUserFromCookies,
+  obtainTokenFromCookies,
   setAuthTokenInAxiosHeaders,
 } from "@/entities/user/api";
 
 vi.mock("@/entities/user/api", async () => {
   return {
     obtainTokenFromCookies: vi.fn(() => expectedToken),
-    getUserFromCookies: vi.fn(() => expectedUser),
+    getUserByToken: vi.fn(() => expectedUser),
     setAuthTokenInAxiosHeaders: vi.fn(),
   };
 });
@@ -27,7 +27,7 @@ vi.mock("react", async () => {
 const expectedToken = "token";
 const expectedUser = { username: "username", pfp: "pfp" };
 
-const mockedGetUserFromCookies = vi.mocked(getUserFromCookies);
+const mockedObtainTokenFromCookies = vi.mocked(obtainTokenFromCookies);
 const mockedSetAuthTokenInAxiosHeaders = vi.mocked(setAuthTokenInAxiosHeaders);
 const mockedSetCurrentUser = vi.fn();
 
@@ -53,7 +53,7 @@ test("user was loaded correctly", async () => {
 });
 
 test("user wasn't loaded", async () => {
-  mockedGetUserFromCookies.mockResolvedValueOnce(null);
+  mockedObtainTokenFromCookies.mockReturnValueOnce(null);
   await renderApp();
   expect(mockedSetAuthTokenInAxiosHeaders).not.toBeCalled();
   expect(mockedSetCurrentUser).not.toBeCalled();

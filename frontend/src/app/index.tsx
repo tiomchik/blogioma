@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnyRouter, RouterProvider } from "@tanstack/react-router";
 import { AuthContext, ContextUser } from "./contexts";
 import {
-  getUserFromCookies,
+  getUserByToken,
   obtainTokenFromCookies,
   setAuthTokenInAxiosHeaders,
 } from "@/entities/user/api";
@@ -18,11 +18,11 @@ const App: React.FC<Props> = ({ queryClient, router }) => {
 
   useEffect(() => {
     const loadUser = async () => {
-      const user = await getUserFromCookies();
-      if (!user) return;
       const token = obtainTokenFromCookies();
+      if (!token) return;
+      const { username, pfp } = await getUserByToken(token);
+      setCurrentUser({ username, pfp });
       setAuthTokenInAxiosHeaders(token);
-      setCurrentUser(user);
     };
 
     loadUser();
