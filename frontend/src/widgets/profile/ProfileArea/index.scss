@@ -1,0 +1,24 @@
+.profile-area {
+  display: flex;
+  gap: 30px;
+  animation-name: fadeIn;
+  animation-duration: 0.8s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media screen and (width <= 540px) {
+  .profile-area {
+    display: block;
+  }
+}
