@@ -16,13 +16,14 @@ const ProfileNavigation: React.FC = () => {
             to="/profile/$username"
             search={{ page: 1 }}
             params={{ username: currentUser?.username as string }}
+            data-testid="profile-link"
           >
             <Pfp pfp={currentUser?.pfp} />
             Profile
           </Link>
         </li>
         <li>
-          <Link to="/profile/settings">
+          <Link to="/profile/settings" data-testid="profile-settings-link">
             <div className="wrapper">
               <SettingsIcon />
             </div>
