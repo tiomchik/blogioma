@@ -1,4 +1,4 @@
-import { beforeEach, expect, test, vi } from "vitest";
+import { expect, test, vi } from "vitest";
 import ProfilePageHeading from "./";
 import { render, screen } from "@testing-library/react";
 
@@ -8,11 +8,8 @@ vi.mock("@tanstack/react-router", () => ({
 
 const username = "test";
 
-beforeEach(() => {
-  render(<ProfilePageHeading />);
-});
-
 test("correctly displays username", () => {
+  render(<ProfilePageHeading />);
   const heading = screen.getByText(`${username}'s profile`);
   expect(heading).toBeDefined();
 });
