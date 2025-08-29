@@ -16,6 +16,7 @@ const Pfp: React.FC<Props> = ({ pfp }) => {
           className="pfp"
           alt="profile picture"
           title="profile picture"
+          data-testid="pfp"
         />
       </div>
     );
@@ -23,7 +24,7 @@ const Pfp: React.FC<Props> = ({ pfp }) => {
 
   return (
     <div className="wrapper">
-      <ProfileIcon title="profile icon" />
+      <ProfileIcon title="profile icon" data-testid="pfp" />
     </div>
   );
 };
