@@ -14,6 +14,7 @@ const ProfileNavigation: React.FC = () => {
         <li>
           <Link
             to="/profile/$username"
+            search={{ page: 1 }}
             params={{ username: currentUser?.username as string }}
           >
             <Pfp pfp={currentUser?.pfp} />

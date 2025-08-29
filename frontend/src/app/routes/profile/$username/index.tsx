@@ -1,9 +1,11 @@
+import ProfilePage from "@/pages/profile";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/profile/$username/")({
-  component: RouteComponent,
-});
+type ProfileSearch = { page?: number }
 
-function RouteComponent() {
-  return <div>Hello "/profile/$username/"!</div>;
-}
+export const Route = createFileRoute("/profile/$username/")({
+  component: ProfilePage,
+  validateSearch: (search: ProfileSearch) => {
+    return { page: search.page ? Number(search.page) : 1 };
+  },
+});
