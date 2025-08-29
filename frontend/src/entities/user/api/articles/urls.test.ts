@@ -1,12 +1,14 @@
 import { expect, test } from "vitest";
-import { generateUserArticlesUrl, USERNAME_ERROR_TEXT } from "./urls";
-
-const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
+import {
+  generateUserArticlesUrl,
+  USERNAME_ERROR_TEXT,
+  USERS_URL,
+} from "./urls";
 
 test("generate url successfully", () => {
   const username = "user";
   const url = generateUserArticlesUrl(username);
-  expect(url).toBe(`${baseUrl}/${username}/articles/`);
+  expect(url).toBe(`${USERS_URL}/${username}/articles/`);
 });
 
 test("throws error if username is empty", () => {
@@ -15,8 +17,7 @@ test("throws error if username is empty", () => {
 
 test("encodes username correctly", () => {
   const usernameWithSpaces = "username with spaces";
+  const encodedUsernameWithSpaces = encodeURIComponent(usernameWithSpaces);
   const url = generateUserArticlesUrl(usernameWithSpaces);
-  expect(url).toBe(
-    `${baseUrl}/${encodeURIComponent(usernameWithSpaces)}/articles/`
-  );
+  expect(url).toBe(`${USERS_URL}/${encodedUsernameWithSpaces}/articles/`);
 });
