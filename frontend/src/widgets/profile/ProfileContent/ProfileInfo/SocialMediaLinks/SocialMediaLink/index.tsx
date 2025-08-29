@@ -3,7 +3,7 @@ import "./index.scss";
 
 export type SocialMediaLinkType = {
   title: string;
-  href: string | null;
+  href: string;
   icon: React.JSX.Element;
 };
 
@@ -12,8 +12,6 @@ const SocialMediaLink: React.FC<SocialMediaLinkType> = ({
   href,
   icon,
 }) => {
-  if (!href) return undefined;
-
   return (
     <a href={href} title={title} className="social-media-link">
       <div className="wrapper">{icon}</div>

@@ -1,16 +1,29 @@
 import { render, screen } from "@testing-library/react";
 import { expect, test } from "vitest";
 import { renderSocialMediaLink } from "./utils";
+import { SocialMediaLinkType } from "./SocialMediaLink";
 
 const socialMediaLink = {
   href: "https://www.youtube.com/",
   title: "YouTube",
   icon: <div>YouTube Icon</div>,
 };
-const linkElement = renderSocialMediaLink(socialMediaLink);
 
 test("renders link successfully", () => {
-  render(linkElement);
+  renderSocialMediaLinkComponent(socialMediaLink);
   const link = screen.getByRole("link");
   expect(link).toBeDefined();
 });
+
+test("doesn't render link if href is empty", () => {
+  renderSocialMediaLinkComponent({ ...socialMediaLink, href: "" });
+  const link = screen.queryByRole("link");
+  expect(link).toBeNull();
+});
+
+const renderSocialMediaLinkComponent = (
+  socialMediaLink: SocialMediaLinkType
+) => {
+  const linkElement = renderSocialMediaLink(socialMediaLink);
+  render(linkElement);
+};

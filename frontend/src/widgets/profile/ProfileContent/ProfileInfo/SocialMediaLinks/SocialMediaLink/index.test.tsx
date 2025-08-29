@@ -13,9 +13,3 @@ test("displays the social media link correctly", () => {
   const linkElement = screen.getByTitle(link.title);
   expect(linkElement.getAttribute("href")).toEqual(link.href);
 });
-
-test("doesn't display the social media link if the href is null", () => {
-  render(<SocialMediaLink {...link} href={null} />);
-  const linkElement = screen.queryByTitle(link.title);
-  expect(linkElement).toBeNull();
-});
