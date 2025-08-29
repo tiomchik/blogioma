@@ -3,8 +3,9 @@ import TikTokIcon from "./tiktok.svg?react";
 import TwitchIcon from "./twitch.svg?react";
 import LinkedInIcon from "./linkedin.svg?react";
 import React, { useMemo } from "react";
-import SocialMediaLink, { SocialMediaLinkType } from "./SocialMediaLink";
+import { SocialMediaLinkType } from "./SocialMediaLink";
 import { useProfileData } from "../context";
+import { renderSocialMediaLink } from "./utils";
 import "./index.scss";
 
 const SocialMediaLinks: React.FC = () => {
@@ -22,16 +23,8 @@ const SocialMediaLinks: React.FC = () => {
 
   return (
     <ul className="social-media-links" data-testid="social-media-links">
-      {linksWithTitles.map(renderSocialMediaLink)}
+      {linksWithTitles.map((link) => renderSocialMediaLink(link))}
     </ul>
-  );
-};
-
-const renderSocialMediaLink = (link: SocialMediaLinkType) => {
-  return (
-    <li key={link.title}>
-      <SocialMediaLink {...link} />
-    </li>
   );
 };
 

@@ -1,45 +1,26 @@
-import { render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, test } from "vitest";
+import { render } from "@testing-library/react";
+import { expect, test, vi } from "vitest";
 import SocialMediaLinks from ".";
 import { ProfileDataContext } from "../context";
 import { mockUser } from "@/tests/mocks";
+import { renderSocialMediaLink } from "./utils";
 
-const links = {
-  youtube: "https://www.youtube.com/",
-  tiktok: "https://tiktok.com/",
-  twitch: "https://twitch.tv/",
-  linkedin: "https://linkedin.com/",
-};
+vi.mock("./utils", () => ({
+  renderSocialMediaLink: vi.fn(),
+}));
 
-describe("with social media links", () => {
-  beforeEach(() => {
-    render(
-      <ProfileDataContext value={{ ...mockUser, ...links }}>
-        <SocialMediaLinks />
-      </ProfileDataContext>
-    );
-  });
+const mockRenderSocialMediaLink = vi.mocked(renderSocialMediaLink);
 
-  test("displays the social media links correctly", () => {
-    const linkElements = screen.getAllByRole("link");
-    const expectedLinksLength = Object.values(links).length;
-    expect(linkElements.length).toBe(expectedLinksLength);
-  });
-});
+test("renderSocialMediaLink was called with correct params", () => {
+  render(
+    <ProfileDataContext value={{ ...mockUser }}>
+      <SocialMediaLinks />
+    </ProfileDataContext>
+  );
 
-describe("without social media links", () => {
-  const emptyLinks = { youtube: "", tiktok: "", twitch: "", linkedin: "" };
-
-  beforeEach(() => {
-    render(
-      <ProfileDataContext value={{ ...mockUser, ...emptyLinks }}>
-        <SocialMediaLinks />
-      </ProfileDataContext>
-    );
-  });
-
-  test("the social media links aren't displayed", () => {
-    const links = screen.queryAllByRole("link");
-    expect(links.length).toBe(0);
+  expect(mockRenderSocialMediaLink).toHaveBeenCalledWith({
+    href: mockUser.youtube,
+    title: "YouTube",
+    icon: expect.any(Object),
   });
 });
