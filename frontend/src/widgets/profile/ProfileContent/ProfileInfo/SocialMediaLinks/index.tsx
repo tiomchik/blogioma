@@ -1,7 +1,7 @@
-import YouTubeIcon from "./youtube.svg?react";
-import TikTokIcon from "./tiktok.svg?react";
-import TwitchIcon from "./twitch.svg?react";
-import LinkedInIcon from "./linkedin.svg?react";
+import YouTubeIcon from "./icons/youtube.svg?react";
+import TikTokIcon from "./icons/tiktok.svg?react";
+import TwitchIcon from "./icons/twitch.svg?react";
+import LinkedInIcon from "./icons/linkedin.svg?react";
 import React, { useMemo } from "react";
 import { SocialMediaLinkType } from "./SocialMediaLink";
 import { useProfileData } from "../context";
