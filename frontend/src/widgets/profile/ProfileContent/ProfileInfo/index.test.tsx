@@ -30,7 +30,7 @@ beforeEach(() => {
   );
 });
 
-mockUseQuery.mockReturnValueOnce({ isLoading: false, data: mockUser });
+mockUseQuery.mockReturnValueOnce({ data: mockUser });
 
 test("renders the profile info successfully", () => {
   const userPfpWithUsername = screen.getByTestId("user-pfp-with-username");

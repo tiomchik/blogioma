@@ -39,7 +39,6 @@ type UseQueryReturnType = Partial<
 >;
 
 const useQueryReturnValue: UseQueryReturnType = {
-  isLoading: false,
   data: { count: 3, results: [], page_amount: 1, next: null, previous: null },
 };
 
@@ -56,7 +55,6 @@ test("successfully displays user articles and paginator", () => {
 });
 
 mockUseQuery.mockReturnValueOnce({
-  ...useQueryReturnValue,
   data: { ...useQueryReturnValue.data, count: 0 },
 });
 
