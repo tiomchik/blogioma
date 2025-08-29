@@ -45,3 +45,18 @@ test("renders loading state", () => {
   const loading = screen.getByText("Loading...");
   expect(loading).toBeDefined();
 });
+
+const errorMsg = "error"
+mockUseQuery.mockReturnValueOnce({ error: new Error(errorMsg) });
+
+test("renders error", () => {
+  const error = screen.getByText(errorMsg);
+  expect(error).toBeDefined();
+})
+
+mockUseQuery.mockReturnValueOnce({ error: new Error("404") });
+
+test("renders 404 error", () => {
+  const error = screen.getByTestId("not-found-msg");
+  expect(error).toBeDefined()
+})

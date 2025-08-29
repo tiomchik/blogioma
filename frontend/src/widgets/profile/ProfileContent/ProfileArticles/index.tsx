@@ -11,7 +11,7 @@ const MAX_AMOUNT_OF_ARTICLES_PER_PAGE = 12;
 const ProfileArticles: React.FC = () => {
   const { page } = useSearch({ from: "/profile/$username/" });
   const { username } = useParams({ from: "/profile/$username/" });
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["profileArticles", username, page],
     queryFn: () =>
       getUserArticles(username, {
@@ -20,7 +20,9 @@ const ProfileArticles: React.FC = () => {
       }),
   });
 
-  if (isLoading) return "Loading...";
+  // The ProfileInfo component will show messages about these states,
+  // that's why it's not done here.
+  if (error || isLoading) return;
 
   return (
     <>

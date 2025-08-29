@@ -64,3 +64,12 @@ test("shows no articles message", () => {
   const msg = screen.getByTestId("user-has-no-articles-msg");
   expect(msg).toBeDefined();
 });
+
+mockUseQuery.mockReturnValueOnce({ error: new Error("404") });
+
+test("doesn't display anything when error occurs", () => {
+  const listOfArticles = screen.queryByTestId("list-of-articles");
+  const paginator = screen.queryByTestId("paginator");
+  expect(listOfArticles).toBeNull();
+  expect(paginator).toBeNull();
+});

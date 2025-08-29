@@ -9,12 +9,21 @@ import "./index.scss";
 
 const ProfileInfo: React.FC = () => {
   const { username } = useParams({ from: "/profile/$username/" });
-  const { data: profileData, isLoading } = useQuery({
+  const {
+    data: profileData,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["profileInfo", username],
     queryFn: () => getUserByName(username),
   });
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <h1>Loading...</h1>;
+
+  if (error) {
+    if (error.message.includes("404")) return <NotFoundMessage />;
+    return <h1>{error.message}</h1>;
+  }
 
   return (
     <div className="profile-info">
@@ -24,6 +33,10 @@ const ProfileInfo: React.FC = () => {
       </ProfileDataContext>
     </div>
   );
+};
+
+const NotFoundMessage: React.FC = () => {
+  return <h1 data-testid="not-found-msg">User not found</h1>;
 };
 
 export default ProfileInfo;
