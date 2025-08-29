@@ -7,16 +7,40 @@ import {
 } from "@/tests/utils";
 
 describe("when current page is the first page", () => {
-  const page = 1;
-  const router = createRouterForPaginator({ page, pageAmount: 10 });
+  const router = createRouterForPaginator({ page: 1, pageAmount: 10 });
 
   beforeEach(() => {
     renderWithRouting(router);
   });
 
   test("link to the previous page is not displayed", () => {
-    const link = screen.queryAllByText("<")[0];
-    expect(link).not.toBeDefined();
+    const link = screen.queryByTestId("previous-page-link");
+    expect(link).toBeNull();
+  });
+});
+
+describe("when current page is middle page", () => {
+  const router = createRouterForPaginator({ page: 5, pageAmount: 10 });
+
+  beforeEach(() => {
+    renderWithRouting(router);
+  });
+
+  test("all needed links are displayed", () => {
+    const expectedLinkIds = [
+      "previous-page-link",
+      "first-page-link",
+      "last-page-link",
+      "next-page-link",
+    ];
+
+    expectedLinkIds.forEach((testId) => {
+      const link = screen.getByTestId(testId);
+      expect(link).toBeDefined();
+    });
+
+    const listOfPages = screen.getAllByTestId("page-link");
+    expect(listOfPages).toHaveLength(5);
   });
 });
 
@@ -30,8 +54,8 @@ describe("when current page is the last page", () => {
   });
 
   test("link to the next page is not displayed", () => {
-    const link = screen.queryAllByText(">")[0];
-    expect(link).not.toBeDefined();
+    const link = screen.queryByTestId("next-page-link");
+    expect(link).toBeNull();
   });
 });
 

@@ -7,7 +7,7 @@ const ListOfPages: React.FC = () => {
   const pages = generateListOfPagesAroundCurrent(currentPage, pageAmount);
 
   return pages.map((page) => (
-    <li key={page}>
+    <li key={page} data-testid="page-link">
       <Link to="." search={(old) => ({ ...old, page })}>
         {page}
       </Link>

@@ -3,7 +3,7 @@ import React from "react";
 
 const FirstPageLink: React.FC = () => {
   return (
-    <li>
+    <li data-testid="first-page-link">
       <Link to="." search={(old) => ({ ...old, page: 1 })}>
         1
       </Link>

@@ -8,7 +8,7 @@ const LastPageLink: React.FC = () => {
   if (pageAmount === 1) return;
 
   return (
-    <li>
+    <li data-testid="last-page-link">
       <Link to="." search={(old) => ({ ...old, page: pageAmount })}>
         {pageAmount}
       </Link>

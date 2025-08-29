@@ -6,7 +6,7 @@ const PreviousPageLink: React.FC = () => {
   const { currentPage } = usePaginator();
 
   return (
-    <li>
+    <li data-testid="previous-page-link">
       <Link to="." search={(old) => ({ ...old, page: currentPage - 1 })}>
         &#60;
       </Link>
