@@ -1,3 +1,5 @@
+import { vi } from "vitest";
+
 const mockUser = {
   id: 1,
   username: "username",
@@ -12,4 +14,11 @@ const mockUser = {
   linkedin: "https://linkedin.com/",
 };
 
-export { mockUser };
+const mockRouterLib = {
+  createRootRoute: vi.fn(),
+  createRouter: vi.fn(),
+  RouterProvider: vi.fn(),
+  Link: vi.fn(),
+};
+
+export { mockUser, mockRouterLib };

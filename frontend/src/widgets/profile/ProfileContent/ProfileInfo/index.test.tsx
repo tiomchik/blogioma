@@ -4,14 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { screen } from "@testing-library/react";
 import { mockUser } from "@/tests/mocks";
 import { renderWithQueryClient } from "@/tests/utils";
+const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
 vi.mock("@tanstack/react-router", async () => {
   return {
+    ...mockRouterLib,
     useParams: vi.fn(() => ({ username: mockUser.username })),
-    createRootRoute: vi.fn(),
-    createRouter: vi.fn(),
-    RouterProvider: vi.fn(),
-    Link: vi.fn(),
   };
 });
 

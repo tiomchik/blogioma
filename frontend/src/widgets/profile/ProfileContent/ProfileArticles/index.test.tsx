@@ -4,15 +4,13 @@ import ProfileArticles from ".";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
 import { renderWithQueryClient } from "@/tests/utils";
+const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
 vi.mock("@tanstack/react-router", async () => {
   return {
+    ...mockRouterLib,
     useSearch: vi.fn(() => ({ page: 1 })),
     useParams: vi.fn(() => ({ username: "test" })),
-    createRootRoute: vi.fn(),
-    createRouter: vi.fn(),
-    RouterProvider: vi.fn(),
-    Link: vi.fn(),
   };
 });
 
