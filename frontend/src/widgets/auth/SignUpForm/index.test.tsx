@@ -6,7 +6,7 @@ import {
   createRouterWithRootComponent,
   expectErrorMessage,
   pasteIntoFieldByLabelText,
-  renderWithProviders,
+  renderWithRoutingAndAuth,
 } from "@/tests/utils";
 import {
   PASSWORD_CONFIRMATION_FIELD_LABEL,
@@ -14,9 +14,7 @@ import {
   USERNAME_FIELD_LABEL,
 } from "@/shared/components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthContext } from "@/app/contexts";
 import { createUser } from "@/entities/user/api";
-import { RouterProvider } from "@tanstack/react-router";
 
 vi.mock("@/entities/user/api", () => {
   return {
@@ -44,21 +42,16 @@ const userData = {
   password1: "password",
 };
 
+const router = createRouterWithRootComponent(
+  <QueryClientProvider client={new QueryClient()}>
+    <SignUpForm />
+  </QueryClientProvider>
+);
+
 beforeEach(async () => {
-  await renderWithProviders([
-    {
-      provider: AuthContext,
-      props: { value: { setCurrentUser: mockSetCurrentUser } },
-    },
-    {
-      provider: QueryClientProvider,
-      props: { client: new QueryClient() },
-    },
-    {
-      provider: RouterProvider,
-      props: { router: createRouterWithRootComponent(<SignUpForm />) },
-    },
-  ]);
+  await renderWithRoutingAndAuth(router, {
+    setCurrentUser: mockSetCurrentUser,
+  });
 
   pasteIntoFieldByLabelText(USERNAME_FIELD_LABEL, userData.username);
   pasteIntoFieldByLabelText(PASSWORD_FIELD_LABEL, userData.password);
