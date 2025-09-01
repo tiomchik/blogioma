@@ -24,8 +24,8 @@ test("axios.post was called with the correct arguments", async () => {
   formData.append("email", userData.email);
   formData.append("pfp", userData.pfp);
 
-  const response = await createUser(formData);
+  const newUser = await createUser(formData);
 
   expect(mockAxiosPost).toHaveBeenCalledWith(REGISTER_URL, formData);
-  expect(response.data).toEqual(userData);
+  expect(newUser).toEqual(userData);
 });
