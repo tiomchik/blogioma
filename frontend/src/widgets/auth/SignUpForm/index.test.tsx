@@ -39,6 +39,7 @@ const mockSetCurrentUser = vi.fn();
 
 const userData = {
   username: "username",
+  email: "",
   password: "password",
   password1: "password",
 };
@@ -71,20 +72,11 @@ test("successful registration flow", async () => {
   await clickSubmitButton();
   const formData = createAndPopulateFormData(userData);
   expect(mockCreateUser).toHaveBeenCalledWith(formData);
-
-  // We are not using expect.toHaveBeenCalledWith here, because we need to
-  // check that the pfp in the `data` argument is any instance of FileList,
-  // which is not achievable by calling this function.
-  const args = mockAuthenticateAndRedirectToHome.mock.calls[0];
-
-  const data = args[0];
-  expect(data.email).toBe("");
-  expect(data.password).toBe(userData.password);
-  expect(data.username).toBe(userData.username);
-  expect(data.pfp instanceof FileList).toBe(true);
-
-  expect(args[1]).toBe(mockSetCurrentUser);
-  expect(args[2]).toBe(mockNavigate);
+  expect(mockAuthenticateAndRedirectToHome).toHaveBeenCalledWith(
+    { ...userData, pfp: expect.any(FileList) },
+    mockSetCurrentUser,
+    mockNavigate
+  );
 });
 
 test("error from the server was displayed", async () => {
