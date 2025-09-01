@@ -4,6 +4,7 @@ import { act, render } from "@testing-library/react";
 import { ContextUser } from "@/app/contexts/auth";
 import React, { ComponentType, JSX, PropsWithChildren } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 type ProvidersWithProps = {
   provider: ComponentType<any>;
@@ -66,9 +67,20 @@ const FormProviderWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   return <FormProvider {...methods}>{children}</FormProvider>;
 };
 
+const renderWithQueryClient = async (component: JSX.Element) => {
+  await act(async () => {
+    render(
+      <QueryClientProvider client={new QueryClient()}>
+        {component}
+      </QueryClientProvider>
+    );
+  });
+};
+
 export {
   renderWithRouting,
   renderWithRoutingAndAuth,
   renderInputWithFormProvider,
   renderWithProviders,
+  renderWithQueryClient,
 };

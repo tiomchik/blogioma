@@ -1,16 +1,16 @@
 import { beforeEach, expect, test, vi } from "vitest";
 import ProfileInfo from ".";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
+import { useQuery } from "@tanstack/react-query";
+import { screen } from "@testing-library/react";
 import { mockUser } from "@/tests/mocks";
+import { renderWithQueryClient } from "@/tests/utils";
 
 vi.mock("@tanstack/react-router", async () => {
   return {
     useParams: vi.fn(() => ({ username: mockUser.username })),
+    createRootRoute: vi.fn(),
+    createRouter: vi.fn(),
+    RouterProvider: vi.fn(),
     Link: vi.fn(),
   };
 });
@@ -23,11 +23,7 @@ vi.mock("@tanstack/react-query", async () => {
 const mockUseQuery = vi.mocked(useQuery, { partial: true });
 
 beforeEach(() => {
-  render(
-    <QueryClientProvider client={new QueryClient()}>
-      <ProfileInfo />
-    </QueryClientProvider>
-  );
+  renderWithQueryClient(<ProfileInfo />);
 });
 
 mockUseQuery.mockReturnValueOnce({ data: mockUser });
@@ -46,17 +42,17 @@ test("renders loading state", () => {
   expect(loading).toBeDefined();
 });
 
-const errorMsg = "error"
+const errorMsg = "error";
 mockUseQuery.mockReturnValueOnce({ error: new Error(errorMsg) });
 
 test("renders error", () => {
   const error = screen.getByText(errorMsg);
   expect(error).toBeDefined();
-})
+});
 
 mockUseQuery.mockReturnValueOnce({ error: new Error("404") });
 
 test("renders 404 error", () => {
   const error = screen.getByTestId("not-found-msg");
-  expect(error).toBeDefined()
-})
+  expect(error).toBeDefined();
+});

@@ -1,18 +1,17 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { beforeEach, expect, test, vi } from "vitest";
 import ProfileArticles from ".";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-  UseQueryResult,
-} from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
+import { renderWithQueryClient } from "@/tests/utils";
 
 vi.mock("@tanstack/react-router", async () => {
   return {
     useSearch: vi.fn(() => ({ page: 1 })),
     useParams: vi.fn(() => ({ username: "test" })),
+    createRootRoute: vi.fn(),
+    createRouter: vi.fn(),
+    RouterProvider: vi.fn(),
     Link: vi.fn(),
   };
 });
@@ -24,14 +23,8 @@ vi.mock("@tanstack/react-query", async () => {
 
 const mockUseQuery = vi.mocked(useQuery, { partial: true });
 
-const queryClient = new QueryClient();
-
 beforeEach(() => {
-  render(
-    <QueryClientProvider client={queryClient}>
-      <ProfileArticles />
-    </QueryClientProvider>
-  );
+  renderWithQueryClient(<ProfileArticles />);
 });
 
 type UseQueryReturnType = Partial<
