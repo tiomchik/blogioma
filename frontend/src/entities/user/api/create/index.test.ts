@@ -8,7 +8,7 @@ vi.mock("axios", () => {
   return { default: { post: vi.fn(() => ({ data: userData })) } };
 });
 
-const mockedAxiosPost = vi.mocked(axios.post);
+const mockAxiosPost = vi.mocked(axios.post);
 
 const userData = {
   username: "username",
@@ -26,6 +26,6 @@ test("axios.post was called with the correct arguments", async () => {
 
   const response = await createUser(formData);
 
-  expect(mockedAxiosPost).toHaveBeenCalledWith(REGISTER_URL, formData);
+  expect(mockAxiosPost).toHaveBeenCalledWith(REGISTER_URL, formData);
   expect(response.data).toEqual(userData);
 });

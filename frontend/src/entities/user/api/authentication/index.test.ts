@@ -28,7 +28,7 @@ const expectedUser = { username: "username", pfp: "pfp" };
 
 const expectedToken = "token";
 
-const mockedAxiosPost = vi.mocked(axios.post);
+const mockAxiosPost = vi.mocked(axios.post);
 
 describe("authenticateAndRedirectToHome", () => {
   const data = {
@@ -38,27 +38,25 @@ describe("authenticateAndRedirectToHome", () => {
   };
 
   test("all functions were called correctly", async () => {
-    const mockedSetCurrentUser = vi.fn();
-    const mockedNavigate = vi.fn();
+    const mockSetCurrentUser = vi.fn();
+    const mockNavigate = vi.fn();
 
-    await authenticateAndRedirectToHome(
-      data,
-      mockedSetCurrentUser,
-      mockedNavigate
-    );
+    await authenticateAndRedirectToHome(data, mockSetCurrentUser, mockNavigate);
 
     checkAuthTokenInHeader(expectedToken);
-    expect(mockedSetCurrentUser).toHaveBeenCalledWith(expectedUser);
-    expect(mockedNavigate).toHaveBeenCalledWith({ to: "/" });
+    expect(mockSetCurrentUser).toHaveBeenCalledWith(expectedUser);
+    expect(mockNavigate).toHaveBeenCalledWith({ to: "/" });
   });
 });
 
 describe("obtainToken", () => {
   test("axios.post was called with the correct arguments", async () => {
-    const token = await obtainToken("username", "password");
-    expect(mockedAxiosPost).toHaveBeenCalledWith(OBTAIN_TOKEN_URL, {
-      username: "username",
-      password: "password",
+    const username = "username";
+    const password = "password";
+    const token = await obtainToken(username, password);
+    expect(mockAxiosPost).toHaveBeenCalledWith(OBTAIN_TOKEN_URL, {
+      username,
+      password,
     });
     expect(token).toBe(expectedToken);
   });

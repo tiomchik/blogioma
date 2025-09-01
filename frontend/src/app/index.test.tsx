@@ -20,16 +20,16 @@ vi.mock("react", async () => {
   const actual = await vi.importActual("react");
   return {
     ...actual,
-    useState: vi.fn(() => [null, mockedSetCurrentUser]),
+    useState: vi.fn(() => [null, mockSetCurrentUser]),
   };
 });
 
 const expectedToken = "token";
 const expectedUser = { username: "username", pfp: "pfp" };
 
-const mockedObtainTokenFromCookies = vi.mocked(obtainTokenFromCookies);
-const mockedSetAuthTokenInAxiosHeaders = vi.mocked(setAuthTokenInAxiosHeaders);
-const mockedSetCurrentUser = vi.fn();
+const mockObtainTokenFromCookies = vi.mocked(obtainTokenFromCookies);
+const mockSetAuthTokenInAxiosHeaders = vi.mocked(setAuthTokenInAxiosHeaders);
+const mockSetCurrentUser = vi.fn();
 
 const queryClient = new QueryClient();
 const router = createRouterWithRootComponent(<div>component</div>);
@@ -48,13 +48,13 @@ test("app renders correctly", async () => {
 
 test("user was loaded correctly", async () => {
   await renderApp();
-  expect(mockedSetAuthTokenInAxiosHeaders).toBeCalledWith(expectedToken);
-  expect(mockedSetCurrentUser).toBeCalledWith(expectedUser);
+  expect(mockSetAuthTokenInAxiosHeaders).toBeCalledWith(expectedToken);
+  expect(mockSetCurrentUser).toBeCalledWith(expectedUser);
 });
 
 test("user wasn't loaded", async () => {
-  mockedObtainTokenFromCookies.mockReturnValueOnce(null);
+  mockObtainTokenFromCookies.mockReturnValueOnce(null);
   await renderApp();
-  expect(mockedSetAuthTokenInAxiosHeaders).not.toBeCalled();
-  expect(mockedSetCurrentUser).not.toBeCalled();
+  expect(mockSetAuthTokenInAxiosHeaders).not.toBeCalled();
+  expect(mockSetCurrentUser).not.toBeCalled();
 });

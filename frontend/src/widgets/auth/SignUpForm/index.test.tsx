@@ -27,15 +27,15 @@ vi.mock("@/entities/user/api", () => {
 
 vi.mock("@tanstack/react-router", async () => {
   const actual = await vi.importActual("@tanstack/react-router");
-  return { ...actual, useNavigate: vi.fn(() => mockedNavigate) };
+  return { ...actual, useNavigate: vi.fn(() => mockNavigate) };
 });
 
-const mockedCreateUser = vi.mocked(createUser);
-const mockedAuthenticateAndRedirectToHome = vi.mocked(
+const mockCreateUser = vi.mocked(createUser);
+const mockAuthenticateAndRedirectToHome = vi.mocked(
   authenticateAndRedirectToHome
 );
-const mockedNavigate = vi.fn();
-const mockedSetCurrentUser = vi.fn();
+const mockNavigate = vi.fn();
+const mockSetCurrentUser = vi.fn();
 
 const userData = {
   username: "username",
@@ -47,7 +47,7 @@ beforeEach(async () => {
   await renderWithProviders([
     {
       provider: AuthContext,
-      props: { value: { setCurrentUser: mockedSetCurrentUser } },
+      props: { value: { setCurrentUser: mockSetCurrentUser } },
     },
     {
       provider: QueryClientProvider,
@@ -70,12 +70,12 @@ beforeEach(async () => {
 test("successful registration flow", async () => {
   await clickSubmitButton();
   const formData = createAndPopulateFormData(userData);
-  expect(mockedCreateUser).toHaveBeenCalledWith(formData);
+  expect(mockCreateUser).toHaveBeenCalledWith(formData);
 
   // We are not using expect.toHaveBeenCalledWith here, because we need to
   // check that the pfp in the `data` argument is any instance of FileList,
   // which is not achievable by calling this function.
-  const args = mockedAuthenticateAndRedirectToHome.mock.calls[0];
+  const args = mockAuthenticateAndRedirectToHome.mock.calls[0];
 
   const data = args[0];
   expect(data.email).toBe("");
@@ -83,15 +83,15 @@ test("successful registration flow", async () => {
   expect(data.username).toBe(userData.username);
   expect(data.pfp instanceof FileList).toBe(true);
 
-  expect(args[1]).toBe(mockedSetCurrentUser);
-  expect(args[2]).toBe(mockedNavigate);
+  expect(args[1]).toBe(mockSetCurrentUser);
+  expect(args[2]).toBe(mockNavigate);
 });
 
 test("error from the server was displayed", async () => {
-  mockedCreateUser.mockRejectedValueOnce({
+  mockCreateUser.mockRejectedValueOnce({
     response: { data: { detail: "error from the server" } },
   });
   await clickSubmitButton();
   expectErrorMessage(/error from the server/);
-  expect(mockedSetCurrentUser).not.toHaveBeenCalled();
+  expect(mockSetCurrentUser).not.toHaveBeenCalled();
 });

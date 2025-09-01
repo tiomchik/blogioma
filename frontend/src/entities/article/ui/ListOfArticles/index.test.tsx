@@ -39,7 +39,7 @@ vi.mock("@tanstack/react-query", async () => {
   return { ...actual, useQuery: vi.fn() };
 });
 
-const mockedUseQuery = vi.mocked(useQuery, { partial: true });
+const mockUseQuery = vi.mocked(useQuery, { partial: true });
 
 describe("using useQuery", () => {
   const router = createRouterForListOfArticles({ sortingCriteria: "popular" });
@@ -48,20 +48,20 @@ describe("using useQuery", () => {
     renderWithRouting(router);
   });
 
-  mockedUseQuery.mockReturnValueOnce({ isLoading: true });
+  mockUseQuery.mockReturnValueOnce({ isLoading: true });
 
   test("displays loading state", () => {
     const loading = screen.getByText("Loading...");
     expect(loading).toBeTruthy();
   });
 
-  mockedUseQuery.mockReturnValueOnce({ data: { results: articles } });
+  mockUseQuery.mockReturnValueOnce({ data: { results: articles } });
 
   test("displays articles", () => {
     checkArticles();
   });
 
-  mockedUseQuery.mockReturnValueOnce({ error: new Error("error") });
+  mockUseQuery.mockReturnValueOnce({ error: new Error("error") });
 
   test("displays error", () => {
     expectErrorMessage(/error/);
@@ -70,7 +70,7 @@ describe("using useQuery", () => {
 
 describe("using articles prop", () => {
   const router = createRouterForListOfArticles({ articles });
-  mockedUseQuery.mockReturnValueOnce({ data: undefined });
+  mockUseQuery.mockReturnValueOnce({ data: undefined });
 
   test("displays articles", async () => {
     await renderWithRouting(router);

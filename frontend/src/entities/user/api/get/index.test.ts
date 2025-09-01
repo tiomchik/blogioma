@@ -12,7 +12,7 @@ vi.mock("axios", () => {
 
 const expectedUser = { username: "username", pfp: "/pfp.png" };
 
-const mockedAxiosGet = vi.mocked(axios.get);
+const mockAxiosGet = vi.mocked(axios.get);
 
 describe("getUserFromCookies", () => {
   test("user data has been loaded", async () => {
@@ -32,7 +32,7 @@ describe("getUserByToken", () => {
   test("user has been received", async () => {
     const token = "token";
     const user = await getUserByToken(token);
-    expect(mockedAxiosGet).toBeCalledWith(ME_URL, {
+    expect(mockAxiosGet).toBeCalledWith(ME_URL, {
       headers: { Authorization: `Token ${token}` },
     });
     expect(user).toEqual(expectedUser);
@@ -43,7 +43,7 @@ describe("getUserByName", () => {
   test("user has been received", async () => {
     const username = "test";
     const user = await getUserByName(username);
-    expect(mockedAxiosGet).toBeCalledWith(`${USERS_URL}/${username}/`);
+    expect(mockAxiosGet).toBeCalledWith(`${USERS_URL}/${username}/`);
     expect(user).toEqual(expectedUser);
   });
 });

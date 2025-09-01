@@ -14,11 +14,11 @@ vi.mock("@/entities/user/api", () => {
 
 vi.mock("@tanstack/react-router", async () => {
   const actual = await vi.importActual("@tanstack/react-router");
-  return { ...actual, useNavigate: vi.fn(() => mockedNavigate) };
+  return { ...actual, useNavigate: vi.fn(() => mockNavigate) };
 });
 
-const mockedLogOut = vi.mocked(logOut);
-const mockedNavigate = vi.fn();
+const mockLogOut = vi.mocked(logOut);
+const mockNavigate = vi.fn();
 
 const router = createRouterWithRootComponent(<Account />);
 
@@ -55,8 +55,8 @@ describe("authorized user", () => {
   test("logout button calls logOut function and refreshes the page", () => {
     const logOutButton = screen.getByText("Log out");
     click(logOutButton);
-    expect(mockedLogOut).toBeCalled();
-    expect(mockedNavigate).toBeCalledWith({ reloadDocument: true });
+    expect(mockLogOut).toBeCalled();
+    expect(mockNavigate).toBeCalledWith({ reloadDocument: true });
   });
 
   test("profile link redirects to user profile page", () => {

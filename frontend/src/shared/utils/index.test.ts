@@ -26,7 +26,7 @@ describe("isOnPage", () => {
 });
 
 describe("setErrorsFromResponse", () => {
-  const mockedSetError = vi.fn();
+  const mockSetError = vi.fn();
 
   test("sets field errors correctly", () => {
     const error = {
@@ -38,12 +38,12 @@ describe("setErrorsFromResponse", () => {
       },
     } as AxiosError;
 
-    setErrorsFromResponse(error, mockedSetError);
+    setErrorsFromResponse(error, mockSetError);
 
-    expect(mockedSetError).toHaveBeenCalledWith("username", {
+    expect(mockSetError).toHaveBeenCalledWith("username", {
       message: "This field is required.",
     });
-    expect(mockedSetError).toHaveBeenCalledWith("password", {
+    expect(mockSetError).toHaveBeenCalledWith("password", {
       message: "This field is required.",
     });
   });
@@ -52,8 +52,8 @@ describe("setErrorsFromResponse", () => {
     const error = {
       response: { data: { detail: "error from the server" } },
     } as AxiosError;
-    setErrorsFromResponse(error, mockedSetError);
-    expect(mockedSetError).toHaveBeenCalledWith("root", {
+    setErrorsFromResponse(error, mockSetError);
+    expect(mockSetError).toHaveBeenCalledWith("root", {
       message: "error from the server",
     });
   });
@@ -62,8 +62,8 @@ describe("setErrorsFromResponse", () => {
     const error = {
       response: { data: { detail: ["error1", "error2"] } },
     } as AxiosError;
-    setErrorsFromResponse(error, mockedSetError);
-    expect(mockedSetError).toHaveBeenCalledWith("root", { message: "error1" });
-    expect(mockedSetError).toHaveBeenCalledWith("root", { message: "error2" });
+    setErrorsFromResponse(error, mockSetError);
+    expect(mockSetError).toHaveBeenCalledWith("root", { message: "error1" });
+    expect(mockSetError).toHaveBeenCalledWith("root", { message: "error2" });
   });
 });

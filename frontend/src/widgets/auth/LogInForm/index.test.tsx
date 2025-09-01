@@ -22,21 +22,21 @@ vi.mock("@/entities/user/api", () => {
 
 vi.mock("@tanstack/react-router", async () => {
   const actual = await vi.importActual("@tanstack/react-router");
-  return { ...actual, useNavigate: vi.fn(() => mockedNavigate) };
+  return { ...actual, useNavigate: vi.fn(() => mockNavigate) };
 });
 
-const mockedSetCurrentUser = vi.fn();
-const mockedSetAuthToken = vi.mocked(setAuthToken);
-const mockedAuthenticateAndRedirectToHome = vi.mocked(
+const mockSetCurrentUser = vi.fn();
+const mockSetAuthToken = vi.mocked(setAuthToken);
+const mockAuthenticateAndRedirectToHome = vi.mocked(
   authenticateAndRedirectToHome
 );
-const mockedNavigate = vi.fn();
+const mockNavigate = vi.fn();
 
 const router = createRouterWithRootComponent(<LogInForm />);
 
 beforeEach(async () => {
   await renderWithRoutingAndAuth(router, {
-    setCurrentUser: mockedSetCurrentUser,
+    setCurrentUser: mockSetCurrentUser,
   });
   pasteIntoFieldByLabelText("Username", userData.username);
   pasteIntoFieldByLabelText("Password", userData.password);
@@ -49,19 +49,19 @@ const userData = {
 
 test("successful registration flow", async () => {
   await clickSubmitButton();
-  expect(mockedAuthenticateAndRedirectToHome).toHaveBeenCalledWith(
+  expect(mockAuthenticateAndRedirectToHome).toHaveBeenCalledWith(
     userData,
-    mockedSetCurrentUser,
-    mockedNavigate
+    mockSetCurrentUser,
+    mockNavigate
   );
 });
 
 test("error from the server was displayed", async () => {
-  mockedAuthenticateAndRedirectToHome.mockRejectedValueOnce({
+  mockAuthenticateAndRedirectToHome.mockRejectedValueOnce({
     response: { data: { detail: "Invalid credentials" } },
   });
   await clickSubmitButton();
   expectErrorMessage(/Invalid credentials/);
-  expect(mockedSetAuthToken).not.toHaveBeenCalled();
-  expect(mockedSetCurrentUser).not.toHaveBeenCalled();
+  expect(mockSetAuthToken).not.toHaveBeenCalled();
+  expect(mockSetCurrentUser).not.toHaveBeenCalled();
 });
