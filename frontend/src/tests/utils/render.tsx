@@ -44,14 +44,12 @@ const FormProviderWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   return <FormProvider {...methods}>{children}</FormProvider>;
 };
 
-const renderWithQueryClient = async (component: JSX.Element) => {
-  await act(async () => {
-    render(
-      <QueryClientProvider client={new QueryClient()}>
-        {component}
-      </QueryClientProvider>
-    );
-  });
+const renderWithQueryClient = (component: JSX.Element) => {
+  render(
+    <QueryClientProvider client={new QueryClient()}>
+      {component}
+    </QueryClientProvider>
+  );
 };
 
 export {
