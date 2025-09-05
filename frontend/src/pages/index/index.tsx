@@ -1,5 +1,5 @@
 import { PageHeading } from "@/shared/components";
-import { ArticlesHeading } from "@/widgets/index";
+import { ArticlesHeading } from "./ui";
 import { ListOfArticles } from "@/entities/article/ui";
 import React from "react";
 

@@ -4,7 +4,7 @@ import {
   ProfileContent,
   ProfileNavigation,
   ProfilePageHeading,
-} from "@/widgets/profile";
+} from "./ui";
 import { useParams } from "@tanstack/react-router";
 import React from "react";
 
@@ -14,7 +14,7 @@ const ProfilePage: React.FC = () => {
 
   const isCurrentUserProfile = () => {
     return currentUser?.username === username;
-  }
+  };
 
   return (
     <main>

@@ -1,4 +1,4 @@
-import { ArticlesPageHeading } from "@/widgets/articles";
+import { ArticlesPageHeading } from "./ui";
 import { Paginator } from "@/shared/components";
 import { ListOfArticles } from "@/entities/article/ui";
 import { useSearch } from "@tanstack/react-router";

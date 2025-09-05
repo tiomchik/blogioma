@@ -1,5 +1,5 @@
 import { PageHeading } from "@/shared/components";
-import { LogInForm } from "@/widgets/auth/";
+import { LogInForm } from "./ui";
 import React from "react";
 
 const LogInPage: React.FC = () => {

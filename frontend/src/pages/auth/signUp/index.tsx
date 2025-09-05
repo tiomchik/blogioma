@@ -1,5 +1,5 @@
 import { PageHeading } from "@/shared/components";
-import { SignUpForm } from "@/widgets/auth";
+import { SignUpForm } from "./ui";
 import React from "react";
 
 const SignUpPage: React.FC = () => {

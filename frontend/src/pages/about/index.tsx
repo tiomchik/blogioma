@@ -1,5 +1,5 @@
 import { PageHeading } from "@/shared/components";
-import { Links } from "@/widgets/about";
+import { Links } from "./ui";
 
 const AboutPage = () => {
   return (
