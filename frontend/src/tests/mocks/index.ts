@@ -18,7 +18,9 @@ const mockRouterLib = {
   createRootRoute: vi.fn(),
   createRouter: vi.fn(),
   RouterProvider: vi.fn(),
-  Link: vi.fn(),
+  Link: vi.fn(({ children }) => children),
+  useLocation: vi.fn(),
+  useNavigate: vi.fn(),
 };
 
 export { mockUser, mockRouterLib };

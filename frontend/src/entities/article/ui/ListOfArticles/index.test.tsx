@@ -1,18 +1,11 @@
 import { screen } from "@testing-library/react";
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import {
-  createRouterWithRootComponent,
-  expectErrorMessage,
-  renderWithRouting,
-} from "@/tests/utils";
+import { expectErrorMessage, renderWithQueryClient } from "@/tests/utils";
 import ListOfArticles, { Props } from "./";
 import { ServerArticleResponse } from "@/entities/article/types";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { mockUser } from "@/tests/mocks";
+const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
 const article: ServerArticleResponse = {
   id: 1,
@@ -39,20 +32,20 @@ vi.mock("@tanstack/react-query", async () => {
   return { ...actual, useQuery: vi.fn() };
 });
 
+vi.mock("@tanstack/react-router", () => mockRouterLib);
+
 const mockUseQuery = vi.mocked(useQuery, { partial: true });
 
 describe("using useQuery", () => {
-  const router = createRouterForListOfArticles({ sortingCriteria: "popular" });
-
   beforeEach(() => {
-    renderWithRouting(router);
+    renderListOfArticles();
   });
 
   mockUseQuery.mockReturnValueOnce({ isLoading: true });
 
   test("displays loading state", () => {
     const loading = screen.getByText("Loading...");
-    expect(loading).toBeTruthy();
+    expect(loading).toBeDefined();
   });
 
   mockUseQuery.mockReturnValueOnce({ data: { results: articles } });
@@ -69,24 +62,16 @@ describe("using useQuery", () => {
 });
 
 describe("using articles prop", () => {
-  const router = createRouterForListOfArticles({ articles });
   mockUseQuery.mockReturnValueOnce({ data: undefined });
 
-  test("displays articles", async () => {
-    await renderWithRouting(router);
+  test("displays articles", () => {
+    renderListOfArticles({ articles });
     checkArticles();
   });
 });
 
-const queryClient = new QueryClient();
-
-const createRouterForListOfArticles = (props: Props) => {
-  const router = createRouterWithRootComponent(
-    <QueryClientProvider client={queryClient}>
-      <ListOfArticles {...props} />
-    </QueryClientProvider>
-  );
-  return router;
+const renderListOfArticles = (props?: Props) => {
+  renderWithQueryClient(<ListOfArticles {...props} />);
 };
 
 const checkArticles = () => {

@@ -37,8 +37,8 @@ const createDummyFile = (fileName: string, fileType: string): File => {
   return new File([], fileName, { type: fileType });
 };
 
-const expectErrorMessage = (messageRegexp: RegExp) => {
-  const error = screen.getByText(messageRegexp);
+const expectErrorMessage = (message: RegExp | string) => {
+  const error = screen.getByText(message);
   expect(error).toBeDefined();
 };
 

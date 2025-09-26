@@ -2,15 +2,16 @@ import { beforeEach, expect, test, vi } from "vitest";
 import LogInForm from "./";
 import {
   clickSubmitButton,
-  createRouterWithRootComponent,
   expectErrorMessage,
   pasteIntoFieldByLabelText,
-  renderWithRoutingAndAuth,
 } from "@/tests/utils";
 import {
   setAuthToken,
   authenticateAndRedirectToHome,
 } from "@/entities/user/api";
+import { render } from "@testing-library/react";
+import { AuthContext } from "@/app/contexts";
+const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
 vi.mock("@/entities/user/api", () => {
   return {
@@ -21,8 +22,7 @@ vi.mock("@/entities/user/api", () => {
 });
 
 vi.mock("@tanstack/react-router", async () => {
-  const actual = await vi.importActual("@tanstack/react-router");
-  return { ...actual, useNavigate: vi.fn(() => mockNavigate) };
+  return { ...mockRouterLib, useNavigate: vi.fn(() => mockNavigate) };
 });
 
 const mockSetCurrentUser = vi.fn();
@@ -32,20 +32,22 @@ const mockAuthenticateAndRedirectToHome = vi.mocked(
 );
 const mockNavigate = vi.fn();
 
-const router = createRouterWithRootComponent(<LogInForm />);
-
-beforeEach(async () => {
-  await renderWithRoutingAndAuth(router, {
-    setCurrentUser: mockSetCurrentUser,
-  });
-  pasteIntoFieldByLabelText("Username", userData.username);
-  pasteIntoFieldByLabelText("Password", userData.password);
-});
-
 const userData = {
   username: "username",
   password: "password",
 };
+
+beforeEach(() => {
+  render(
+    <AuthContext
+      value={{ currentUser: null, setCurrentUser: mockSetCurrentUser }}
+    >
+      <LogInForm />
+    </AuthContext>
+  );
+  pasteIntoFieldByLabelText("Username", userData.username);
+  pasteIntoFieldByLabelText("Password", userData.password);
+});
 
 test("successful registration flow", async () => {
   await clickSubmitButton();

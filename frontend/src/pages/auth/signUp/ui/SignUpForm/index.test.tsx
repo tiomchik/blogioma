@@ -3,18 +3,18 @@ import SignUpForm, { createAndPopulateFormData } from "./";
 import { authenticateAndRedirectToHome } from "@/entities/user/api";
 import {
   clickSubmitButton,
-  createRouterWithRootComponent,
   expectErrorMessage,
   pasteIntoFieldByLabelText,
-  renderWithRoutingAndAuth,
+  renderWithQueryClient,
 } from "@/tests/utils";
 import {
   PASSWORD_CONFIRMATION_FIELD_LABEL,
   PASSWORD_FIELD_LABEL,
   USERNAME_FIELD_LABEL,
 } from "@/shared/components";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createUser } from "@/entities/user/api";
+import { AuthContext } from "@/app/contexts";
+const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
 vi.mock("@/entities/user/api", () => {
   return {
@@ -24,8 +24,7 @@ vi.mock("@/entities/user/api", () => {
 });
 
 vi.mock("@tanstack/react-router", async () => {
-  const actual = await vi.importActual("@tanstack/react-router");
-  return { ...actual, useNavigate: vi.fn(() => mockNavigate) };
+  return { ...mockRouterLib, useNavigate: vi.fn(() => mockNavigate) };
 });
 
 const mockCreateUser = vi.mocked(createUser);
@@ -42,16 +41,14 @@ const userData = {
   password1: "password",
 };
 
-const router = createRouterWithRootComponent(
-  <QueryClientProvider client={new QueryClient()}>
-    <SignUpForm />
-  </QueryClientProvider>
-);
-
-beforeEach(async () => {
-  await renderWithRoutingAndAuth(router, {
-    setCurrentUser: mockSetCurrentUser,
-  });
+beforeEach(() => {
+  renderWithQueryClient(
+    <AuthContext
+      value={{ currentUser: null, setCurrentUser: mockSetCurrentUser }}
+    >
+      <SignUpForm />
+    </AuthContext>
+  );
 
   pasteIntoFieldByLabelText(USERNAME_FIELD_LABEL, userData.username);
   pasteIntoFieldByLabelText(PASSWORD_FIELD_LABEL, userData.password);
@@ -73,10 +70,11 @@ test("successful registration flow", async () => {
 });
 
 test("error from the server was displayed", async () => {
+  const errorMsg = "error from the server"
   mockCreateUser.mockRejectedValueOnce({
-    response: { data: { detail: "error from the server" } },
+    response: { data: { detail: errorMsg } },
   });
   await clickSubmitButton();
-  expectErrorMessage(/error from the server/);
+  expectErrorMessage(errorMsg);
   expect(mockSetCurrentUser).not.toHaveBeenCalled();
 });

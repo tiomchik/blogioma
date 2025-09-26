@@ -1,21 +1,20 @@
-import { beforeEach, describe, expect, test } from "vitest";
-import { screen } from "@testing-library/react";
-import {
-  createRouterWithRootComponent,
-  renderWithRoutingAndAuth,
-} from "@/tests/utils";
+import { beforeEach, describe, expect, test, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
 import Header from ".";
+import { AuthContext, ContextUser } from "@/app/contexts";
+const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
-const router = createRouterWithRootComponent(<Header />);
+vi.mock("@tanstack/react-router", () => mockRouterLib)
+vi.mock("@/shared/utils", () => ({ isOnPage: vi.fn() }));
 
 const user = { username: "test_user" };
 
 describe("not authorized user", () => {
   beforeEach(() => {
-    renderWithRoutingAndAuth(router, { currentUser: null });
+    renderHeaderWithCurrentUser(null)
   });
 
-  test("add article button does not render", async () => {
+  test("add article button does not render", () => {
     const addArticleButton = screen.queryByText("Add article");
     expect(addArticleButton).toBeNull();
   });
@@ -23,7 +22,7 @@ describe("not authorized user", () => {
 
 describe("authorized user", () => {
   beforeEach(() => {
-    renderWithRoutingAndAuth(router, { currentUser: user });
+    renderHeaderWithCurrentUser(user);
   });
 
   test("add article button renders", () => {
@@ -31,3 +30,11 @@ describe("authorized user", () => {
     expect(addArticleButton).toBeDefined();
   });
 });
+
+const renderHeaderWithCurrentUser = (currentUser: ContextUser | null) => {
+  render(
+    <AuthContext value={{ currentUser, setCurrentUser: () => {} }}>
+      <Header />
+    </AuthContext>
+  );
+};
