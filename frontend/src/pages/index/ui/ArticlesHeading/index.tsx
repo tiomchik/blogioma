@@ -11,7 +11,7 @@ type Props = {
 
 const ArticlesHeading: React.FC<Props> = ({ children, urlSortParam }) => {
   return (
-    <div className="articles-heading">
+    <div className="articles-heading" data-testid="articles-heading">
       <h1>{children}</h1>
       <Link to="/articles" search={{ sortingCriteria: urlSortParam }}>
         see all
