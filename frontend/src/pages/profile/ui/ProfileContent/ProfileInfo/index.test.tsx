@@ -1,10 +1,10 @@
 import { beforeEach, expect, test, vi } from "vitest";
 import ProfileInfo from ".";
 import { useQuery } from "@tanstack/react-query";
-import { screen } from "@testing-library/react";
-import { mockUser } from "@/tests/mocks";
-import { renderWithQueryClient } from "@/tests/utils";
-const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
+import { render, screen } from "@testing-library/react";
+const { mockRouterLib, mockQueryLib, mockUser } = await vi.hoisted(
+  () => import("@/tests/mocks")
+);
 
 vi.mock("@tanstack/react-router", async () => {
   return {
@@ -13,15 +13,12 @@ vi.mock("@tanstack/react-router", async () => {
   };
 });
 
-vi.mock("@tanstack/react-query", async () => {
-  const actual = await vi.importActual("@tanstack/react-query");
-  return { ...actual, useQuery: vi.fn() };
-});
+vi.mock("@tanstack/react-query", () => mockQueryLib);
 
 const mockUseQuery = vi.mocked(useQuery, { partial: true });
 
 beforeEach(() => {
-  renderWithQueryClient(<ProfileInfo />);
+  render(<ProfileInfo />);
 });
 
 mockUseQuery.mockReturnValueOnce({ data: mockUser });

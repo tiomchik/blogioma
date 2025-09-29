@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import "./index.scss";
 import { ArticleSortingCriterias } from "@/app/routes/articles";
 
-export type Props = {
+type Props = {
   sortingCriteria?: ArticleSortingCriterias;
   amount?: number;
   articles?: ServerArticleResponse[];

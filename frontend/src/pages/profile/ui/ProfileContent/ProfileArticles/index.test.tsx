@@ -1,10 +1,9 @@
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { beforeEach, expect, test, vi } from "vitest";
 import ProfileArticles from ".";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
-import { renderWithQueryClient } from "@/tests/utils";
-const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
+const { mockRouterLib, mockQueryLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
 vi.mock("@tanstack/react-router", async () => {
   return {
@@ -14,15 +13,12 @@ vi.mock("@tanstack/react-router", async () => {
   };
 });
 
-vi.mock("@tanstack/react-query", async () => {
-  const actual = await vi.importActual("@tanstack/react-query");
-  return { ...actual, useQuery: vi.fn() };
-});
+vi.mock("@tanstack/react-query", () => mockQueryLib);
 
 const mockUseQuery = vi.mocked(useQuery, { partial: true });
 
 beforeEach(() => {
-  renderWithQueryClient(<ProfileArticles />);
+  render(<ProfileArticles />);
 });
 
 type UseQueryReturnType = Partial<

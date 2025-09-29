@@ -9,4 +9,11 @@ const mockRouterLib = {
   useNavigate: vi.fn(),
 };
 
-export { mockRouterLib };
+const mockQueryLib = {
+  useQuery: vi.fn(() => ({ data: { results: [] } })),
+  useMutation: vi.fn(() => ({ mutate: vi.fn() })),
+  QueryClient: vi.fn(),
+  QueryClientProvider: vi.fn(({ children }) => children),
+};
+
+export { mockRouterLib, mockQueryLib };

@@ -23,7 +23,7 @@ vi.mock("@/entities/user/api", () => {
   };
 });
 
-vi.mock("@tanstack/react-router", async () => {
+vi.mock("@tanstack/react-router", () => {
   return { ...mockRouterLib, useNavigate: vi.fn(() => mockNavigate) };
 });
 
@@ -43,9 +43,7 @@ const userData = {
 
 beforeEach(() => {
   renderWithQueryClient(
-    <AuthContext
-      value={{ currentUser: null, setCurrentUser: mockSetCurrentUser }}
-    >
+    <AuthContext value={{ setCurrentUser: mockSetCurrentUser }}>
       <SignUpForm />
     </AuthContext>
   );
@@ -70,7 +68,7 @@ test("successful registration flow", async () => {
 });
 
 test("error from the server was displayed", async () => {
-  const errorMsg = "error from the server"
+  const errorMsg = "error from the server";
   mockCreateUser.mockRejectedValueOnce({
     response: { data: { detail: errorMsg } },
   });
