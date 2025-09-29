@@ -34,6 +34,11 @@
       }
     }
 
+    a,
+    .wrapper svg {
+      transition: all 0.3s linear;
+    }
+
     &:last-child {
       margin-left: auto;
       text-align: right;
@@ -53,6 +58,7 @@
   color: $accent;
 
   .wrapper svg {
+    transition: all 0.3s linear;
     stroke: $accent;
   }
 }
