@@ -4,13 +4,12 @@ import {
   clickSubmitButton,
   expectErrorMessage,
   pasteIntoFieldByLabelText,
+  renderWithAuth,
 } from "@/tests/utils";
 import {
   setAuthToken,
   authenticateAndRedirectToHome,
 } from "@/entities/user/api";
-import { render } from "@testing-library/react";
-import { AuthContext } from "@/app/contexts";
 const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
 vi.mock("@/entities/user/api", () => {
@@ -37,14 +36,8 @@ const userData = {
   password: "password",
 };
 
-beforeEach(() => {
-  render(
-    <AuthContext
-      value={{ currentUser: null, setCurrentUser: mockSetCurrentUser }}
-    >
-      <LogInForm />
-    </AuthContext>
-  );
+beforeEach(async () => {
+  await renderWithAuth(<LogInForm />, { setCurrentUser: mockSetCurrentUser });
   pasteIntoFieldByLabelText("Username", userData.username);
   pasteIntoFieldByLabelText("Password", userData.password);
 });

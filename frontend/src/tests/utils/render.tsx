@@ -1,38 +1,30 @@
-import { AuthContext, ContextUser } from "@/app/contexts/auth";
+import { AuthContext, AuthContextProps } from "@/app/contexts/auth";
 import { AnyRouter, RouterProvider } from "@tanstack/react-router";
 import { act, render } from "@testing-library/react";
 import React, { JSX, PropsWithChildren } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const renderWithRouting = async (router: AnyRouter): Promise<void> => {
+const renderWithRouting = async (router: AnyRouter) => {
   await act(async () => {
     return render(<RouterProvider router={router} />);
   });
 };
 
-type AuthContextProps = {
-  currentUser?: ContextUser | null;
-  setCurrentUser?: CallableFunction;
+const renderWithAuth = async (
+  component: JSX.Element,
+  authContextProps: AuthContextProps
+) => {
+  await act(async () => {
+    render(<AuthContext value={authContextProps}>{component}</AuthContext>);
+  });
 };
 
-const renderWithRoutingAndAuth = async (
+const renderWithRoutingAndAuth = (
   router: AnyRouter,
   authContextProps: AuthContextProps
 ) => {
-  const { currentUser, setCurrentUser } = authContextProps;
-  await act(async () => {
-    render(
-      <AuthContext
-        value={{
-          currentUser: currentUser || null,
-          setCurrentUser: setCurrentUser || (() => {}),
-        }}
-      >
-        <RouterProvider router={router} />
-      </AuthContext>
-    );
-  });
+  renderWithAuth(<RouterProvider router={router} />, authContextProps);
 };
 
 const renderInputWithFormProvider = (input: JSX.Element) => {
@@ -54,6 +46,7 @@ const renderWithQueryClient = (component: JSX.Element) => {
 
 export {
   renderWithRouting,
+  renderWithAuth,
   renderWithRoutingAndAuth,
   renderInputWithFormProvider,
   renderWithQueryClient,

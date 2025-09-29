@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import Header from ".";
-import { AuthContext, ContextUser } from "@/app/contexts";
+import { renderWithAuth } from "@/tests/utils";
 const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
-vi.mock("@tanstack/react-router", () => mockRouterLib)
+vi.mock("@tanstack/react-router", () => mockRouterLib);
 vi.mock("@/shared/utils", () => ({ isOnPage: vi.fn() }));
 
 const user = { username: "test_user" };
 
 describe("not authorized user", () => {
   beforeEach(() => {
-    renderHeaderWithCurrentUser(null)
+    renderWithAuth(<Header />, { currentUser: null });
   });
 
   test("add article button does not render", () => {
@@ -22,7 +22,7 @@ describe("not authorized user", () => {
 
 describe("authorized user", () => {
   beforeEach(() => {
-    renderHeaderWithCurrentUser(user);
+    renderWithAuth(<Header />, { currentUser: user });
   });
 
   test("add article button renders", () => {
@@ -30,11 +30,3 @@ describe("authorized user", () => {
     expect(addArticleButton).toBeDefined();
   });
 });
-
-const renderHeaderWithCurrentUser = (currentUser: ContextUser | null) => {
-  render(
-    <AuthContext value={{ currentUser, setCurrentUser: () => {} }}>
-      <Header />
-    </AuthContext>
-  );
-};

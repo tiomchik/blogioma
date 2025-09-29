@@ -5,10 +5,15 @@ export type ContextUser = {
   pfp?: string | null;
 };
 
-const AuthContext = createContext<{
-  currentUser: ContextUser | null;
-  setCurrentUser: CallableFunction;
-}>({ currentUser: null, setCurrentUser: () => {} });
+export type AuthContextProps = {
+  currentUser?: ContextUser | null;
+  setCurrentUser?: CallableFunction;
+};
+
+const AuthContext = createContext<AuthContextProps>({
+  currentUser: null,
+  setCurrentUser: () => {},
+});
 
 const useAuth = () => useContext(AuthContext);
 
