@@ -37,9 +37,13 @@ const ArticleCard: React.FC<Props> = ({
       </div>
 
       {update ? (
-        <p className="date">{"Updated: " + formatDate(date)}</p>
+        <p className="date" data-testid="date-of-update">
+          {"Updated: " + formatDate(date)}
+        </p>
       ) : (
-        <p className="date">{"Published: " + formatDate(date)}</p>
+        <p className="date" data-testid="publication-date">
+          {"Published: " + formatDate(date)}
+        </p>
       )}
     </article>
   );

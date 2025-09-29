@@ -4,24 +4,14 @@ import { expectErrorMessage, renderWithQueryClient } from "@/tests/utils";
 import ListOfArticles, { Props } from "./";
 import { ServerArticleResponse } from "@/entities/article/types";
 import { useQuery } from "@tanstack/react-query";
-import { mockUser } from "@/tests/mocks";
+import { mockArticle } from "@/tests/mocks";
 const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
-
-const article: ServerArticleResponse = {
-  id: 1,
-  heading: "article 1",
-  full_text: "full text",
-  pub_date: "2023-09-01T00:00:00.000Z",
-  update: "2023-09-01T00:00:00.000Z",
-  author: mockUser,
-  viewings: 100000,
-};
 
 const articles: ServerArticleResponse[] = [];
 
 for (let i = 0; i <= 3; i++) {
   articles.push({
-    ...article,
+    ...mockArticle,
     heading: `article ${i}`,
     id: i,
   });

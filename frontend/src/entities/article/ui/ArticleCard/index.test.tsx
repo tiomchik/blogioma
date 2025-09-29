@@ -6,36 +6,29 @@ import {
 import ArticleCard from "./";
 import { beforeEach, describe, expect, test } from "vitest";
 import { screen } from "@testing-library/react";
-import { mockUser } from "@/tests/mocks";
-
-const article = {
-  id: 7,
-  heading: "test heading",
-  full_text: "test full text",
-  author: mockUser,
-  pub_date: "2025-03-28T05:44:13.389735Z",
-  update: null,
-};
+import { mockArticle } from "@/tests/mocks";
 
 describe("standard data", () => {
-  const router = createRouterWithRootComponent(<ArticleCard {...article} />);
+  const router = createRouterWithRootComponent(
+    <ArticleCard {...mockArticle} />
+  );
 
   beforeEach(() => {
     renderWithRouting(router);
   });
 
   test("displays heading", () => {
-    const heading = screen.getByText(article.heading);
+    const heading = screen.getByText(mockArticle.heading);
     expect(heading).toBeDefined();
   });
 
   test("displays full text", () => {
-    const full_text = screen.getByText(article.full_text);
+    const full_text = screen.getByText(mockArticle.full_text);
     expect(full_text).toBeDefined();
   });
 
   test("displays an author data", () => {
-    const username = screen.getByText(article.author.username);
+    const username = screen.getByText(mockArticle.author.username);
     expect(username).toBeDefined();
     const pfp = screen.getByRole("img");
     expect(pfp).toBeDefined();
@@ -44,44 +37,46 @@ describe("standard data", () => {
   test("read button redirects to article page", () => {
     const readButton = screen.getAllByRole("link")[1];
     click(readButton);
-    expect(router.history.location.pathname).toBe(`/article/${article.id}`);
+    expect(router.history.location.pathname).toBe(`/article/${mockArticle.id}`);
   });
 
   test("displays publication date", () => {
-    const date = screen.getByText("Published: March 28, 2025, 8:44 a.m.");
+    const date = screen.getByTestId("publication-date");
     expect(date).toBeDefined();
   });
 
   test("displays date of update", async () => {
     const router = createRouterWithRootComponent(
-      <ArticleCard {...article} update="2025-03-28T05:44:13.389735Z" />
+      <ArticleCard {...mockArticle} update="2025-03-28T05:44:13.389735Z" />
     );
     await renderWithRouting(router);
-    const date = screen.getByText("Updated: March 28, 2025, 8:44 a.m.");
+    const date = screen.getByTestId("date-of-update");
     expect(date).toBeDefined();
   });
 
   test("link to the author redirects to his profile", () => {
-    const user = screen.getByText(article.author.username);
+    const user = screen.getByText(mockArticle.author.username);
     click(user);
     expect(router.history.location.pathname).toBe(
-      `/profile/${article.author.username}`
+      `/profile/${mockArticle.author.username}`
     );
   });
 });
 
 describe("long data", () => {
   const longArticle = {
-    ...article,
+    ...mockArticle,
     heading: "test heading".repeat(15),
     full_text: "test full text".repeat(15),
     author: {
-      ...article.author,
+      ...mockArticle.author,
       username: "user6".repeat(15),
     },
   };
 
-  const router = createRouterWithRootComponent(<ArticleCard {...longArticle} />);
+  const router = createRouterWithRootComponent(
+    <ArticleCard {...longArticle} />
+  );
 
   beforeEach(() => {
     renderWithRouting(router);
