@@ -49,6 +49,7 @@ const SignUpForm: React.FC = () => {
         method="post"
         encType="multipart/form-data"
         onSubmit={methods.handleSubmit(onSubmit)}
+        data-testid="sign-up-form"
       >
         <UsernameInput />
         <PasswordInput />
