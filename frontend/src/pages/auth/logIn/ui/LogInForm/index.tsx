@@ -28,7 +28,11 @@ const LogInForm: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <form method="post" onSubmit={methods.handleSubmit(onSubmit)}>
+      <form
+        method="post"
+        onSubmit={methods.handleSubmit(onSubmit)}
+        data-testid="log-in-form"
+      >
         <UsernameInput />
         <PasswordInput />
         <ErrorMessage
