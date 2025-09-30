@@ -9,7 +9,7 @@ const ProfileNavigation: React.FC = () => {
   const { currentUser } = useAuth();
 
   return (
-    <aside className="profile-nav">
+    <aside className="profile-nav" data-testid="profile-navigation">
       <ul>
         <li>
           <Link

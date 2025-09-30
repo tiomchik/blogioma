@@ -5,7 +5,7 @@ import "./index.scss";
 
 const ProfileContent: React.FC = () => {
   return (
-    <div className="profile-content">
+    <div className="profile-content" data-testid="profile-content">
       <ProfileInfo />
       <ProfileArticles />
     </div>
