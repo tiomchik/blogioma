@@ -6,4 +6,9 @@ const expectElementWithTestId = (testId: string) => {
   expect(element).toBeDefined();
 };
 
-export { expectElementWithTestId };
+const expectNoElementWithTestId = (testId: string) => {
+  const element = screen.queryByTestId(testId);
+  expect(element).toBeNull();
+};
+
+export { expectElementWithTestId, expectNoElementWithTestId };

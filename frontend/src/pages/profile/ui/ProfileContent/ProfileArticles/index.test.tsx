@@ -1,9 +1,12 @@
-import { render, screen } from "@testing-library/react";
-import { beforeEach, expect, test, vi } from "vitest";
+import { render } from "@testing-library/react";
+import { beforeEach, test, vi } from "vitest";
 import ProfileArticles from ".";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
-import { expectElementWithTestId } from "@/tests/utils";
+import {
+  expectElementWithTestId,
+  expectNoElementWithTestId,
+} from "@/tests/utils";
 const { mockRouterLib, mockQueryLib } = await vi.hoisted(
   () => import("@/tests/mocks")
 );
@@ -53,8 +56,6 @@ test("shows no articles message", () => {
 mockUseQuery.mockReturnValueOnce({ error: new Error("404") });
 
 test("doesn't display anything when error occurs", () => {
-  const listOfArticles = screen.queryByTestId("list-of-articles");
-  const paginator = screen.queryByTestId("paginator");
-  expect(listOfArticles).toBeNull();
-  expect(paginator).toBeNull();
+  expectNoElementWithTestId("list-of-articles");
+  expectNoElementWithTestId("paginator");
 });
