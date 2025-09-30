@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
 import Paginator, { Props } from ".";
+import { expectElementWithTestId } from "@/tests/utils";
 const { mockRouterLib } = await vi.hoisted(() => import("@/tests/mocks"));
 
 vi.mock("@tanstack/react-router", () => mockRouterLib);
@@ -21,10 +22,7 @@ test("all needed links are displayed if current page is middle page", () => {
     "next-page-link",
   ];
 
-  expectedLinkIds.forEach((testId) => {
-    const link = screen.getByTestId(testId);
-    expect(link).toBeDefined();
-  });
+  expectedLinkIds.forEach((testId) => expectElementWithTestId(testId));
 
   const listOfPages = screen.getAllByTestId("page-link");
   expect(listOfPages).toHaveLength(5);

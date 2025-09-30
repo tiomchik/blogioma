@@ -3,6 +3,7 @@ import { expect, test } from "vitest";
 import UserPfpWithUsername from ".";
 import { ProfileDataContext } from "../context";
 import { mockUser } from "@/tests/mocks";
+import { expectElementWithTestId } from "@/tests/utils";
 
 test("displays the profile information", () => {
   render(
@@ -11,8 +12,7 @@ test("displays the profile information", () => {
     </ProfileDataContext>
   );
 
-  const pfp = screen.getByTestId("pfp");
+  expectElementWithTestId("pfp");
   const username = screen.getByText(mockUser.username);
-  expect(pfp).toBeDefined();
   expect(username).toBeDefined();
 });

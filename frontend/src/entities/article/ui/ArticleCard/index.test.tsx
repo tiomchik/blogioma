@@ -1,6 +1,7 @@
 import {
   click,
   createRouterWithRootComponent,
+  expectElementWithTestId,
   renderWithRouting,
 } from "@/tests/utils";
 import ArticleCard from "./";
@@ -41,8 +42,7 @@ describe("standard data", () => {
   });
 
   test("displays publication date", () => {
-    const date = screen.getByTestId("publication-date");
-    expect(date).toBeDefined();
+    expectElementWithTestId("publication-date");
   });
 
   test("displays date of update", async () => {
@@ -50,8 +50,7 @@ describe("standard data", () => {
       <ArticleCard {...mockArticle} update="2025-03-28T05:44:13.389735Z" />
     );
     await renderWithRouting(router);
-    const date = screen.getByTestId("date-of-update");
-    expect(date).toBeDefined();
+    expectElementWithTestId("date-of-update");
   });
 
   test("link to the author redirects to his profile", () => {

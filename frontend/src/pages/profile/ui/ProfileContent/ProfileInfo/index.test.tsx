@@ -2,6 +2,7 @@ import { beforeEach, expect, test, vi } from "vitest";
 import ProfileInfo from ".";
 import { useQuery } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
+import { expectElementWithTestId } from "@/tests/utils";
 const { mockRouterLib, mockQueryLib, mockUser } = await vi.hoisted(
   () => import("@/tests/mocks")
 );
@@ -24,10 +25,8 @@ beforeEach(() => {
 mockUseQuery.mockReturnValueOnce({ data: mockUser });
 
 test("renders the profile info successfully", () => {
-  const userPfpWithUsername = screen.getByTestId("user-pfp-with-username");
-  const socialMediaLinks = screen.getByTestId("social-media-links");
-  expect(userPfpWithUsername).toBeDefined();
-  expect(socialMediaLinks).toBeDefined();
+  expectElementWithTestId("user-pfp-with-username");
+  expectElementWithTestId("social-media-links");
 });
 
 mockUseQuery.mockReturnValueOnce({ isLoading: true });
@@ -48,6 +47,5 @@ test("renders error", () => {
 mockUseQuery.mockReturnValueOnce({ error: new Error("404") });
 
 test("renders 404 error", () => {
-  const error = screen.getByTestId("not-found-msg");
-  expect(error).toBeDefined();
+  expectElementWithTestId("not-found-msg");
 });

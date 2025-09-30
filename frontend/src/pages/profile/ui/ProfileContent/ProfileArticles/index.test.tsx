@@ -3,7 +3,10 @@ import { beforeEach, expect, test, vi } from "vitest";
 import ProfileArticles from ".";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { ServerPaginatedArticlesResponse } from "@/entities/article/types";
-const { mockRouterLib, mockQueryLib } = await vi.hoisted(() => import("@/tests/mocks"));
+import { expectElementWithTestId } from "@/tests/utils";
+const { mockRouterLib, mockQueryLib } = await vi.hoisted(
+  () => import("@/tests/mocks")
+);
 
 vi.mock("@tanstack/react-router", async () => {
   return {
@@ -35,10 +38,8 @@ mockUseQuery.mockReturnValueOnce(useQueryReturnValue);
 mockUseQuery.mockReturnValueOnce(useQueryReturnValue);
 
 test("successfully displays user articles and paginator", () => {
-  const listOfArticles = screen.getByTestId("list-of-articles");
-  const paginator = screen.getByTestId("paginator");
-  expect(listOfArticles).toBeDefined();
-  expect(paginator).toBeDefined();
+  expectElementWithTestId("list-of-articles");
+  expectElementWithTestId("paginator");
 });
 
 mockUseQuery.mockReturnValueOnce({
@@ -46,8 +47,7 @@ mockUseQuery.mockReturnValueOnce({
 });
 
 test("shows no articles message", () => {
-  const msg = screen.getByTestId("user-has-no-articles-msg");
-  expect(msg).toBeDefined();
+  expectElementWithTestId("user-has-no-articles-msg");
 });
 
 mockUseQuery.mockReturnValueOnce({ error: new Error("404") });
