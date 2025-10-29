@@ -43,7 +43,9 @@ const userData = {
 
 beforeEach(() => {
   renderWithQueryClient(
-    <AuthContext value={{ setCurrentUser: mockSetCurrentUser }}>
+    <AuthContext
+      value={{ currentUser: null, setCurrentUser: mockSetCurrentUser }}
+    >
       <SignUpForm />
     </AuthContext>
   );
