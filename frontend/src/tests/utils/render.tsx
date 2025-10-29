@@ -13,16 +13,26 @@ const renderWithRouting = async (router: AnyRouter) => {
 
 const renderWithAuth = async (
   component: JSX.Element,
-  authContextProps: AuthContextProps
+  authContextProps?: Partial<AuthContextProps>
 ) => {
+  const baseAuthContext = {
+    currentUser: { username: "currentUser" },
+    setCurrentUser: () => {},
+  };
+
+  const mergedAuthContext = {
+    ...baseAuthContext,
+    ...authContextProps,
+  };
+
   await act(async () => {
-    render(<AuthContext value={authContextProps}>{component}</AuthContext>);
+    render(<AuthContext value={mergedAuthContext}>{component}</AuthContext>);
   });
 };
 
 const renderWithRoutingAndAuth = (
   router: AnyRouter,
-  authContextProps: AuthContextProps
+  authContextProps?: Partial<AuthContextProps>
 ) => {
   renderWithAuth(<RouterProvider router={router} />, authContextProps);
 };

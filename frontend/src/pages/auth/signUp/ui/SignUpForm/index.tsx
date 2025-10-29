@@ -11,11 +11,12 @@ import {
 } from "@/shared/components";
 import { setErrorsFromResponse } from "@/shared/utils";
 import { useMutation } from "@tanstack/react-query";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { ErrorMessage } from "@hookform/error-message";
 import { createUser } from "@/entities/user/api";
 import { useNavigate } from "@tanstack/react-router";
 import { authenticateAndRedirectToHome } from "@/entities/user/api";
+import { ServerUserResponse } from "@/entities/user/types";
 
 type FormInputs = {
   username: string;
@@ -26,7 +27,7 @@ type FormInputs = {
 };
 
 const SignUpForm: React.FC = () => {
-  const mutation = useMutation<AxiosResponse, AxiosError, FormData>({
+  const mutation = useMutation<ServerUserResponse, AxiosError, FormData>({
     mutationFn: createUser,
   });
   const navigate = useNavigate();

@@ -6,8 +6,8 @@ export type ContextUser = {
 };
 
 export type AuthContextProps = {
-  currentUser?: ContextUser | null;
-  setCurrentUser?: CallableFunction;
+  currentUser: ContextUser | null;
+  setCurrentUser: CallableFunction;
 };
 
 const AuthContext = createContext<AuthContextProps>({
