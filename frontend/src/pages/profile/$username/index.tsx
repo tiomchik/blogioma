@@ -10,7 +10,7 @@ import React from "react";
 
 const ProfilePage: React.FC = () => {
   const { currentUser } = useAuth();
-  const { username } = useParams({ from: "/profile/$username/" });
+  const { username } = useParams({ from: "/profile/$username" });
 
   const isCurrentUserProfile = () => {
     return currentUser?.username === username;

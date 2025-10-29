@@ -9,8 +9,8 @@ import React from "react";
 const MAX_AMOUNT_OF_ARTICLES_PER_PAGE = 12;
 
 const ProfileArticles: React.FC = () => {
-  const { page } = useSearch({ from: "/profile/$username/" });
-  const { username } = useParams({ from: "/profile/$username/" });
+  const { page } = useSearch({ from: "/profile/$username" });
+  const { username } = useParams({ from: "/profile/$username" });
   const { data, isLoading, error } = useQuery({
     queryKey: ["profileArticles", username, page],
     queryFn: () =>

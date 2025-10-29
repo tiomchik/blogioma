@@ -8,7 +8,7 @@ import { getUserByName } from "@/entities/user/api";
 import "./index.scss";
 
 const ProfileInfo: React.FC = () => {
-  const { username } = useParams({ from: "/profile/$username/" });
+  const { username } = useParams({ from: "/profile/$username" });
   const {
     data: profileData,
     isLoading,
