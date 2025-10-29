@@ -1,4 +1,4 @@
-export const truncateWithEllipsis = (text: string, length: number): string => {
+const truncateWithEllipsis = (text: string, length: number): string => {
   if (text.length > length) {
     return text.slice(0, length) + "...";
   } else {
@@ -6,7 +6,7 @@ export const truncateWithEllipsis = (text: string, length: number): string => {
   }
 };
 
-export const formatDate = (date: Date): string => {
+const formatDate = (date: Date): string => {
   const month = date.toLocaleString("eng", { month: "long" });
   const day = date.getDate();
   const year = date.getFullYear();
@@ -22,3 +22,5 @@ const isCurrentYear = (year: number) => {
   const currentYear = new Date().getFullYear();
   return year == currentYear;
 };
+
+export { truncateWithEllipsis, formatDate, isCurrentYear };

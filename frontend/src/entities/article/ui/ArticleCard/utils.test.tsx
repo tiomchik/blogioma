@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { formatDate, truncateWithEllipsis } from "./utils";
+import { formatDate, isCurrentYear, truncateWithEllipsis } from "./utils";
 
 describe("truncateWithEllipsis", () => {
   test("truncates a string to the specified length", () => {
@@ -13,9 +13,11 @@ describe("truncateWithEllipsis", () => {
   });
 });
 
+const currentYear = new Date().getFullYear();
+
 describe("formatDate", () => {
   test("returns formatted string without year if it's current year", () => {
-    const date = new Date("2025-07-17T06:09:16.499078Z");
+    const date = new Date(`${currentYear}-07-17T06:09:16.499078Z`);
     const result = formatDate(date);
     expect(result).toBe("July 17, 09:09");
   });
@@ -24,5 +26,17 @@ describe("formatDate", () => {
     const date = new Date("2023-07-17T06:09:16.499078Z");
     const result = formatDate(date);
     expect(result).toBe("2023, July 17, 09:09");
-  })
-})
+  });
+});
+
+describe("isCurrentYear", () => {
+  test("returns true if year is current year", () => {
+    const result = isCurrentYear(currentYear);
+    expect(result).toBe(true);
+  });
+
+  test("returns false if year is not current year", () => {
+    const result = isCurrentYear(2023);
+    expect(result).toBe(false);
+  });
+});
