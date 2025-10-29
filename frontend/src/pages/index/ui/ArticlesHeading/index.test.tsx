@@ -10,7 +10,9 @@ import ArticlesHeading from ".";
 const text = "articles heading";
 const sortingCriteria = "popular";
 const router = createRouterWithRootComponent(
-  <ArticlesHeading urlSortParam={sortingCriteria}>{text}</ArticlesHeading>
+  <ArticlesHeading seeAllSortingCriteria={sortingCriteria}>
+    {text}
+  </ArticlesHeading>
 );
 
 beforeEach(() => {
@@ -25,5 +27,7 @@ test("shows text", () => {
 test("arrow button redirects to list of ordered articles", () => {
   const arrowButton = screen.getByRole("link");
   click(arrowButton);
-  expect(router.history.location.search).toBe(`?sortingCriteria=${sortingCriteria}`);
+  expect(router.history.location.search).toBe(
+    `?sortingCriteria=${sortingCriteria}`
+  );
 });

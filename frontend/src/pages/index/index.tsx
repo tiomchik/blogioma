@@ -8,11 +8,11 @@ const IndexPage: React.FC = () => {
     <main>
       <div className="container">
         <PageHeading>Home</PageHeading>
-        <ArticlesHeading urlSortParam="popular">
+        <ArticlesHeading seeAllSortingCriteria="popular">
           Popular articles 🔥
         </ArticlesHeading>
         <ListOfArticles sortingCriteria="popular" amount={12} />
-        <ArticlesHeading urlSortParam="latest">
+        <ArticlesHeading seeAllSortingCriteria="latest">
           Latest articles 🕒
         </ArticlesHeading>
         <ListOfArticles sortingCriteria="latest" amount={12} />

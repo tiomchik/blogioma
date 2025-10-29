@@ -6,14 +6,17 @@ import "./index.scss";
 
 type Props = {
   children: string;
-  urlSortParam: ArticleSortingCriterias;
+  seeAllSortingCriteria: ArticleSortingCriterias;
 };
 
-const ArticlesHeading: React.FC<Props> = ({ children, urlSortParam }) => {
+const ArticlesHeading: React.FC<Props> = ({
+  children,
+  seeAllSortingCriteria,
+}) => {
   return (
     <div className="articles-heading" data-testid="articles-heading">
       <h1>{children}</h1>
-      <Link to="/articles" search={{ sortingCriteria: urlSortParam }}>
+      <Link to="/articles" search={{ sortingCriteria: seeAllSortingCriteria }}>
         see all
         <div className="wrapper">
           <RightArrowIcon />
