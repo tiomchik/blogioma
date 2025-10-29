@@ -1,7 +1,7 @@
 import ProfilePage from "@/pages/profile";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, SearchSchemaInput } from "@tanstack/react-router";
 
-type ProfileSearch = { page?: number }
+type ProfileSearch = { page?: number } & SearchSchemaInput;
 
 export const Route = createFileRoute("/profile/$username/")({
   component: ProfilePage,
