@@ -6,7 +6,7 @@ const AboutPage = () => {
     <main>
       <div className="container">
         <PageHeading>About site</PageHeading>
-        <p>
+        <p data-testid="about-page-description">
           Blogioma - project for education goals in Django, React, HTML and CSS.
           This project will be uploaded to GitHub for make Blogioma better and
           for experience in open source :D

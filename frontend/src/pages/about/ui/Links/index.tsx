@@ -3,7 +3,7 @@ import "./index.scss";
 
 const Links: React.FC = () => {
   return (
-    <>
+    <div data-testid="links">
       <h1 className="links-heading">Links:</h1>
       <address className="links">
         <ul>
@@ -17,7 +17,7 @@ const Links: React.FC = () => {
           </li>
         </ul>
       </address>
-    </>
+    </div>
   );
 };
 
