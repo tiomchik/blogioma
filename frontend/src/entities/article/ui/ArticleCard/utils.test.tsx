@@ -14,9 +14,15 @@ describe("truncateWithEllipsis", () => {
 });
 
 describe("formatDate", () => {
-  test("formats a date object to a string", () => {
-    const date = new Date("2025-07-17T11:09:16.499078Z");
+  test("returns formatted string without year if it's current year", () => {
+    const date = new Date("2025-07-17T06:09:16.499078Z");
     const result = formatDate(date);
-    expect(result).toBe("July 17, 2025, 14:9 a.m."); 
+    expect(result).toBe("July 17, 09:09");
   });
+
+  test("returns formatted string with year if it's not current year", () => {
+    const date = new Date("2023-07-17T06:09:16.499078Z");
+    const result = formatDate(date);
+    expect(result).toBe("2023, July 17, 09:09");
+  })
 })
