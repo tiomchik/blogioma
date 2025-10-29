@@ -18,13 +18,13 @@ import { Route as IndexImport } from './app/routes/index'
 import { Route as SearchIndexImport } from './app/routes/search/index'
 import { Route as SearchQueryImport } from './app/routes/search/$query'
 import { Route as ProfileSettingsImport } from './app/routes/profile/settings'
+import { Route as ProfileUsernameImport } from './app/routes/profile/$username'
 import { Route as AuthSignupImport } from './app/routes/auth/sign_up'
 import { Route as AuthLoginImport } from './app/routes/auth/log_in'
 import { Route as ArticleUpdateImport } from './app/routes/article/update'
 import { Route as ArticleRandomImport } from './app/routes/article/random'
 import { Route as ArticleDeleteImport } from './app/routes/article/delete'
 import { Route as ArticleAddImport } from './app/routes/article/add'
-import { Route as ProfileUsernameIndexImport } from './app/routes/profile/$username/index'
 import { Route as ArticlePkIndexImport } from './app/routes/article/$pk/index'
 import { Route as ArticlePkReportImport } from './app/routes/article/$pk/report'
 import { Route as ArticlePkCommentsIndexImport } from './app/routes/article/$pk/comments/index'
@@ -76,6 +76,12 @@ const ProfileSettingsRoute = ProfileSettingsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ProfileUsernameRoute = ProfileUsernameImport.update({
+  id: '/profile/$username',
+  path: '/profile/$username',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AuthSignupRoute = AuthSignupImport.update({
   id: '/auth/sign_up',
   path: '/auth/sign_up',
@@ -109,12 +115,6 @@ const ArticleDeleteRoute = ArticleDeleteImport.update({
 const ArticleAddRoute = ArticleAddImport.update({
   id: '/article/add',
   path: '/article/add',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ProfileUsernameIndexRoute = ProfileUsernameIndexImport.update({
-  id: '/profile/$username/',
-  path: '/profile/$username/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -228,6 +228,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof rootRoute
     }
+    '/profile/$username': {
+      id: '/profile/$username'
+      path: '/profile/$username'
+      fullPath: '/profile/$username'
+      preLoaderRoute: typeof ProfileUsernameImport
+      parentRoute: typeof rootRoute
+    }
     '/profile/settings': {
       id: '/profile/settings'
       path: '/profile/settings'
@@ -261,13 +268,6 @@ declare module '@tanstack/react-router' {
       path: '/article/$pk'
       fullPath: '/article/$pk'
       preLoaderRoute: typeof ArticlePkIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/profile/$username/': {
-      id: '/profile/$username/'
-      path: '/profile/$username'
-      fullPath: '/profile/$username'
-      preLoaderRoute: typeof ProfileUsernameIndexImport
       parentRoute: typeof rootRoute
     }
     '/article/$pk/comments/add': {
@@ -314,12 +314,12 @@ export interface FileRoutesByFullPath {
   '/article/update': typeof ArticleUpdateRoute
   '/auth/log_in': typeof AuthLoginRoute
   '/auth/sign_up': typeof AuthSignupRoute
+  '/profile/$username': typeof ProfileUsernameRoute
   '/profile/settings': typeof ProfileSettingsRoute
   '/search/$query': typeof SearchQueryRoute
   '/search': typeof SearchIndexRoute
   '/article/$pk/report': typeof ArticlePkReportRoute
   '/article/$pk': typeof ArticlePkIndexRoute
-  '/profile/$username': typeof ProfileUsernameIndexRoute
   '/article/$pk/comments/add': typeof ArticlePkCommentsAddRoute
   '/article/$pk/comments/delete': typeof ArticlePkCommentsDeleteRoute
   '/article/$pk/comments/update': typeof ArticlePkCommentsUpdateRoute
@@ -337,12 +337,12 @@ export interface FileRoutesByTo {
   '/article/update': typeof ArticleUpdateRoute
   '/auth/log_in': typeof AuthLoginRoute
   '/auth/sign_up': typeof AuthSignupRoute
+  '/profile/$username': typeof ProfileUsernameRoute
   '/profile/settings': typeof ProfileSettingsRoute
   '/search/$query': typeof SearchQueryRoute
   '/search': typeof SearchIndexRoute
   '/article/$pk/report': typeof ArticlePkReportRoute
   '/article/$pk': typeof ArticlePkIndexRoute
-  '/profile/$username': typeof ProfileUsernameIndexRoute
   '/article/$pk/comments/add': typeof ArticlePkCommentsAddRoute
   '/article/$pk/comments/delete': typeof ArticlePkCommentsDeleteRoute
   '/article/$pk/comments/update': typeof ArticlePkCommentsUpdateRoute
@@ -361,12 +361,12 @@ export interface FileRoutesById {
   '/article/update': typeof ArticleUpdateRoute
   '/auth/log_in': typeof AuthLoginRoute
   '/auth/sign_up': typeof AuthSignupRoute
+  '/profile/$username': typeof ProfileUsernameRoute
   '/profile/settings': typeof ProfileSettingsRoute
   '/search/$query': typeof SearchQueryRoute
   '/search/': typeof SearchIndexRoute
   '/article/$pk/report': typeof ArticlePkReportRoute
   '/article/$pk/': typeof ArticlePkIndexRoute
-  '/profile/$username/': typeof ProfileUsernameIndexRoute
   '/article/$pk/comments/add': typeof ArticlePkCommentsAddRoute
   '/article/$pk/comments/delete': typeof ArticlePkCommentsDeleteRoute
   '/article/$pk/comments/update': typeof ArticlePkCommentsUpdateRoute
@@ -386,12 +386,12 @@ export interface FileRouteTypes {
     | '/article/update'
     | '/auth/log_in'
     | '/auth/sign_up'
+    | '/profile/$username'
     | '/profile/settings'
     | '/search/$query'
     | '/search'
     | '/article/$pk/report'
     | '/article/$pk'
-    | '/profile/$username'
     | '/article/$pk/comments/add'
     | '/article/$pk/comments/delete'
     | '/article/$pk/comments/update'
@@ -408,12 +408,12 @@ export interface FileRouteTypes {
     | '/article/update'
     | '/auth/log_in'
     | '/auth/sign_up'
+    | '/profile/$username'
     | '/profile/settings'
     | '/search/$query'
     | '/search'
     | '/article/$pk/report'
     | '/article/$pk'
-    | '/profile/$username'
     | '/article/$pk/comments/add'
     | '/article/$pk/comments/delete'
     | '/article/$pk/comments/update'
@@ -430,12 +430,12 @@ export interface FileRouteTypes {
     | '/article/update'
     | '/auth/log_in'
     | '/auth/sign_up'
+    | '/profile/$username'
     | '/profile/settings'
     | '/search/$query'
     | '/search/'
     | '/article/$pk/report'
     | '/article/$pk/'
-    | '/profile/$username/'
     | '/article/$pk/comments/add'
     | '/article/$pk/comments/delete'
     | '/article/$pk/comments/update'
@@ -454,12 +454,12 @@ export interface RootRouteChildren {
   ArticleUpdateRoute: typeof ArticleUpdateRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  ProfileUsernameRoute: typeof ProfileUsernameRoute
   ProfileSettingsRoute: typeof ProfileSettingsRoute
   SearchQueryRoute: typeof SearchQueryRoute
   SearchIndexRoute: typeof SearchIndexRoute
   ArticlePkReportRoute: typeof ArticlePkReportRoute
   ArticlePkIndexRoute: typeof ArticlePkIndexRoute
-  ProfileUsernameIndexRoute: typeof ProfileUsernameIndexRoute
   ArticlePkCommentsAddRoute: typeof ArticlePkCommentsAddRoute
   ArticlePkCommentsDeleteRoute: typeof ArticlePkCommentsDeleteRoute
   ArticlePkCommentsUpdateRoute: typeof ArticlePkCommentsUpdateRoute
@@ -477,12 +477,12 @@ const rootRouteChildren: RootRouteChildren = {
   ArticleUpdateRoute: ArticleUpdateRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
+  ProfileUsernameRoute: ProfileUsernameRoute,
   ProfileSettingsRoute: ProfileSettingsRoute,
   SearchQueryRoute: SearchQueryRoute,
   SearchIndexRoute: SearchIndexRoute,
   ArticlePkReportRoute: ArticlePkReportRoute,
   ArticlePkIndexRoute: ArticlePkIndexRoute,
-  ProfileUsernameIndexRoute: ProfileUsernameIndexRoute,
   ArticlePkCommentsAddRoute: ArticlePkCommentsAddRoute,
   ArticlePkCommentsDeleteRoute: ArticlePkCommentsDeleteRoute,
   ArticlePkCommentsUpdateRoute: ArticlePkCommentsUpdateRoute,
@@ -509,12 +509,12 @@ export const routeTree = rootRoute
         "/article/update",
         "/auth/log_in",
         "/auth/sign_up",
+        "/profile/$username",
         "/profile/settings",
         "/search/$query",
         "/search/",
         "/article/$pk/report",
         "/article/$pk/",
-        "/profile/$username/",
         "/article/$pk/comments/add",
         "/article/$pk/comments/delete",
         "/article/$pk/comments/update",
@@ -551,6 +551,9 @@ export const routeTree = rootRoute
     "/auth/sign_up": {
       "filePath": "auth/sign_up.tsx"
     },
+    "/profile/$username": {
+      "filePath": "profile/$username.tsx"
+    },
     "/profile/settings": {
       "filePath": "profile/settings.tsx"
     },
@@ -565,9 +568,6 @@ export const routeTree = rootRoute
     },
     "/article/$pk/": {
       "filePath": "article/$pk/index.tsx"
-    },
-    "/profile/$username/": {
-      "filePath": "profile/$username/index.tsx"
     },
     "/article/$pk/comments/add": {
       "filePath": "article/$pk/comments/add.tsx"
