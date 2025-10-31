@@ -11,13 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './app/routes/__root'
+import { Route as ProfilesettingsImport } from './app/routes/profile_settings'
 import { Route as FeedbackImport } from './app/routes/feedback'
 import { Route as ArticlesImport } from './app/routes/articles'
 import { Route as AboutImport } from './app/routes/about'
 import { Route as IndexImport } from './app/routes/index'
 import { Route as SearchIndexImport } from './app/routes/search/index'
 import { Route as SearchQueryImport } from './app/routes/search/$query'
-import { Route as ProfileSettingsImport } from './app/routes/profile/settings'
 import { Route as ProfileUsernameImport } from './app/routes/profile/$username'
 import { Route as AuthSignupImport } from './app/routes/auth/sign_up'
 import { Route as AuthLoginImport } from './app/routes/auth/log_in'
@@ -33,6 +33,12 @@ import { Route as ArticlePkCommentsDeleteImport } from './app/routes/article/$pk
 import { Route as ArticlePkCommentsAddImport } from './app/routes/article/$pk/comments/add'
 
 // Create/Update Routes
+
+const ProfilesettingsRoute = ProfilesettingsImport.update({
+  id: '/profile_settings',
+  path: '/profile_settings',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const FeedbackRoute = FeedbackImport.update({
   id: '/feedback',
@@ -67,12 +73,6 @@ const SearchIndexRoute = SearchIndexImport.update({
 const SearchQueryRoute = SearchQueryImport.update({
   id: '/search/$query',
   path: '/search/$query',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ProfileSettingsRoute = ProfileSettingsImport.update({
-  id: '/profile/settings',
-  path: '/profile/settings',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -186,6 +186,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeedbackImport
       parentRoute: typeof rootRoute
     }
+    '/profile_settings': {
+      id: '/profile_settings'
+      path: '/profile_settings'
+      fullPath: '/profile_settings'
+      preLoaderRoute: typeof ProfilesettingsImport
+      parentRoute: typeof rootRoute
+    }
     '/article/add': {
       id: '/article/add'
       path: '/article/add'
@@ -233,13 +240,6 @@ declare module '@tanstack/react-router' {
       path: '/profile/$username'
       fullPath: '/profile/$username'
       preLoaderRoute: typeof ProfileUsernameImport
-      parentRoute: typeof rootRoute
-    }
-    '/profile/settings': {
-      id: '/profile/settings'
-      path: '/profile/settings'
-      fullPath: '/profile/settings'
-      preLoaderRoute: typeof ProfileSettingsImport
       parentRoute: typeof rootRoute
     }
     '/search/$query': {
@@ -308,6 +308,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/articles': typeof ArticlesRoute
   '/feedback': typeof FeedbackRoute
+  '/profile_settings': typeof ProfilesettingsRoute
   '/article/add': typeof ArticleAddRoute
   '/article/delete': typeof ArticleDeleteRoute
   '/article/random': typeof ArticleRandomRoute
@@ -315,7 +316,6 @@ export interface FileRoutesByFullPath {
   '/auth/log_in': typeof AuthLoginRoute
   '/auth/sign_up': typeof AuthSignupRoute
   '/profile/$username': typeof ProfileUsernameRoute
-  '/profile/settings': typeof ProfileSettingsRoute
   '/search/$query': typeof SearchQueryRoute
   '/search': typeof SearchIndexRoute
   '/article/$pk/report': typeof ArticlePkReportRoute
@@ -331,6 +331,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/articles': typeof ArticlesRoute
   '/feedback': typeof FeedbackRoute
+  '/profile_settings': typeof ProfilesettingsRoute
   '/article/add': typeof ArticleAddRoute
   '/article/delete': typeof ArticleDeleteRoute
   '/article/random': typeof ArticleRandomRoute
@@ -338,7 +339,6 @@ export interface FileRoutesByTo {
   '/auth/log_in': typeof AuthLoginRoute
   '/auth/sign_up': typeof AuthSignupRoute
   '/profile/$username': typeof ProfileUsernameRoute
-  '/profile/settings': typeof ProfileSettingsRoute
   '/search/$query': typeof SearchQueryRoute
   '/search': typeof SearchIndexRoute
   '/article/$pk/report': typeof ArticlePkReportRoute
@@ -355,6 +355,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/articles': typeof ArticlesRoute
   '/feedback': typeof FeedbackRoute
+  '/profile_settings': typeof ProfilesettingsRoute
   '/article/add': typeof ArticleAddRoute
   '/article/delete': typeof ArticleDeleteRoute
   '/article/random': typeof ArticleRandomRoute
@@ -362,7 +363,6 @@ export interface FileRoutesById {
   '/auth/log_in': typeof AuthLoginRoute
   '/auth/sign_up': typeof AuthSignupRoute
   '/profile/$username': typeof ProfileUsernameRoute
-  '/profile/settings': typeof ProfileSettingsRoute
   '/search/$query': typeof SearchQueryRoute
   '/search/': typeof SearchIndexRoute
   '/article/$pk/report': typeof ArticlePkReportRoute
@@ -380,6 +380,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/articles'
     | '/feedback'
+    | '/profile_settings'
     | '/article/add'
     | '/article/delete'
     | '/article/random'
@@ -387,7 +388,6 @@ export interface FileRouteTypes {
     | '/auth/log_in'
     | '/auth/sign_up'
     | '/profile/$username'
-    | '/profile/settings'
     | '/search/$query'
     | '/search'
     | '/article/$pk/report'
@@ -402,6 +402,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/articles'
     | '/feedback'
+    | '/profile_settings'
     | '/article/add'
     | '/article/delete'
     | '/article/random'
@@ -409,7 +410,6 @@ export interface FileRouteTypes {
     | '/auth/log_in'
     | '/auth/sign_up'
     | '/profile/$username'
-    | '/profile/settings'
     | '/search/$query'
     | '/search'
     | '/article/$pk/report'
@@ -424,6 +424,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/articles'
     | '/feedback'
+    | '/profile_settings'
     | '/article/add'
     | '/article/delete'
     | '/article/random'
@@ -431,7 +432,6 @@ export interface FileRouteTypes {
     | '/auth/log_in'
     | '/auth/sign_up'
     | '/profile/$username'
-    | '/profile/settings'
     | '/search/$query'
     | '/search/'
     | '/article/$pk/report'
@@ -448,6 +448,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ArticlesRoute: typeof ArticlesRoute
   FeedbackRoute: typeof FeedbackRoute
+  ProfilesettingsRoute: typeof ProfilesettingsRoute
   ArticleAddRoute: typeof ArticleAddRoute
   ArticleDeleteRoute: typeof ArticleDeleteRoute
   ArticleRandomRoute: typeof ArticleRandomRoute
@@ -455,7 +456,6 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   ProfileUsernameRoute: typeof ProfileUsernameRoute
-  ProfileSettingsRoute: typeof ProfileSettingsRoute
   SearchQueryRoute: typeof SearchQueryRoute
   SearchIndexRoute: typeof SearchIndexRoute
   ArticlePkReportRoute: typeof ArticlePkReportRoute
@@ -471,6 +471,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ArticlesRoute: ArticlesRoute,
   FeedbackRoute: FeedbackRoute,
+  ProfilesettingsRoute: ProfilesettingsRoute,
   ArticleAddRoute: ArticleAddRoute,
   ArticleDeleteRoute: ArticleDeleteRoute,
   ArticleRandomRoute: ArticleRandomRoute,
@@ -478,7 +479,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   ProfileUsernameRoute: ProfileUsernameRoute,
-  ProfileSettingsRoute: ProfileSettingsRoute,
   SearchQueryRoute: SearchQueryRoute,
   SearchIndexRoute: SearchIndexRoute,
   ArticlePkReportRoute: ArticlePkReportRoute,
@@ -503,6 +503,7 @@ export const routeTree = rootRoute
         "/about",
         "/articles",
         "/feedback",
+        "/profile_settings",
         "/article/add",
         "/article/delete",
         "/article/random",
@@ -510,7 +511,6 @@ export const routeTree = rootRoute
         "/auth/log_in",
         "/auth/sign_up",
         "/profile/$username",
-        "/profile/settings",
         "/search/$query",
         "/search/",
         "/article/$pk/report",
@@ -533,6 +533,9 @@ export const routeTree = rootRoute
     "/feedback": {
       "filePath": "feedback.tsx"
     },
+    "/profile_settings": {
+      "filePath": "profile_settings.tsx"
+    },
     "/article/add": {
       "filePath": "article/add.tsx"
     },
@@ -553,9 +556,6 @@ export const routeTree = rootRoute
     },
     "/profile/$username": {
       "filePath": "profile/$username.tsx"
-    },
-    "/profile/settings": {
-      "filePath": "profile/settings.tsx"
     },
     "/search/$query": {
       "filePath": "search/$query.tsx"
