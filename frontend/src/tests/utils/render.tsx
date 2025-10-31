@@ -30,11 +30,11 @@ const renderWithAuth = async (
   });
 };
 
-const renderWithRoutingAndAuth = (
+const renderWithRoutingAndAuth = async (
   router: AnyRouter,
   authContextProps?: Partial<AuthContextProps>
 ) => {
-  renderWithAuth(<RouterProvider router={router} />, authContextProps);
+  await renderWithAuth(<RouterProvider router={router} />, authContextProps);
 };
 
 const renderInputWithFormProvider = (input: JSX.Element) => {
