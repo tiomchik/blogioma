@@ -23,7 +23,7 @@ const ProfileNavigation: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link to="/profile/settings" data-testid="profile-settings-link">
+          <Link to="/profile_settings" data-testid="profile-settings-link">
             <div className="wrapper">
               <SettingsIcon />
             </div>
