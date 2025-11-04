@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { ERROR_INVALID } from "./errorMessages";
 
 export const EMAIL_FIELD_LABEL = "Email (optional)";
 
@@ -21,7 +22,7 @@ const EmailInput: React.FC = () => {
           {...register("email", {
             pattern: {
               value: /^[^@]+@[^@]+\.[^@]+$/,
-              message: "Email is not valid",
+              message: ERROR_INVALID,
             },
           })}
           className="form-input"

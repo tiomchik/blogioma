@@ -1,6 +1,7 @@
 import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { ERROR_WRONG_FILE_TYPE } from "./errorMessages";
 
 const PfpInput: React.FC = () => {
   const {
@@ -10,7 +11,7 @@ const PfpInput: React.FC = () => {
 
   const validate = (fileList: FileList) => {
     const pfp = fileList[0];
-    if (pfp) return pfp.type.startsWith("image/") || "File is not an image";
+    if (pfp) return pfp.type.startsWith("image/") || ERROR_WRONG_FILE_TYPE;
     if (!pfp) return undefined;
   };
 

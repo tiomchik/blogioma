@@ -7,8 +7,7 @@ import {
 import { beforeEach, describe, test } from "vitest";
 import PasswordInput, { PASSWORD_FIELD_LABEL } from "./";
 import userEvent from "@testing-library/user-event";
-
-const BLANK_PASSWORD_ERROR_MESSAGE = /Password cannot be blank/;
+import { ERROR_BLANK, ERROR_TOO_SHORT } from "./errorMessages";
 
 describe("without optional prop", () => {
   beforeEach(() => {
@@ -18,13 +17,13 @@ describe("without optional prop", () => {
   test("displays error of blank password", async () => {
     pasteIntoFieldByLabelText(PASSWORD_FIELD_LABEL, "");
     await userEvent.tab();
-    expectErrorMessage(BLANK_PASSWORD_ERROR_MESSAGE);
+    expectErrorMessage(ERROR_BLANK);
   });
 
   test("displays error of too short password", async () => {
     pasteIntoFieldByLabelText(PASSWORD_FIELD_LABEL, "a");
     await userEvent.tab();
-    expectErrorMessage(/Password should be more than \d+ characters long/);
+    expectErrorMessage(ERROR_TOO_SHORT);
   });
 });
 
@@ -32,5 +31,5 @@ test("doesn't display error of blank field if optional = true", async () => {
   renderInputWithFormProvider(<PasswordInput optional={true} />);
   pasteIntoFieldByLabelText(PASSWORD_FIELD_LABEL, "");
   await userEvent.tab();
-  expectNoErrorMessage(BLANK_PASSWORD_ERROR_MESSAGE);
+  expectNoErrorMessage(ERROR_BLANK);
 });

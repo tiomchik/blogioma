@@ -1,6 +1,7 @@
 import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { ERROR_BLANK, ERROR_TOO_SHORT } from "./errorMessages";
 
 export const PASSWORD_FIELD_LABEL = "Password";
 
@@ -21,11 +22,8 @@ const PasswordInput: React.FC<Props> = ({ optional = false }) => {
         <input
           type="password"
           {...register("password", {
-            required: optional ? false : "Password cannot be blank",
-            minLength: {
-              value: 8,
-              message: "Password should be more than 8 characters long",
-            },
+            required: optional ? false : ERROR_BLANK,
+            minLength: { value: 8, message: ERROR_TOO_SHORT },
           })}
           className="form-input"
           id="password"

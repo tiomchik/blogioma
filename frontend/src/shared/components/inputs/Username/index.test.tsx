@@ -7,8 +7,7 @@ import {
 import { beforeEach, describe, test } from "vitest";
 import UsernameInput, { USERNAME_FIELD_LABEL } from "./";
 import userEvent from "@testing-library/user-event";
-
-const BLANK_USERNAME_ERROR_MESSAGE = /Username cannot be blank/;
+import { ERROR_BLANK, ERROR_TOO_SHORT, ERROR_TOO_LONG } from "./errorMessages";
 
 describe("without optional prop", () => {
   beforeEach(() => {
@@ -18,19 +17,19 @@ describe("without optional prop", () => {
   test("displays error of blank username", async () => {
     pasteIntoFieldByLabelText(USERNAME_FIELD_LABEL, "");
     await userEvent.tab();
-    expectErrorMessage(BLANK_USERNAME_ERROR_MESSAGE);
+    expectErrorMessage(ERROR_BLANK);
   });
 
   test("displays error of too short username", async () => {
     pasteIntoFieldByLabelText(USERNAME_FIELD_LABEL, "a");
     await userEvent.tab();
-    expectErrorMessage(/Username should be more than \d+ characters long/);
+    expectErrorMessage(ERROR_TOO_LONG);
   });
 
   test("displays error of too long username", async () => {
     pasteIntoFieldByLabelText(USERNAME_FIELD_LABEL, "a".repeat(100));
     await userEvent.tab();
-    expectErrorMessage(/Username should be less than \d+ characters long/);
+    expectErrorMessage(ERROR_TOO_SHORT);
   });
 });
 
@@ -38,5 +37,5 @@ test("doesn't display error of blank field if optional = true", async () => {
   renderInputWithFormProvider(<UsernameInput optional={true} />);
   pasteIntoFieldByLabelText(USERNAME_FIELD_LABEL, "");
   await userEvent.tab();
-  expectNoErrorMessage(BLANK_USERNAME_ERROR_MESSAGE);
+  expectNoErrorMessage(ERROR_BLANK);
 });

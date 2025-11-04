@@ -9,6 +9,7 @@ import PasswordConfirmationInput, {
 } from "./";
 import { PasswordInput, PASSWORD_FIELD_LABEL } from "@/shared/components";
 import userEvent from "@testing-library/user-event";
+import { ERROR_BLANK, ERROR_MISMATCH } from "./errorMessages";
 
 beforeEach(() => {
   renderInputWithFormProvider(<PasswordConfirmationInput />);
@@ -17,7 +18,7 @@ beforeEach(() => {
 test("displays error of blank password confirmation", async () => {
   pasteIntoFieldByLabelText(PASSWORD_CONFIRMATION_FIELD_LABEL, "");
   await userEvent.tab();
-  expectErrorMessage(/Password confirmation cannot be blank/);
+  expectErrorMessage(ERROR_BLANK);
 });
 
 test("displays error of mismatched passwords", async () => {
@@ -25,5 +26,5 @@ test("displays error of mismatched passwords", async () => {
   pasteIntoFieldByLabelText(PASSWORD_FIELD_LABEL, "a");
   pasteIntoFieldByLabelText(PASSWORD_CONFIRMATION_FIELD_LABEL, "b");
   await userEvent.tab();
-  expectErrorMessage(/Passwords don't match/);
+  expectErrorMessage(ERROR_MISMATCH);
 });

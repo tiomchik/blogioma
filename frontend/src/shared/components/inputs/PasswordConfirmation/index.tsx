@@ -1,6 +1,7 @@
 import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
 import { useFormContext } from "react-hook-form";
+import { ERROR_BLANK, ERROR_MISMATCH } from "./errorMessages";
 
 export const PASSWORD_CONFIRMATION_FIELD_LABEL = "Confirm password";
 
@@ -20,9 +21,9 @@ const PasswordConfirmationInput: React.FC = () => {
         <input
           type="password"
           {...register("password1", {
-            required: "Password confirmation cannot be blank",
+            required: ERROR_BLANK,
             validate: (value: string) =>
-              value == getValues("password") || "Passwords don't match",
+              value == getValues("password") || ERROR_MISMATCH,
           })}
           className="form-input"
           id="password1"
