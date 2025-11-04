@@ -13,7 +13,7 @@ const EmailInput: React.FC = () => {
 
   return (
     <>
-      <p>
+      <p data-testid="email-input">
         <label htmlFor="email" className="form-label">
           {EMAIL_FIELD_LABEL}:{" "}
         </label>

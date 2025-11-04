@@ -17,7 +17,7 @@ const PfpInput: React.FC = () => {
 
   return (
     <>
-      <p>
+      <p data-testid="pfp-input">
         <label htmlFor="pfp" className="form-label">
           Profile picture (optional):{" "}
         </label>
