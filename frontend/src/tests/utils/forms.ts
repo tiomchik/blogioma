@@ -42,10 +42,16 @@ const expectErrorMessage = (message: RegExp | string) => {
   expect(error).toBeDefined();
 };
 
+const expectNoErrorMessage = (message: RegExp | string) => {
+  const error = screen.queryByText(message);
+  expect(error).toBeNull();
+};
+
 export {
   clickSubmitButton,
   pasteIntoFieldByLabelText,
   uploadDummyPfp,
   createDummyFile,
   expectErrorMessage,
+  expectNoErrorMessage
 };
