@@ -4,7 +4,9 @@ import { useFormContext } from "react-hook-form";
 
 export const PASSWORD_FIELD_LABEL = "Password";
 
-const PasswordInput: React.FC = () => {
+type Props = { optional?: boolean };
+
+const PasswordInput: React.FC<Props> = ({ optional = false }) => {
   const {
     register,
     formState: { errors },
@@ -12,14 +14,14 @@ const PasswordInput: React.FC = () => {
 
   return (
     <>
-      <p>
+      <p data-testid="password-input">
         <label htmlFor="password" className="form-label">
           {PASSWORD_FIELD_LABEL}:{" "}
         </label>
         <input
           type="password"
           {...register("password", {
-            required: "Password cannot be blank",
+            required: optional ? false : "Password cannot be blank",
             minLength: {
               value: 8,
               message: "Password should be more than 8 characters long",

@@ -4,7 +4,9 @@ import React from "react";
 
 export const USERNAME_FIELD_LABEL = "Username";
 
-const UsernameInput: React.FC = () => {
+type Props = { optional?: boolean };
+
+const UsernameInput: React.FC<Props> = ({ optional = false }) => {
   const {
     register,
     formState: { errors },
@@ -12,13 +14,13 @@ const UsernameInput: React.FC = () => {
 
   return (
     <>
-      <p>
+      <p data-testid="username-input">
         <label htmlFor="username" className="form-label">
           {USERNAME_FIELD_LABEL}:{" "}
         </label>
         <input
           {...register("username", {
-            required: "Username cannot be blank",
+            required: optional ? false : "Username cannot be blank",
             maxLength: {
               value: 30,
               message: "Username should be less than 30 characters long",
